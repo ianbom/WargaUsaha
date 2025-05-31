@@ -24,14 +24,14 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ward_id')->constrained('wards');
+            $table->foreignId('ward_id')->nullable()->constrained('wards');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone');
-            $table->text('address');
+            $table->string('phone')->nullable();
+            $table->text('address')->nullable();
             $table->boolean('is_admin')->default(false);
-            $table->enum('role', ['Seller', 'Buyer']);
+            $table->enum('role', ['Seller', 'Buyer'])->default('Seller');
             $table->float('location_lat')->nullable();
             $table->float('location_long')->nullable();
             $table->string('profile_pic')->nullable();
