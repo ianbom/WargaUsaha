@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('subdistricts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->timestamps();
         });
 
         Schema::create('wards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subdistrict_id')->constrained('subdistricts')->cascadeOnDelete();
             $table->string('name');
+            $table->timestamps();
         });
 
         Schema::create('users', function (Blueprint $table) {

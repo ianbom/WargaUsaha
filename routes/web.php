@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -18,6 +19,26 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::view('/', 'index');
+Route::view('/prof', 'web.seller.profile.index');
+
+
+
+
+Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
+   Route::resource('profile', SellerProfileController::class)->except('update');
+   Route::get('profile/setting', [SellerProfileController::class, 'show'])->name('profile.show');
+   Route::put('profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
+});
+
+
+
+
+
+
+
+
+
+
 Route::view('/analytics', 'analytics');
 Route::view('/finance', 'finance');
 Route::view('/crypto', 'crypto');
@@ -124,8 +145,8 @@ Route::view('/auth/boxed-lockscreen', 'auth.boxed-lockscreen');
 Route::view('/auth/boxed-signin', 'auth.boxed-signin');
 Route::view('/auth/boxed-signup', 'auth.boxed-signup');
 Route::view('/auth/boxed-password-reset', 'auth.boxed-password-reset');
-Route::view('/auth/cover-login', 'auth.login');
-Route::view('/auth/cover-register', 'auth.register');
+Route::view('/auth/cover-login', 'auth.cover-login');
+Route::view('/auth/cover-register', 'auth.cover-register');
 Route::view('/auth/cover-lockscreen', 'auth.cover-lockscreen');
 Route::view('/auth/cover-password-reset', 'auth.cover-password-reset');
 

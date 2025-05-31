@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon_url');
+            $table->timestamps();
         });
 
 
@@ -35,6 +36,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon_url');
+            $table->timestamps();
         });
 
         Schema::create('products', function (Blueprint $table) {
@@ -53,6 +55,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('icon_url');
+            $table->timestamps();
         });
 
         Schema::create('services', function (Blueprint $table) {
