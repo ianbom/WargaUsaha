@@ -1,6 +1,8 @@
+ @if (session('error'))
+
  <div class="flex items-center p-3.5 rounded text-danger bg-danger-light dark:bg-danger-dark-light">
-                        <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Danger!</strong>Lorem Ipsum
-                            is simply dummy text of the printing.</span>
+                        <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Error</strong>
+                        {{ session('error') }}</span>
                         <button type="button" class="ltr:ml-auto rtl:mr-auto hover:opacity-80">
 
                             <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
@@ -11,3 +13,4 @@
                             </svg>
                         </button>
                     </div>
+ @endif

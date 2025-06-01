@@ -75,7 +75,7 @@ return new class extends Migration
             $table->string('order_code')->unique();
             $table->foreignId('buyer_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('seller_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('type', ['product', 'service']);
+            $table->enum('type', ['Product', 'Service']);
             $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('service_id')->nullable()->constrained('services')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity')->default(1);
@@ -87,8 +87,8 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('payment_method');
-            $table->string('payment_status');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_status')->nullable();
             $table->decimal('paid_amount', 12, 2);
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
@@ -105,8 +105,8 @@ return new class extends Migration
         Schema::create('seller_wallets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('bank_name');
-            $table->string('account_number');
+            $table->string('bank_name')->nullable();
+            $table->string('account_number')->nullable();
             $table->decimal('amount', 12, 2)->default(0);
             $table->timestamps();
         });
@@ -127,7 +127,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->string('description');
             $table->string('status');
             $table->timestamp('expired_time');

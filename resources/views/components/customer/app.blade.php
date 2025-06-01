@@ -22,7 +22,7 @@
 </head>
 
 <body x-data="main" class="antialiased relative font-nunito text-sm font-normal overflow-x-hidden"
-    :class="[$store.app.sidebar ? 'toggle-sidebar' : '', $store.app.theme === 'dark' || $store.app.isDarkMode ?  'dark' : '', $store.app.menu, $store.app.layout, $store.app
+    :class="[$store.app.sidebar ? 'toggle-sidebar' : '', $store.app.theme === 'dark' || $store.app.isDarkMode ?  'dark' : '', $store.app.menu = 'horizontal', $store.app.layout, $store.app
         .rtlClass
     ]">
 
@@ -92,20 +92,19 @@
     </script>
 
     {{-- <x-.theme-customiser /> --}}
-    <x-common.theme-customiser/>
 
     <div class="main-container text-black dark:text-white-dark min-h-screen" :class="[$store.app.navbar]">
 
-        <x-seller.sidebar />
+        {{-- <x-customer.sidebar /> --}}
 
         <div class="main-content flex flex-col min-h-screen">
-            <x-seller.header />
+            <x-customer.header />
 
             <div class="dvanimation p-6 animate__animated" :class="[$store.app.animation]">
                 {{ $slot }}
             </div>
 
-            <x-seller.footer />
+            <x-customer.footer />
         </div>
     </div>
     <script src="/assets/js/alpine-collaspe.min.js"></script>

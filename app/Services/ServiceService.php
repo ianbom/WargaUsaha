@@ -17,9 +17,9 @@ class ServiceService
     public function getAllServicesByLoginUser(){
         $user = Auth::user();
         $services = Service::where('user_id', $user->id)->get();
-        if ($services->isEmpty()) {
-            throw new Exception('No services found for the current user.');
-        }
+        // if ($services->isEmpty()) {
+        //     throw new Exception('No services found for the current user.');
+        // }
         return $services;
     }
 

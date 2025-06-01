@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\Review;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +21,15 @@ class ProductService
         $mart = $this->martService->getMartByLoginUser();
         $product = Product::where('mart_id', $mart->id)->get();
 
-        if ($product->isEmpty()) {
-           throw new Exception('No products found for the current user\'s mart.');
-        }
+        // if ($product->isEmpty()) {
+        //    throw new Exception('No products found for the current user\'s mart.');
+        // }
 
+        return $product;
+    }
+
+    public function getAllProduct(){
+        $product = Product::all();
         return $product;
     }
 
@@ -32,6 +39,13 @@ class ProductService
             return null; // or throw an exception
         }
         return $product;
+    }
+
+    public function getProductReviewByProductId($productId){
+        $orderId = Order::where('product_id', $productId)->pluck('id');
+
+        $review = Review::whereIn('order_id', $orderId)->get();
+        return $review;
     }
 
     public function updateProduct($product, $data){

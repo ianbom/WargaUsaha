@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mart;
+use App\Models\SellerWallet;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -38,16 +39,35 @@ class RegisteredUserController extends Controller
 
         ]);
 
-        $user = User::create([
+        if ($request->role == 'Seller') {
+            $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'ward_id' => 1,
-        ]);
+            'role' => 'Seller',
 
-        Mart::create([
-            'user_id' => $user->id,
-        ]);
+            ]);
+
+            Mart::create([
+                'user_id' => $user->id,
+            ]);
+
+            SellerWallet::create([
+                'user_id' => $user->id,
+                'amount' => 0
+            ]);
+        } else{
+             $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'ward_id' => 1,
+            'role' => 'Buyer',
+            ]);
+        }
+
+
 
         event(new Registered($user));
 

@@ -1,5 +1,4 @@
 <x-seller.app>
-
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
@@ -11,12 +10,12 @@
         </ul>
         <div class="pt-5">
             <div class="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-5">
+                <!-- Profile Card -->
                 <div class="panel">
                     <div class="flex items-center justify-between mb-5">
                         <h5 class="font-semibold text-lg dark:text-white-light">Profile</h5>
                         <a href="{{ route('seller.profile.show') }}"
                             class="ltr:ml-auto rtl:mr-auto btn btn-primary p-2 rounded-full">
-
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                                 <path opacity="0.5" d="M4 22H20" stroke="currentColor" stroke-width="1.5"
@@ -32,13 +31,16 @@
                     </div>
                     <div class="mb-5">
                         <div class="flex flex-col justify-center items-center">
-                            <img src="/assets/images/profile-34.jpeg" alt="image"
-                                class="w-24 h-24 rounded-full object-cover  mb-5" />
-                            <p class="font-semibold text-primary text-xl">Jimmy Turner</p>
+                            <img src="{{ auth()->user()->profile_pic ? asset('storage/' . auth()->user()->profile_pic) : '/assets/images/profile-34.jpeg' }}"
+                                 alt="profile image"
+                                 class="w-24 h-24 rounded-full object-cover mb-5" />
+                            <p class="font-semibold text-primary text-xl">{{ auth()->user()->name }}</p>
+                            <span class="px-2 py-1 text-xs rounded-full bg-primary/10 text-primary mt-2">
+                                {{ auth()->user()->role }}
+                            </span>
                         </div>
-                        <ul class="mt-5 flex flex-col max-w-[160px] m-auto space-y-4 font-semibold text-white-dark">
+                        <ul class="mt-5 flex flex-col max-w-[200px] m-auto space-y-4 font-semibold text-white-dark">
                             <li class="flex items-center gap-2">
-
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
                                     <path
@@ -60,10 +62,9 @@
                                         stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                Web Developer
+                                {{ auth()->user()->role === 'Seller' ? 'Seller Account' : 'Buyer Account' }}
                             </li>
                             <li class="flex items-center gap-2">
-
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
                                     <path
@@ -76,10 +77,10 @@
                                     <path opacity="0.5" d="M2 9H22" stroke="currentColor" stroke-width="1.5"
                                         stroke-linecap="round" />
                                 </svg>
-                                Jan 20, 1989
+                                {{ auth()->user()->created_at->format('M d, Y') }}
                             </li>
+                            @if(auth()->user()->ward)
                             <li class="flex items-center gap-2">
-
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
                                     <path opacity="0.5"
@@ -88,11 +89,11 @@
                                     <circle cx="12" cy="10" r="3" stroke="currentColor"
                                         stroke-width="1.5" />
                                 </svg>
-                                New York, USA
+                                {{ auth()->user()->ward->name ?? 'Location not set' }}
                             </li>
+                            @endif
                             <li>
-                                <a href="javascript:;" class="flex items-center gap-2">
-
+                                <a href="mailto:{{ auth()->user()->email }}" class="flex items-center gap-2">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
                                         <path opacity="0.5"
@@ -102,10 +103,11 @@
                                             d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8"
                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                     </svg>
-                                    <span class="text-primary truncate">jimmy@gmail.com</span></a>
+                                    <span class="text-primary truncate">{{ auth()->user()->email }}</span>
+                                </a>
                             </li>
+                            @if(auth()->user()->phone)
                             <li class="flex items-center gap-2">
-
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
                                     <path
@@ -118,14 +120,14 @@
                                         d="M16.1007 13.3589C16.1007 13.3589 15.0181 14.4353 12.0631 11.4971C9.10807 8.55886 10.1907 7.48242 10.1907 7.48242"
                                         stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                 </svg>
-                                <span class="whitespace-nowrap" dir="ltr">+1 (530) 555-12121</span>
+                                <span class="whitespace-nowrap" dir="ltr">{{ auth()->user()->phone }}</span>
                             </li>
+                            @endif
                         </ul>
                         <ul class="mt-7 flex items-center justify-center gap-2">
                             <li>
                                 <a class="btn btn-info flex items-center justify-center rounded-full w-10 h-10 p-0"
                                     href="javascript:;">
-
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
@@ -138,7 +140,6 @@
                             <li>
                                 <a class="btn btn-danger flex items-center justify-center rounded-full w-10 h-10 p-0"
                                     href="javascript:;">
-
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
                                         <path
@@ -153,7 +154,6 @@
                             <li>
                                 <a class="btn btn-dark flex items-center justify-center rounded-full w-10 h-10 p-0"
                                     href="javascript:;">
-
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
@@ -166,367 +166,207 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel lg:col-span-2 xl:col-span-3">
-                    <div class="mb-5">
-                        <h5 class="font-semibold text-lg dark:text-white-light">Task</h5>
+
+                <!-- Wallet Information Card -->
+                @if(auth()->user()->role === 'Seller' && auth()->user()->sellerWallet)
+                <div class="panel">
+                    <div class="flex items-center justify-between mb-5">
+                        <h5 class="font-semibold text-lg dark:text-white-light">Wallet Information</h5>
+                        <a href=""
+                           class="ltr:ml-auto rtl:mr-auto btn btn-success p-2 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                                <path d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </a>
                     </div>
                     <div class="mb-5">
-                        <div class="table-responsive text-[#515365] dark:text-white-light font-semibold">
-                            <table class="whitespace-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>Projects</th>
-                                        <th>Progress</th>
-                                        <th>Task Done</th>
-                                        <th class="text-center">Time</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="dark:text-white-dark">
-                                    <tr>
-                                        <td>Figma Design</td>
-                                        <td>
-                                            <div class="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
-                                                <div class="bg-danger rounded-full w-[29.56%]"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-danger">29.56%</td>
-                                        <td class="text-center">2 mins ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Vue Migration</td>
-                                        <td>
-                                            <div class="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
-                                                <div class="bg-info rounded-full w-1/2"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-success">50%</td>
-                                        <td class="text-center">4 hrs ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Flutter App</td>
-                                        <td>
-                                            <div class="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
-                                                <div class="bg-warning rounded-full  w-[39%]"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-danger">39%</td>
-                                        <td class="text-center">a min ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td>API Integration</td>
-                                        <td>
-                                            <div class="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
-                                                <div class="bg-success rounded-full  w-[78.03%]"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-success">78.03%</td>
-                                        <td class="text-center">2 weeks ago</td>
-                                    </tr>
+                        <div class="space-y-4">
+                            <!-- Wallet Balance -->
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-lg text-white">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-blue-100 text-sm">Current Balance</p>
+                                        <p class="text-2xl font-bold">Rp {{ number_format(auth()->user()->sellerWallet->amount, 0, ',', '.') }}</p>
+                                    </div>
+                                    <div class="bg-white/20 p-3 rounded-full">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6">
+                                            <path d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    <tr>
-                                        <td>Blog Update</td>
-                                        <td>
-                                            <div class="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
-                                                <div class="bg-secondary  rounded-full  w-full"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-success">100%</td>
-                                        <td class="text-center">18 hrs ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Landing Page</td>
-                                        <td>
-                                            <div class="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
-                                                <div class="bg-danger rounded-full  w-[19.15%]"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-danger">19.15%</td>
-                                        <td class="text-center">5 days ago</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shopify Dev</td>
-                                        <td>
-                                            <div class="h-1.5 bg-[#ebedf2] dark:bg-dark/40 rounded-full flex w-full">
-                                                <div class="bg-primary rounded-full w-[60.55%]"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-success">60.55%</td>
-                                        <td class="text-center">8 days ago</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <!-- Bank Information -->
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="bg-green-100 dark:bg-green-900 p-2 rounded-full">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-green-600 dark:text-green-400">
+                                            <path d="M3.5 8.5L8.5 11.5L15.5 7.5L20.5 10.5V18.5C20.5 19.6046 19.6046 20.5 18.5 20.5H5.5C4.39543 20.5 3.5 19.6046 3.5 18.5V8.5Z" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M12 3.5L20.5 8.5L12 13.5L3.5 8.5L12 3.5Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Bank Name</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">{{ auth()->user()->sellerWallet->bank_name }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-600 dark:text-blue-400">
+                                            <path d="M4 7C4 5.89543 4.89543 5 6 5H18C19.1046 5 20 5.89543 20 7V17C20 18.1046 19.1046 19 18 19H6C4.89543 19 4 18.1046 4 17V7Z" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M4 9H20" stroke="currentColor" stroke-width="1.5"/>
+                                            <path d="M8 13H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Account Number</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">**** **** {{ substr(auth()->user()->sellerWallet->account_number, -4) }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <div class="bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-purple-600 dark:text-purple-400">
+                                            <path d="M12 2V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                            <path d="M17 5H9.5C8.11929 5 7 6.11929 7 7.5C7 8.88071 8.11929 10 9.5 10H14.5C15.8807 10 17 11.1193 17 12.5C17 13.8807 15.8807 15 14.5 15H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Last Updated</p>
+                                        <p class="font-semibold text-gray-900 dark:text-gray-100">{{ auth()->user()->sellerWallet->updated_at->format('M d, Y') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <div class="grid grid-cols-2 gap-3">
+                                    <a href="" class="btn btn-outline-primary btn-sm">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                            <path d="M12 16V8M12 8L8 12M12 8L16 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                        Withdraw
+                                    </a>
+                                    <a href="" class="btn btn-outline-info btn-sm">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                            <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                        History
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                @elseif(auth()->user()->role === 'Seller' && !auth()->user()->sellerWallet)
+                <!-- No Wallet Setup Card -->
                 <div class="panel">
-                    <div class="mb-5">
-                        <h5 class="font-semibold text-lg dark:text-white-light">Summary</h5>
+                    <div class="flex items-center justify-between mb-5">
+                        <h5 class="font-semibold text-lg dark:text-white-light">Wallet Setup</h5>
+                    </div>
+                    <div class="text-center py-8">
+                        <div class="mb-4">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto text-gray-400">
+                                <path d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h6 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">No Wallet Setup</h6>
+                        <p class="text-gray-500 dark:text-gray-400 mb-4">You need to setup your wallet to start receiving payments</p>
+                        <a href="" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Setup Wallet
+                        </a>
+                    </div>
+                </div>
+                @endif
+
+                <!-- Additional Information Card -->
+                <div class="panel">
+                    <div class="flex items-center justify-between mb-5">
+                        <h5 class="font-semibold text-lg dark:text-white-light">Additional Info</h5>
                     </div>
                     <div class="space-y-4">
-                        <div class="border border-[#ebedf2] rounded dark:bg-[#1b2e4b] dark:border-0">
-                            <div class="flex items-center justify-between p-4 py-2">
-                                <div
-                                    class="grid place-content-center w-9 h-9 rounded-md bg-secondary-light dark:bg-secondary text-secondary dark:text-secondary-light">
-
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
-                                        <path
-                                            d="M3.79424 12.0291C4.33141 9.34329 4.59999 8.00036 5.48746 7.13543C5.65149 6.97557 5.82894 6.8301 6.01786 6.70061C7.04004 6 8.40956 6 11.1486 6H12.8515C15.5906 6 16.9601 6 17.9823 6.70061C18.1712 6.8301 18.3486 6.97557 18.5127 7.13543C19.4001 8.00036 19.6687 9.34329 20.2059 12.0291C20.9771 15.8851 21.3627 17.8131 20.475 19.1793C20.3143 19.4267 20.1267 19.6555 19.9157 19.8616C18.7501 21 16.7839 21 12.8515 21H11.1486C7.21622 21 5.25004 21 4.08447 19.8616C3.87342 19.6555 3.68582 19.4267 3.5251 19.1793C2.63744 17.8131 3.02304 15.8851 3.79424 12.0291Z"
-                                            stroke="currentColor" stroke-width="1.5" />
-                                        <path opacity="0.5"
-                                            d="M9 6V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V6"
-                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                        <path opacity="0.5"
-                                            d="M9.1709 15C9.58273 16.1652 10.694 17 12.0002 17C13.3064 17 14.4177 16.1652 14.8295 15"
-                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                    </svg>
-                                </div>
-                                <div
-                                    class="ltr:ml-4 rtl:mr-4 flex items-start justify-between flex-auto font-semibold">
-                                    <h6 class="text-white-dark text-[13px] dark:text-white-dark">Income <span
-                                            class="block text-base text-[#515365] dark:text-white-light">$92,600</span>
-                                    </h6>
-                                    <p class="ltr:ml-auto rtl:mr-auto text-secondary">90%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-[#ebedf2] rounded dark:bg-[#1b2e4b] dark:border-0">
-                            <div class="flex items-center justify-between p-4 py-2">
-                                <div
-                                    class="grid place-content-center w-9 h-9 rounded-md bg-info-light dark:bg-info text-info dark:text-info-light">
-
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
-                                        <path
-                                            d="M4.72848 16.1369C3.18295 14.5914 2.41018 13.8186 2.12264 12.816C1.83509 11.8134 2.08083 10.7485 2.57231 8.61875L2.85574 7.39057C3.26922 5.59881 3.47597 4.70292 4.08944 4.08944C4.70292 3.47597 5.59881 3.26922 7.39057 2.85574L8.61875 2.57231C10.7485 2.08083 11.8134 1.83509 12.816 2.12264C13.8186 2.41018 14.5914 3.18295 16.1369 4.72848L17.9665 6.55812C20.6555 9.24711 22 10.5916 22 12.2623C22 13.933 20.6555 15.2775 17.9665 17.9665C15.2775 20.6555 13.933 22 12.2623 22C10.5916 22 9.24711 20.6555 6.55812 17.9665L4.72848 16.1369Z"
-                                            stroke="currentColor" stroke-width="1.5" />
-                                        <circle opacity="0.5" cx="8.60699" cy="8.87891" r="2"
-                                            transform="rotate(-45 8.60699 8.87891)" stroke="currentColor"
-                                            stroke-width="1.5" />
-                                        <path opacity="0.5" d="M11.5417 18.5L18.5208 11.5208" stroke="currentColor"
-                                            stroke-width="1.5" stroke-linecap="round" />
-                                    </svg>
-                                </div>
-                                <div
-                                    class="ltr:ml-4 rtl:mr-4 flex items-start justify-between flex-auto font-semibold">
-                                    <h6 class="text-white-dark text-[13px] dark:text-white-dark">Profit <span
-                                            class="block text-base text-[#515365] dark:text-white-light">$37,515</span>
-                                    </h6>
-                                    <p class="ltr:ml-auto rtl:mr-auto text-info">65%</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-[#ebedf2] rounded dark:bg-[#1b2e4b] dark:border-0">
-                            <div class="flex items-center justify-between p-4 py-2">
-                                <div
-                                    class="grid place-content-center w-9 h-9 rounded-md bg-warning-light dark:bg-warning text-warning dark:text-warning-light">
-
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
-                                        <path
-                                            d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"
-                                            stroke="currentColor" stroke-width="1.5" />
-                                        <path opacity="0.5" d="M10 16H6" stroke="currentColor" stroke-width="1.5"
-                                            stroke-linecap="round" />
-                                        <path opacity="0.5" d="M14 16H12.5" stroke="currentColor"
-                                            stroke-width="1.5" stroke-linecap="round" />
-                                        <path opacity="0.5" d="M2 10L22 10" stroke="currentColor"
-                                            stroke-width="1.5" stroke-linecap="round" />
-                                    </svg>
-                                </div>
-                                <div
-                                    class="ltr:ml-4 rtl:mr-4 flex items-start justify-between flex-auto font-semibold">
-                                    <h6 class="text-white-dark text-[13px] dark:text-white-dark">Expenses <span
-                                            class="block text-base text-[#515365] dark:text-white-light">$55,085</span>
-                                    </h6>
-                                    <p class="ltr:ml-auto rtl:mr-auto text-warning">80%</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="flex items-center justify-between mb-10">
-                        <h5 class="font-semibold text-lg dark:text-white-light">Pro Plan</h5>
-                        <a href="javascript:;" class="btn btn-primary">Renew Now</a>
-                    </div>
-                    <div class="group">
-                        <ul class="list-inside list-disc text-white-dark font-semibold mb-7 space-y-2">
-                            <li>10,000 Monthly Visitors</li>
-                            <li>Unlimited Reports</li>
-                            <li>2 Years Data Storage</li>
-                        </ul>
-                        <div class="flex items-center justify-between mb-4 font-semibold">
-                            <p
-                                class="flex items-center rounded-full bg-dark px-2 py-1 text-xs text-white-light font-semibold">
-
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ltr:mr-1 rtl:ml-1">
-                                    <circle opacity="0.5" cx="12" cy="12" r="10"
-                                        stroke="currentColor" stroke-width="1.5" />
-                                    <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.5"
-                                        stroke-linecap="round" stroke-linejoin="round" />
+                        @if(auth()->user()->address)
+                        <div class="flex items-start gap-3">
+                            <div class="bg-orange-100 dark:bg-orange-900 p-2 rounded-full mt-1">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-orange-600 dark:text-orange-400">
+                                    <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.5"/>
                                 </svg>
-                                5 Days Left
-                            </p>
-                            <p class="text-info">$25 / month</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Address</p>
+                                <p class="text-gray-900 dark:text-gray-100">{{ auth()->user()->address }}</p>
+                            </div>
                         </div>
-                        <div class="rounded-full h-2.5 p-0.5 bg-dark-light overflow-hidden mb-5 dark:bg-dark-light/10">
-                            <div class="bg-gradient-to-r from-[#f67062] to-[#fc5296] w-full h-full rounded-full relative"
-                                style="width: 65%;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="flex items-center justify-between mb-5">
-                        <h5 class="font-semibold text-lg dark:text-white-light">Payment History</h5>
-                    </div>
-                    <div>
-                        <div class="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                            <div class="flex items-center justify-between py-2">
-                                <h6 class="text-[#515365] font-semibold dark:text-white-dark">March<span
-                                        class="block text-white-dark dark:text-white-light">Pro Membership</span></h6>
-                                <div class="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                    <p class="font-semibold">90%</p>
-                                    <div x-data="dropdown" @click.outside="open = false"
-                                        class="dropdown ltr:ml-4 rtl:mr-4">
-                                        <a href="javascript:;" @click="toggle">
+                        @endif
 
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="w-5 h-5 opacity-80 hover:opacity-100">
-                                                <circle cx="5" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                                <circle opacity="0.5" cx="12" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                                <circle cx="19" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                            </svg>
-                                        </a>
-                                        <ul x-cloak x-show="open" x-transition x-transition.duration.300ms
-                                            class="ltr:right-0 rtl:left-0 whitespace-nowrap">
-                                            <li><a href="javascript:;" @click="toggle">View Invoice</a></li>
-                                            <li><a href="javascript:;" @click="toggle">Download Invoice</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                        @if(auth()->user()->location_lat && auth()->user()->location_long)
+                        <div class="flex items-center gap-3">
+                            <div class="bg-red-100 dark:bg-red-900 p-2 rounded-full">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-red-600 dark:text-red-400">
+                                    <path d="M12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433C4 5.64588 7.58172 2 12 2Z" stroke="currentColor" stroke-width="1.5"/>
+                                    <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">GPS Coordinates</p>
+                                <p class="text-gray-900 dark:text-gray-100 text-xs">{{ auth()->user()->location_lat }}, {{ auth()->user()->location_long }}</p>
                             </div>
                         </div>
-                        <div class="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                            <div class="flex items-center justify-between py-2">
-                                <h6 class="text-[#515365] font-semibold dark:text-white-dark">February <span
-                                        class="block text-white-dark dark:text-white-light">Pro Membership</span></h6>
-                                <div class="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                    <p class="font-semibold">90%</p>
-                                    <div x-data="dropdown" @click.outside="open = false"
-                                        class="dropdown ltr:ml-4 rtl:mr-4">
-                                        <a href="javascript:;" @click="toggle">
+                        @endif
 
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="w-5 h-5 opacity-80 hover:opacity-100">
-                                                <circle cx="5" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                                <circle opacity="0.5" cx="12" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                                <circle cx="19" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                            </svg>
-                                        </a>
-                                        <ul x-cloak x-show="open" x-transition x-transition.duration.300ms
-                                            class="ltr:right-0 rtl:left-0 whitespace-nowrap">
-                                            <li><a href="javascript:;" @click="toggle">View Invoice</a></li>
-                                            <li><a href="javascript:;" @click="toggle">Download Invoice</a></li>
-                                        </ul>
-                                    </div>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-indigo-100 dark:bg-indigo-900 p-2 rounded-full">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-indigo-600 dark:text-indigo-400">
+                                    <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Account Status</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                    <p class="text-green-600 dark:text-green-400">Active</p>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="flex items-center justify-between py-2">
-                                <h6 class="text-[#515365] font-semibold dark:text-white-dark">January<span
-                                        class="block text-white-dark dark:text-white-light">Pro Membership</span></h6>
-                                <div class="flex items-start justify-between ltr:ml-auto rtl:mr-auto">
-                                    <p class="font-semibold">90%</p>
-                                    <div x-data="dropdown" @click.outside="open = false"
-                                        class="dropdown ltr:ml-4 rtl:mr-4">
-                                        <a href="javascript:;" @click="toggle">
 
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="w-5 h-5 opacity-80 hover:opacity-100">
-                                                <circle cx="5" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                                <circle opacity="0.5" cx="12" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                                <circle cx="19" cy="12" r="2"
-                                                    stroke="currentColor" stroke-width="1.5" />
-                                            </svg>
-                                        </a>
-                                        <ul x-cloak x-show="open" x-transition x-transition.duration.300ms
-                                            class="ltr:right-0 rtl:left-0 whitespace-nowrap">
-                                            <li><a href="javascript:;" @click="toggle">View Invoice</a></li>
-                                            <li><a href="javascript:;" @click="toggle">Download Invoice</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                        @if(auth()->user()->is_admin)
+                        <div class="flex items-center gap-3">
+                            <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded-full">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-yellow-600 dark:text-yellow-400">
+                                    <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Admin Privileges</p>
+                                <p class="text-yellow-600 dark:text-yellow-400 font-semibold">Administrator</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="panel">
-                    <div class="flex items-center justify-between mb-5">
-                        <h5 class="font-semibold text-lg dark:text-white-light">Card Details</h5>
-                    </div>
-                    <div>
-                        <div class="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                            <div class="flex items-center justify-between py-2">
-                                <div class="flex-none">
-                                    <img src="/assets/images/card-americanexpress.svg"
-                                        alt="image" />
-                                </div>
-                                <div class="flex items-center justify-between flex-auto ltr:ml-4 rtl:mr-4">
-                                    <h6 class="text-[#515365] font-semibold dark:text-white-dark">American Express
-                                        <span class="block text-white-dark dark:text-white-light">Expires on
-                                            12/2025</span></h6>
-                                    <span class="badge bg-success ltr:ml-auto rtl:mr-auto">Primary</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-b border-[#ebedf2] dark:border-[#1b2e4b]">
-                            <div class="flex items-center justify-between py-2">
-                                <div class="flex-none">
-                                    <img src="/assets/images/card-mastercard.svg"
-                                        alt="image" />
-                                </div>
-                                <div class="flex items-center justify-between flex-auto ltr:ml-4 rtl:mr-4">
-                                    <h6 class="text-[#515365] font-semibold dark:text-white-dark">Mastercard <span
-                                            class="block text-white-dark dark:text-white-light">Expires on
-                                            03/2025</span></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex items-center justify-between py-2">
-                                <div class="flex-none">
-                                    <img src="/assets/images/card-visa.svg" alt="image" />
-                                </div>
-                                <div class="flex items-center justify-between flex-auto ltr:ml-4 rtl:mr-4">
-                                    <h6 class="text-[#515365] font-semibold dark:text-white-dark">Visa <span
-                                            class="block text-white-dark dark:text-white-light">Expires on
-                                            10/2025</span></h6>
-                                </div>
-                            </div>
+                        @endif
+
+                        <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <a href="{{ route('seller.profile.show') }}" class="btn btn-outline-primary w-full">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                    <path d="M14.6296 2.92142L13.8881 3.66293L7.07106 10.4799C6.60933 10.9416 6.37846 11.1725 6.17992 11.4271C5.94571 11.7273 5.74491 12.0522 5.58107 12.396C5.44219 12.6874 5.33894 12.9972 5.13245 13.6167L4.25745 16.2417L4.04356 16.8833C3.94194 17.1882 4.02128 17.5243 4.2485 17.7515C4.47573 17.9787 4.81182 18.0581 5.11667 17.9564L5.75834 17.7426L8.38334 16.8675C9.00284 16.6611 9.31256 16.5578 9.60398 16.4189C9.94775 16.2551 10.2727 16.0543 10.5729 15.8201C10.8275 15.6215 11.0583 15.3907 11.5201 14.929L18.3371 8.11195L19.0786 7.37044C20.3071 6.14188 20.3071 4.14999 19.0786 2.92142C17.85 1.69286 15.8581 1.69286 14.6296 2.92142Z" stroke="currentColor" stroke-width="1.5"/>
+                                </svg>
+                                Edit Profile
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </x-seller.app>
-

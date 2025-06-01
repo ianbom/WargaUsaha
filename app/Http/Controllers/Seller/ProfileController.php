@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
 use App\Services\ProfileService;
+use App\Services\WalletService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,8 +13,10 @@ use Illuminate\Support\Facades\DB;
 class ProfileController extends Controller
 {
     protected $profileService;
-    public function __construct(ProfileService $profileService){
+    protected $walletService;
+    public function __construct(ProfileService $profileService, WalletService $walletService){
         $this->profileService = $profileService;
+        $this->walletService = $walletService;
     }
 
     public function index(){
@@ -23,7 +26,8 @@ class ProfileController extends Controller
 
     public function show(){
         $user = Auth::user();
-        return view('web.seller.profile.edit', ['user'=> $user]);
+        $wallet = $this->walletService->getWalletByLoginUser();
+        return view('web.seller.profile.edit', ['user'=> $user, 'wallet' => $wallet]);
     }
 
     public function update(ProfileRequest $request){

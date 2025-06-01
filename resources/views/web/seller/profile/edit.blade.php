@@ -49,7 +49,28 @@
                             Home
                         </a>
                     </li>
+
+                    <li class="inline-block">
+                        <a href="javascript:;"
+                            class="flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary"
+                            :class="{ '!border-primary text-primary': tab == 'payment-details' }"
+                            @click="tab='payment-details'">
+
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                                <circle opacity="0.5" cx="12" cy="12" r="10"
+                                    stroke="currentColor" stroke-width="1.5" />
+                                <path d="M12 6V18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <path
+                                    d="M15 9.5C15 8.11929 13.6569 7 12 7C10.3431 7 9 8.11929 9 9.5C9 10.8807 10.3431 12 12 12C13.6569 12 15 13.1193 15 14.5C15 15.8807 13.6569 17 12 17C10.3431 17 9 15.8807 9 14.5"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            </svg>
+                            Wallet
+                        </a>
+                    </li>
                 </ul>
+
+
 
                 <template x-if="tab === 'home'">
                     <div>
@@ -179,6 +200,222 @@
                             </div>
                         </form>
                     </div>
+                </template>
+
+                 <template x-if="tab === 'payment-details'">
+                     <div>
+                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                             <!-- Current Wallet Information -->
+                             <div class="panel bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                                 <div class="mb-5">
+                                     <h5 class="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Current Wallet Information</h5>
+                                     <p class="text-gray-600 dark:text-gray-300">Your current <span class="text-primary font-semibold">Wallet</span> details and balance information.</p>
+                                 </div>
+                                 <div class="mb-5 space-y-4">
+                                     <!-- Wallet Balance -->
+                                     <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                                         <div class="flex items-center justify-between">
+                                             <div>
+                                                 <h6 class="text-gray-700 font-bold dark:text-white text-[15px]">
+                                                     Current Balance
+                                                 </h6>
+                                                 <span class="block text-2xl font-bold text-primary mt-1">
+                                                     Rp 2,500,000
+                                                 </span>
+                                             </div>
+                                             <div class="text-right">
+                                                 <span class="text-sm text-gray-500 dark:text-gray-400">Last Updated</span>
+                                                 <p class="text-sm text-gray-600 dark:text-gray-300">Today, 10:30 AM</p>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <!-- Bank Information -->
+                                     <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                                         <div class="flex items-start justify-between">
+                                             <div class="flex-1">
+                                                 <h6 class="text-gray-700 font-bold dark:text-white text-[15px]">
+                                                     Bank Account
+                                                 </h6>
+                                                 <div class="mt-2 space-y-1">
+                                                     <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                         <span class="font-medium">Bank:</span> Bank Central Asia (BCA)
+                                                     </p>
+                                                     <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                         <span class="font-medium">Account:</span> 1234567890
+                                                     </p>
+                                                 </div>
+                                             </div>
+                                             <button class="btn bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">Edit</button>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+
+                             <!-- Recent Transactions -->
+                             <div class="panel bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                                 <div class="mb-5">
+                                     <h5 class="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Recent Transactions</h5>
+                                     <p class="text-gray-600 dark:text-gray-300">Your latest <span class="text-primary font-semibold">Wallet</span> transaction history.</p>
+                                 </div>
+                                 <div class="mb-5 space-y-3">
+                                     <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                                         <div class="flex items-center justify-between">
+                                             <div class="flex items-center space-x-3">
+                                                 <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                                     <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                     </svg>
+                                                 </div>
+                                                 <div>
+                                                     <h6 class="text-gray-700 font-medium dark:text-white text-sm">Sale Commission</h6>
+                                                     <span class="text-xs text-gray-500 dark:text-gray-400">Order #12345</span>
+                                                 </div>
+                                             </div>
+                                             <div class="text-right">
+                                                 <span class="text-green-600 dark:text-green-400 font-semibold">+Rp 150,000</span>
+                                                 <p class="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                                         <div class="flex items-center justify-between">
+                                             <div class="flex items-center space-x-3">
+                                                 <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                                     <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                                     </svg>
+                                                 </div>
+                                                 <div>
+                                                     <h6 class="text-gray-700 font-medium dark:text-white text-sm">Withdrawal</h6>
+                                                     <span class="text-xs text-gray-500 dark:text-gray-400">To BCA Account</span>
+                                                 </div>
+                                             </div>
+                                             <div class="text-right">
+                                                 <span class="text-red-600 dark:text-red-400 font-semibold">-Rp 500,000</span>
+                                                 <p class="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <div>
+                                         <div class="flex items-center justify-between">
+                                             <div class="flex items-center space-x-3">
+                                                 <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                                                     <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                     </svg>
+                                                 </div>
+                                                 <div>
+                                                     <h6 class="text-gray-700 font-medium dark:text-white text-sm">Sale Commission</h6>
+                                                     <span class="text-xs text-gray-500 dark:text-gray-400">Order #12344</span>
+                                                 </div>
+                                             </div>
+                                             <div class="text-right">
+                                                 <span class="text-green-600 dark:text-green-400 font-semibold">+Rp 75,000</span>
+                                                 <p class="text-xs text-gray-500 dark:text-gray-400">2 days ago</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <button class="btn bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors w-full">View All Transactions</button>
+                             </div>
+                         </div>
+
+                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                             <!-- Edit Bank Account Information -->
+                             <div class="panel bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                                 <div class="mb-5">
+                                     <h5 class="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Edit Bank Account</h5>
+                                     <p class="text-gray-600 dark:text-gray-300">Update your <span class="text-primary font-semibold">Bank Account</span> information for withdrawals.</p>
+                                 </div>
+                              <div class="mb-5">
+
+                                    <form method="POST" action="{{ route('seller.wallet.update', $wallet) }}">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <div class="mb-5">
+                                            <label for="bank_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bank Name</label>
+                                            <select id="bank_name" name="bank_name" required
+                                                class="form-select w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white @error('bank_name') border-danger @enderror">
+                                                <option value="">Choose Bank...</option>
+                                                <option value="BCA" {{ old('bank_name', $wallet->bank_name) == 'BCA' ? 'selected' : '' }}>Bank Central Asia (BCA)</option>
+                                                <option value="BNI" {{ old('bank_name', $wallet->bank_name) == 'BNI' ? 'selected' : '' }}>Bank Negara Indonesia (BNI)</option>
+                                                <option value="BRI" {{ old('bank_name', $wallet->bank_name) == 'BRI' ? 'selected' : '' }}>Bank Rakyat Indonesia (BRI)</option>
+                                                <option value="Mandiri" {{ old('bank_name', $wallet->bank_name) == 'Mandiri' ? 'selected' : '' }}>Bank Mandiri</option>
+                                                <option value="CIMB" {{ old('bank_name', $wallet->bank_name) == 'CIMB' ? 'selected' : '' }}>CIMB Niaga</option>
+                                                <option value="Danamon" {{ old('bank_name', $wallet->bank_name) == 'Danamon' ? 'selected' : '' }}>Bank Danamon</option>
+                                                <option value="Permata" {{ old('bank_name', $wallet->bank_name) == 'Permata' ? 'selected' : '' }}>Bank Permata</option>
+                                                <option value="OCBC" {{ old('bank_name', $wallet->bank_name) == 'OCBC' ? 'selected' : '' }}>OCBC NISP</option>
+                                            </select>
+                                            @error('bank_name')
+                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <div class="mb-5">
+                                            <label for="account_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Account Number</label>
+                                            <input id="account_number" name="account_number" type="text"
+                                                   value="{{ old('account_number', $wallet->account_number) }}"
+                                                   placeholder="Enter Account Number" required
+                                                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white @error('account_number') border-danger @enderror" />
+                                            @error('account_number')
+                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <button type="submit" class="btn bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                            Update Bank Account
+                                        </button>
+                                    </form>
+                                 </div>
+                             </div>
+
+                             <!-- Withdrawal Request -->
+                             <div class="panel bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                                 <div class="mb-5">
+                                     <h5 class="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Request Withdrawal</h5>
+                                     <p class="text-gray-600 dark:text-gray-300">Withdraw funds from your <span class="text-primary font-semibold">Wallet</span> to your bank account.</p>
+                                 </div>
+                                 <div class="mb-5">
+                                     <form>
+                                         <div class="mb-5">
+                                             <label for="withdrawAmount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Withdrawal Amount</label>
+                                             <div class="relative">
+                                                 <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">Rp</span>
+                                                 <input id="withdrawAmount" type="number" placeholder="0" min="10000" max="2500000"
+                                                     class="form-input w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white" />
+                                             </div>
+                                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Available balance: Rp 2,500,000</p>
+                                         </div>
+                                         <div class="mb-5">
+                                             <label for="withdrawNote" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Note (Optional)</label>
+                                             <textarea id="withdrawNote" rows="3" placeholder="Add a note for this withdrawal..."
+                                                 class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white resize-none"></textarea>
+                                         </div>
+                                         <div class="mb-5 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                                             <div class="flex items-start space-x-2">
+                                                 <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                                 </svg>
+                                                 <div>
+                                                     <h6 class="text-sm font-medium text-yellow-800 dark:text-yellow-300">Withdrawal Information</h6>
+                                                     <p class="text-xs text-yellow-700 dark:text-yellow-400 mt-1">
+                                                         • Minimum withdrawal: Rp 10,000<br>
+                                                         • Processing time: 1-3 business days<br>
+                                                         • No withdrawal fees
+                                                     </p>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <button type="submit" class="btn bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full">Request Withdrawal</button>
+                                     </form>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
                 </template>
             </div>
         </div>
