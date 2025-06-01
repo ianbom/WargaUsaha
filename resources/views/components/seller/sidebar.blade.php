@@ -55,7 +55,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/apps/mailbox" class="group">
+                            <a href="{{ route('seller.mart.index') }}" class="group">
                                 <div class="flex items-center">
 
                                     <svg class="group-hover:!text-primary shrink-0" width="20" height="20"
@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/apps/todolist" class="group">
+                            <a href="/seller/service" class="group">
                                 <div class="flex items-center">
 
                                     <svg class="group-hover:!text-primary shrink-0" width="20" height="20"
@@ -143,7 +143,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/apps/contacts" class="group">
+                            <a href="/seller/product" class="group">
                                 <div class="flex items-center">
 
                                     <svg class="group-hover:!text-primary shrink-0" width="20" height="20"

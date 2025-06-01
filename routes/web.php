@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Seller\MartController as SellerMartController;
+use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
+use App\Http\Controllers\Seller\ServiceController as SellerServiceController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -28,6 +31,11 @@ Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
    Route::resource('profile', SellerProfileController::class)->except('update');
    Route::get('profile/setting', [SellerProfileController::class, 'show'])->name('profile.show');
    Route::put('profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
+   Route::get('mart/index', [SellerMartController::class, 'index'])->name('mart.index');
+   Route::get('mart/setting', [SellerMartController::class, 'show'])->name('mart.show');
+   Route::put('mart/update', [SellerMartController::class, 'update'])->name('mart.update');
+   Route::resource('product', SellerProductController::class);
+   Route::resource('service', SellerServiceController::class);
 });
 
 

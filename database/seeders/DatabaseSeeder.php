@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(SubdistrictSeeder::class);
+        $this->call([SubdistrictSeeder::class,
+        MartCategorySeeder::class,
+        ProductCategorySeeder::class,
+        ServiceCategorySeeder::class,
+    ]);
     }
 }

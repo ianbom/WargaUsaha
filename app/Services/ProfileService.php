@@ -10,9 +10,9 @@ class ProfileService
 
     public function updateProfile($data, $user)
 {
-    // Handle profile picture
+
     if (isset($data['profile_pic']) && $data['profile_pic']) {
-        // Hapus gambar lama jika ada
+
         if ($user->profile_pic) {
             Storage::delete('public/' . $user->profile_pic);
         }
@@ -23,7 +23,6 @@ class ProfileService
         unset($data['profile_pic']);
     }
 
-    // Handle password
     if (empty($data['password'])) {
         unset($data['password']);
     } else {

@@ -23,12 +23,12 @@ return new class extends Migration
 
         Schema::create('marts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('mart_category_id')->constrained('mart_categories');
-            $table->string('name');
-            $table->text('description');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mart_category_id')->constrained('mart_categories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
             $table->string('banner_url')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
 
@@ -41,8 +41,8 @@ return new class extends Migration
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mart_id')->constrained('marts');
-            $table->foreignId('product_category_id')->constrained('product_categories');
+            $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('product_category_id')->constrained('product_categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->text('description');
             $table->integer('stock');
@@ -60,8 +60,8 @@ return new class extends Migration
 
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('service_category_id')->constrained('service_categories');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('service_category_id')->constrained('service_categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('title');
             $table->text('description');
             $table->decimal('price', 12, 2);
@@ -73,11 +73,11 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_code')->unique();
-            $table->foreignId('buyer_id')->constrained('users');
-            $table->foreignId('seller_id')->constrained('users');
+            $table->foreignId('buyer_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('seller_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('type', ['product', 'service']);
-            $table->foreignId('product_id')->nullable()->constrained('products');
-            $table->foreignId('service_id')->nullable()->constrained('services');
+            $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('service_id')->nullable()->constrained('services')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity')->default(1);
             $table->decimal('total_price', 12, 2);
             $table->enum('order_status', ['Pending', 'Paid', 'Complete'])->default('Pending');
@@ -86,7 +86,7 @@ return new class extends Migration
 
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('payment_method');
             $table->string('payment_status');
             $table->decimal('paid_amount', 12, 2);
@@ -96,7 +96,7 @@ return new class extends Migration
 
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('rating');
             $table->text('comment')->nullable();
             $table->timestamps();
@@ -104,7 +104,7 @@ return new class extends Migration
 
         Schema::create('seller_wallets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('bank_name');
             $table->string('account_number');
             $table->decimal('amount', 12, 2)->default(0);
@@ -113,7 +113,7 @@ return new class extends Migration
 
         Schema::create('wallet_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seller_wallet_id')->constrained('seller_wallets');
+            $table->foreignId('seller_wallet_id')->constrained('seller_wallets')->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('amount', 12, 2);
             $table->timestamp('withdraw_request_date')->nullable();
             $table->timestamp('withdraw_accepted_date')->nullable();
@@ -125,7 +125,7 @@ return new class extends Migration
 
         Schema::create('food_sharings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->string('image_url');
             $table->string('description');
