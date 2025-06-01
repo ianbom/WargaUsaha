@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class ProductService
+class ProductService extends Service
 {
     protected $martService;
     public function __construct(MartService $martService){
@@ -77,6 +77,78 @@ class ProductService
         $data['mart_id'] = $mart->id;
 
         return Product::create( $data );
+    }
+
+    public function queryListProduct(array $filters = [])
+    {
+        $allowedFilters = [
+           'products.name' => 'like',
+           'products.product_category_id' => 'value',
+           'products.price' => 'range',
+
+        ];
+
+        $selectColumns = [
+           'products.*',
+           'product_categories.name as category_name',
+
+
+        ];
+
+        $query = Product::select($selectColumns)
+        ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+        ->orderBy('products.id', 'desc');
+
+
+        $query = $this->applyFilters($query, $filters, $allowedFilters);
+
+        $query->with([
+           'category'
+        ]);
+
+        return $query;
+    }
+
+    public function getListProduct(array $filters = [], int $perPage = null, int $page = null)
+    {
+
+        $query = $this->queryListProduct($filters);
+
+        return $this->paginate($query, $perPage, $page);
+    }
+
+    public function buildFilters($request)
+    {
+        $filters = [];
+
+        if ($request->filled('name')) {
+            $filters['products.name'] = $request->input('name');
+        }
+
+        if ($request->filled('product_category_id')) {
+            $filters['products.product_category_id'] = $request->input('product_category_id');
+        }
+
+        if ($request->filled('price_min') && $request->filled('price_max')) {
+        $filters['products.price'] = [
+            'min' => $request->input('price_min'),
+            'max' => $request->input('price_max'),
+        ];
+        } elseif ($request->filled('price_min')) {
+            // Jika hanya minimum price
+            $filters['products.price'] = [
+                'min' => $request->input('price_min'),
+                'max' => 999999999, // atau nilai maksimum yang masuk akal
+            ];
+        } elseif ($request->filled('price_max')) {
+            // Jika hanya maximum price
+            $filters['products.price'] = [
+                'min' => 0,
+                'max' => $request->input('price_max'),
+            ];
+        }
+
+        return $filters;
     }
 
 
