@@ -24,7 +24,7 @@ return new class extends Migration
         Schema::create('marts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('mart_category_id')->constrained('mart_categories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mart_category_id')->nullable()->constrained('mart_categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->string('banner_url')->nullable();
@@ -81,7 +81,10 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->decimal('total_price', 12, 2);
             $table->text('note')->nullable();
-            $table->enum('order_status', ['Pending', 'Paid', 'Complete'])->default('Pending');
+            $table->timestamp('paid_at')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
+            $table->enum('order_status', ['Pending', 'Paid', 'Completed', 'Cancelled'])->default('Pending');
             $table->timestamps();
         });
 
@@ -91,7 +94,6 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->string('payment_status')->nullable();
             $table->decimal('paid_amount', 12, 2);
-            $table->timestamp('paid_at')->nullable();
             $table->timestamps();
         });
 
@@ -116,11 +118,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('seller_wallet_id')->constrained('seller_wallets')->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('amount', 12, 2);
-            $table->timestamp('withdraw_request_date')->nullable();
             $table->timestamp('withdraw_accepted_date')->nullable();
             $table->timestamp('withdraw_rejected_date')->nullable();
             $table->text('reason')->nullable();
-            $table->string('status');
+            $table->enum('status', ['Pending', 'Accepted', 'Rejected'])->default('Pending');
             $table->timestamps();
         });
 

@@ -141,7 +141,7 @@
                             @click="open = !open"
                             aria-label="User menu">
                             <img class="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700"
-                                 src="/assets/images/user-profile.jpeg" alt="User Avatar" />
+                                 src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="User Avatar" />
                             <div class="hidden md:block text-left">
                                 <div class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ auth()->user()->name }}</div>
                                 {{-- <div class="text-xs text-gray-500 dark:text-gray-400">Admin</div> --}}
@@ -162,15 +162,14 @@
                             <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
                                 <div class="flex items-center gap-3">
                                     <img class="w-10 h-10 rounded-full object-cover"
-                                         src="/assets/images/user-profile.jpeg" alt="User Avatar" />
+                                         src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="User Avatar" />
                                     <div>
                                         <div class="font-medium text-gray-900 dark:text-white flex items-center gap-2">
-                                            John Doe
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                                Pro
-                                            </span>
+                                            {{ auth()->user()->name }}
+                                            {{-- <span class="text-xs text-gray-500 dark:text-gray-400">Admin</span> --}}
+
                                         </div>
-                                        <div class="text-sm text-gray-500 dark:text-gray-400">johndoe@gmail.com</div>
+                                        <div class="text-sm text-gray-500 dark:text-gray-400">{{ auth()->user()->email }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +182,7 @@
                                     </svg>
                                     Profile
                                 </a>
-                                <a href="/apps/mailbox" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <a href="/customer/order" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                     </svg>

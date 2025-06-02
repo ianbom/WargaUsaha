@@ -15,6 +15,10 @@ class TransactionService
         $this->walletService = $walletService;
     }
 
+    public function getTransactionByOrderId($orderId){
+        return Transaction::where('order_id', $orderId)->first();
+    }
+
     private function generateUniqueOrderCode(){
     $datePart = now()->format('Ymd'); // Format: TahunBulanTanggal (contoh: 20250601)
     $unique = false;

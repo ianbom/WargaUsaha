@@ -7,13 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
+    protected $transactionService;
+    protected $walletService;
+    public function __construct(TransactionService $transactionService, WalletService $walletService)
     {
-        //
+        $this->transactionService = $transactionService;
+        $this->walletService = $walletService;
     }
+
 
     public function getAllOrderByLoginUser($request){
         $user = Auth::user();
@@ -49,5 +50,66 @@ class OrderService
         $orders = $query->paginate(10);
         return $orders;
 
+    }
+
+    public function paidOrder($paymentMethod, $order){
+
+        $order->update([
+            'order_status' => 'Paid',
+            'paid_at' => now(),
+        ]);
+
+        $transaction = $this->transactionService->getTransactionByOrderId($order->id);
+        $transaction->update([
+            'payment_status' => 'Paid',
+            'payment_method' => $paymentMethod,
+            'paid_amount' => $order->total_price, // nanti ambil dari payment gateway
+        ]);
+
+        // $this->walletService->increamentWallet($order->total_price, $seller->id);
+    }
+
+    public function cancelOrder($order){
+        $order->update([
+            'order_status' => 'Cancelled',
+            'cancelled_at' => now(),
+        ]);
+
+        $transaction = $this->transactionService->getTransactionByOrderId($order->id);
+        $transaction->update([
+            'payment_status' => 'Cancelled',
+        ]);
+    }
+
+    public function completeOrder($order, $seller){
+        $order->update([
+            'order_status' => 'Completed',
+            'completed_at' => now(),
+        ]);
+
+        $transaction = $this->transactionService->getTransactionByOrderId($order->id);
+        $transaction->update([
+            'payment_status' => 'Completed',
+        ]);
+
+        $this->walletService->increamentWallet($order->total_price, $seller->id);
+    }
+
+    public function updateOrderStatus($status, $order){
+        switch ($status) {
+            case 'Paid':
+                $this->paidOrder('Qris', $order);
+                return 'Pesanan telah dibayar';
+            case 'Cancelled':
+
+                $this->cancelOrder($order);
+                return 'Pesanan telah dibatalkan';
+            case 'Completed':
+                $seller = $order->seller;
+                $this->completeOrder($order, $seller);
+                return 'Pesanan telah diselesaikan';
+            default:
+                throw new \Exception('Status tidak valid');
+        }
     }
 }

@@ -29,7 +29,6 @@ class WalletService
 
     public function getWalletByUser($user_id){
         $wallet = SellerWallet::where('user_id', $user_id)->first();
-
         return $wallet;
     }
 

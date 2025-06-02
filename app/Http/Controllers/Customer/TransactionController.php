@@ -24,15 +24,10 @@ class TransactionController extends Controller
         try {
             $order = $this->transactionService->checkoutProduct($data, $product, $seller);
             DB::commit();
-            return response()->json([
-                'message' => 'Checkout successful',
-                'order' => $order,
-                'product' => $product,
-            ], 200);
+            return redirect()->route('customer.order.show', $order->id)->with('success', 'Order placed successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-
-           return response()->json(['err' => $th->getMessage()], 500);
+           return redirect()->back()->with('error', $th->getMessage());
         }
     }
 }

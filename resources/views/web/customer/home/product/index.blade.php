@@ -82,34 +82,6 @@
                                 </div>
                             </div>
 
-                            <!-- Stock Filter -->
-                            {{-- <div class="mb-6">
-                                <label class="flex items-center">
-                                    <input type="checkbox"
-                                           name="in_stock"
-                                           value="1"
-                                           {{ request('in_stock') ? 'checked' : '' }}
-                                           class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                    <span class="ml-2 text-sm text-gray-700">Hanya yang tersedia</span>
-                                </label>
-                            </div> --}}
-
-                            <!-- Sort -->
-                            {{-- <div class="mb-6">
-                                <label for="sort" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Urutkan
-                                </label>
-                                <select id="sort"
-                                        name="sort"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Nama A-Z</option>
-                                    <option value="name_desc" {{ request('sort') == 'name_desc' ? 'selected' : '' }}>Nama Z-A</option>
-                                    <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Harga Terendah</option>
-                                    <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Harga Tertinggi</option>
-                                    <option value="stock_desc" {{ request('sort') == 'stock_desc' ? 'selected' : '' }}>Stok Terbanyak</option>
-                                </select>
-                            </div> --}}
-
                             <!-- Action Buttons -->
                             <div class="space-y-3">
                                 <button type="submit"
@@ -129,14 +101,14 @@
                 <div class="lg:col-span-3 mt-8 lg:mt-0">
                     @if($products->isEmpty())
                         <!-- Empty State -->
-                        <div class="bg-white rounded-lg shadow-sm border p-12 text-center">
-                            <div class="w-24 h-24 mx-auto mb-4 text-gray-300">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <div class="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 p-16 text-center">
+                            <div class="w-32 h-32 mx-auto mb-6 text-gray-300 animate-bounce">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-full h-full">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                                 </svg>
                             </div>
-                            <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak ada produk ditemukan</h3>
-                            <p class="text-gray-500 mb-4">Coba ubah filter pencarian Anda</p>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-3">Oops! Tidak ada produk ditemukan</h3>
+                            <p class="text-gray-600 mb-6 text-lg">Coba ubah filter pencarian Anda atau lihat semua produk</p>
                             <a href="{{ route('customer.home.indexProduct') }}"
                                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                                 Lihat Semua Produk
@@ -177,8 +149,8 @@
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                 {{ $product->category->name ?? $product->category_name ?? 'Tanpa Kategori' }}
                                             </span>
-                                            <span class="text-xs text-gray-500">
-                                                {{ $product->mart->name ?? 'Unknown Store' }}
+                                            <span class="text-xs text-gray-500 font-medium">
+                                                🏪 {{ $product->mart->name ?? 'Unknown Store' }}
                                             </span>
                                         </div>
 

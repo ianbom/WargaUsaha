@@ -1,6 +1,6 @@
 <x-customer.app>
-    <div class="min-h-screen bg-gray-50 py-8">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen py-4 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-10 sm:px-6 lg:px-8  ">
             <!-- Header -->
             <div class="mb-8">
                 <div class="flex items-center justify-between">
@@ -35,7 +35,7 @@
                                     Sudah Dibayar
                                 </span>
                                 @break
-                            @case('Complete')
+                            @case('Completed')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                                     <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
@@ -43,9 +43,17 @@
                                     Selesai
                                 </span>
                                 @break
+                            @case('Cancelled')
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-50 text-red-700 border border-red-200">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                    Dibatalkan
+                                </span>
+                                @break
                         @endswitch
                         <div class="text-sm text-gray-500 mt-1">
-                            Dibuat: {{ $order->created_at->format('d M Y, H:i') }}
+                            Dipesan: {{ $order->created_at->format('d M Y, H:i') }}
                         </div>
                     </div>
                 </div>
@@ -53,7 +61,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Main Content -->
-                <div class="lg:col-span-2 space-y-6">
+              <div class="lg:col-span-2 space-y-6">
                     <!-- Order Information -->
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200">
@@ -130,67 +138,6 @@
                         </div>
                     </div>
 
-                    <!-- Transaction History -->
-                    @if($order->transactions && $order->transactions->count() > 0)
-                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                            <div class="px-6 py-4 border-b border-gray-200">
-                                <h3 class="text-lg font-semibold text-gray-900 flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                    </svg>
-                                    Riwayat Transaksi
-                                </h3>
-                            </div>
-                            <div class="divide-y divide-gray-200">
-                                @foreach($order->transactions as $transaction)
-                                    <div class="p-6">
-                                        <div class="flex items-center justify-between">
-                                            <div>
-                                                <div class="flex items-center">
-                                                    <div class="flex-shrink-0">
-                                                        @if($transaction->payment_status == 'success')
-                                                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                                                                <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                                                </svg>
-                                                            </div>
-                                                        @else
-                                                            <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                                                                <svg class="w-4 h-4 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                                                </svg>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="ml-3">
-                                                        <p class="text-sm font-medium text-gray-900">
-                                                            {{ $transaction->payment_method ?? 'Metode tidak diketahui' }}
-                                                        </p>
-                                                        <p class="text-sm text-gray-500">
-                                                            @if($transaction->paid_at)
-                                                                {{ $transaction->paid_at->format('d M Y, H:i') }}
-                                                            @else
-                                                                {{ $transaction->created_at->format('d M Y, H:i') }}
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="text-right">
-                                                <p class="text-lg font-semibold text-gray-900">
-                                                    Rp {{ number_format($transaction->paid_amount, 0, ',', '.') }}
-                                                </p>
-                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {{ $transaction->payment_status == 'success' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                                    {{ ucfirst($transaction->payment_status ?? 'pending') }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-
                     <!-- Seller Information -->
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200">
@@ -204,11 +151,21 @@
                         <div class="p-6">
                             <div class="flex items-center space-x-4">
                                 <div class="flex-shrink-0">
-                                    <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                                        <span class="text-sm font-medium text-gray-700">
-                                            {{ strtoupper(substr($order->seller->name, 0, 2)) }}
-                                        </span>
-                                    </div>
+                                    @if($order->seller->profile_pic)
+                                        <!-- Tampilkan gambar profil jika ada -->
+                                        <img
+                                            class="w-12 h-12 rounded-full object-cover border border-gray-200"
+                                            src="{{ asset('storage/' . $order->seller->profile_pic) }}"
+                                            alt="{{ $order->seller->name }}"
+                                        >
+                                    @else
+                                        <!-- Tampilkan inisial jika tidak ada gambar profil -->
+                                        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                                            <span class="text-sm font-medium text-gray-700">
+                                                {{ strtoupper(substr($order->seller->name, 0, 2)) }}
+                                            </span>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="flex-1">
                                     <h4 class="text-lg font-medium text-gray-900">{{ $order->seller->name }}</h4>
@@ -228,7 +185,103 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Review Section - Only show if order is completed -->
+                    @if($order->order_status == 'Completed')
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                            <div class="px-6 py-4 border-b border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    Berikan Review
+                                </h3>
+                            </div>
+
+                            @if($order->review)
+                                <!-- Show existing review -->
+                                <div class="p-6">
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <div class="flex items-center mb-3">
+                                            <div class="flex items-center">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <svg class="w-5 h-5 {{ $i <= $order->review->rating ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                    </svg>
+                                                @endfor
+                                            </div>
+                                            <span class="ml-2 text-sm text-gray-600">{{ $order->review->rating }}/5</span>
+                                        </div>
+                                        @if($order->review->comment)
+                                            <p class="text-gray-700">{{ $order->review->comment }}</p>
+                                        @endif
+                                        <p class="text-xs text-gray-500 mt-2">
+                                            Diberikan pada {{ $order->review->created_at->format('d M Y, H:i') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Show review form -->
+                                <div class="p-6">
+                                    <form action="{{ route('customer.review.store') }}" method="POST" class="space-y-4">
+                                        @csrf
+
+                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                        <!-- Rating Stars -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                                            <div class="flex items-center space-x-1" id="rating-stars">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <button type="button"
+                                                            class="star-btn focus:outline-none"
+                                                            data-rating="{{ $i }}">
+                                                        <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition-colors cursor-pointer"
+                                                             fill="currentColor"
+                                                             viewBox="0 0 20 20">
+                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                        </svg>
+                                                    </button>
+                                                @endfor
+                                            </div>
+                                            <input type="hidden" name="rating" id="rating-input" required>
+                                            @error('rating')
+                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- Comment -->
+                                        <div>
+                                            <label for="comment" class="block text-sm font-medium text-gray-700 mb-2">
+                                                Komentar (Opsional)
+                                            </label>
+                                            <textarea name="comment"
+                                                      id="comment"
+                                                      rows="4"
+                                                      class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                                      placeholder="Bagikan pengalaman Anda...">{{ old('comment') }}</textarea>
+                                            @error('comment')
+                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="flex justify-end">
+                                            <button type="submit"
+                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                                </svg>
+                                                Kirim Review
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                 </div>
+
+
 
                 <!-- Sidebar -->
                 <div class="space-y-6">
@@ -267,23 +320,32 @@
                     </div>
 
                     <!-- Actions -->
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                    @if ($order->order_status != 'Cancelled')
+                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-200">
                             <h3 class="text-lg font-semibold text-gray-900">Aksi</h3>
                         </div>
                         <div class="p-6 space-y-3">
                             @if($order->order_status == 'Pending')
-                                <a href="/"
-                                   class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                                    </svg>
-                                    Bayar Sekarang
-                                </a>
-                                <form action="/" method="POST"
+                                <form action="{{ route('customer.order.update', $order) }}" method="POST"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin membayar pesanan ini?')">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="text" name="order_status" value="Paid" hidden>
+                                    <button type="submit"
+                                       class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                        </svg>
+                                        Bayar Sekarang
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('customer.order.update', $order) }}" method="POST"
                                       onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">
                                     @csrf
-                                    @method('DELETE')
+                                    @method('PUT')
+                                    <input type="text" name="order_status" value="Cancelled" hidden>
                                     <button type="submit"
                                             class="w-full inline-flex justify-center items-center px-4 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -293,10 +355,11 @@
                                     </button>
                                 </form>
                             @elseif($order->order_status == 'Paid')
-                                <form action="/ method="POST"
+                                <form action="{{ route('customer.order.update', $order) }}" method="POST"
                                       onsubmit="return confirm('Apakah Anda yakin pesanan ini sudah selesai?')">
                                     @csrf
-                                    @method('PATCH')
+                                    @method('PUT')
+                                    <input type="text" name="order_status" value="Completed" hidden>
                                     <button type="submit"
                                             class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -315,6 +378,9 @@
                             </button>
                         </div>
                     </div>
+                    @endif
+
+
 
                     <!-- Order Timeline -->
                     <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -350,7 +416,7 @@
                                         </div>
                                     </li>
 
-                                    @if($order->order_status !== 'Pending')
+                                    @if($order->order_status == 'Paid' || $order->order_status == 'Completed')
                                         <!-- Payment Received -->
                                         <li>
                                             <div class="relative pb-8">
@@ -369,9 +435,7 @@
                                                         </div>
                                                         <div class="text-right text-sm whitespace-nowrap text-gray-500">
                                                             @if($order->paid_at)
-                                                                <time datetime="{{ $order->paid_at->toIso8601String() }}">
-                                                                    {{ $order->paid_at->format('d M Y, H:i') }}
-                                                                </time>
+                                                                     {{ $order->paid_at ? \Carbon\Carbon::parse($order->completed_at)->format('d M Y, H:i') : '-' }}
                                                             @else
                                                                 <span class="text-yellow-600">Menunggu konfirmasi</span>
                                                             @endif
@@ -382,7 +446,49 @@
                                         </li>
                                     @endif
 
-                                    @if($order->order_status === 'Complete')
+                                    @if($order->order_status == 'Cancelled')
+                                        <li>
+                                            <div class="relative pb-8">
+                                                <!-- Garis vertikal diubah menjadi abu-abu lebih muda -->
+                                                <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-100"></div>
+
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <!-- Ikon silang dengan latar abu-abu -->
+                                                        <span class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1 flex justify-between space-x-4">
+                                                        <div>
+                                                            <!-- Teks status dengan warna abu-abu -->
+                                                            <p class="text-sm font-medium text-gray-500">Pesanan Dibatalkan</p>
+                                                            <!-- Alasan pembatalan jika ada -->
+                                                            @if($order->cancellation_reason)
+                                                                <p class="text-xs text-gray-400 mt-1">
+                                                                    Alasan: {{ $order->cancellation_reason }}
+                                                                </p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                            @if($order->cancelled_at)
+                                                                <!-- Perbaikan: gunakan cancelled_at bukan completed_at -->
+                                                                {{ \Carbon\Carbon::parse($order->cancelled_at)->format('d M Y, H:i') }}
+                                                            @else
+                                                                <span class="text-gray-400">Tanpa tanggal</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        @endif
+
+
+
+                                    @if($order->order_status === 'Completed')
                                         <!-- Order Completed -->
                                         <li>
                                             <div class="relative pb-8">
@@ -400,9 +506,9 @@
                                                         </div>
                                                         <div class="text-right text-sm whitespace-nowrap text-gray-500">
                                                             @if($order->completed_at)
-                                                                <time datetime="{{ $order->completed_at->toIso8601String() }}">
-                                                                    {{ $order->completed_at->format('d M Y, H:i') }}
-                                                                </time>
+
+                                                                    {{ $order->completed_at ? \Carbon\Carbon::parse($order->completed_at)->format('d M Y, H:i') : '-' }}
+
                                                             @else
                                                                 {{ $order->updated_at->format('d M Y, H:i') }}
                                                             @endif
@@ -421,3 +527,41 @@
         </div>
     </div>
 </x-customer.app>
+
+ <script>
+                    // Rating stars functionality
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const stars = document.querySelectorAll('.star-btn');
+                        const ratingInput = document.getElementById('rating-input');
+                        let selectedRating = 0;
+
+                        stars.forEach((star, index) => {
+                            star.addEventListener('click', function() {
+                                selectedRating = index + 1;
+                                ratingInput.value = selectedRating;
+                                updateStars(selectedRating);
+                            });
+
+                            star.addEventListener('mouseenter', function() {
+                                updateStars(index + 1);
+                            });
+                        });
+
+                        document.getElementById('rating-stars').addEventListener('mouseleave', function() {
+                            updateStars(selectedRating);
+                        });
+
+                        function updateStars(rating) {
+                            stars.forEach((star, index) => {
+                                const svg = star.querySelector('svg');
+                                if (index < rating) {
+                                    svg.classList.remove('text-gray-300');
+                                    svg.classList.add('text-yellow-400');
+                                } else {
+                                    svg.classList.remove('text-yellow-400');
+                                    svg.classList.add('text-gray-300');
+                                }
+                            });
+                        }
+                    });
+                </script>

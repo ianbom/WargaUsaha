@@ -3,6 +3,7 @@
 use App\Http\Controllers\Customer\HomeController as CustomerHomeController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
+use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
 use App\Http\Controllers\Customer\TransactionController;
 use App\Http\Controllers\Seller\MartController as SellerMartController;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
@@ -49,6 +50,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('profile', CustomerProfileController::class);
     Route::resource('home', CustomerHomeController::class);
     Route::resource('order', CustomerOrderController::class);
+    Route::resource('review', CustomerReviewController::class);
     Route::get('home/product/list', [CustomerHomeController::class, 'indexProduct'])->name('home.indexProduct');
     Route::get('home/product/{product}', [CustomerHomeController::class, 'showProduct'])->name('home.showProduct');
     Route::post('product/checkout/{product}', [TransactionController::class, 'checkoutProduct'])->name('checkout.product');

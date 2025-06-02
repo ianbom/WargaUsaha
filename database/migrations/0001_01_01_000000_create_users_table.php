@@ -37,6 +37,7 @@ return new class extends Migration
             $table->float('location_lat')->nullable();
             $table->float('location_long')->nullable();
             $table->string('profile_pic')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
 
