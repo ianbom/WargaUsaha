@@ -80,6 +80,7 @@ return new class extends Migration
             $table->foreignId('service_id')->nullable()->constrained('services')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity')->default(1);
             $table->decimal('total_price', 12, 2);
+            $table->text('note')->nullable();
             $table->enum('order_status', ['Pending', 'Paid', 'Complete'])->default('Pending');
             $table->timestamps();
         });

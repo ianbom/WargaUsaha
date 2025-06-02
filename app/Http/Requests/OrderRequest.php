@@ -31,6 +31,7 @@ class OrderRequest extends FormRequest
             'quantity' => 'nullable',
             'total_price' => 'nullable',
             'order_status' => 'nullable|string',
+            'note' => 'nullable|string',
         ];
     }
 }

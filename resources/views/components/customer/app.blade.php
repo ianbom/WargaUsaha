@@ -95,7 +95,7 @@
 
     <div class="main-container text-black dark:text-white-dark min-h-screen" :class="[$store.app.navbar]">
 
-        {{-- <x-customer.sidebar /> --}}
+        <x-customer.sidebar />
 
         <div class="main-content flex flex-col min-h-screen">
             <x-customer.header />

@@ -15,6 +15,31 @@ class TransactionService
         $this->walletService = $walletService;
     }
 
+    private function generateUniqueOrderCode(){
+    $datePart = now()->format('Ymd'); // Format: TahunBulanTanggal (contoh: 20250601)
+    $unique = false;
+    $orderCode = '';
+
+    while (!$unique) {
+        // Generate random 6 digit number
+        $randomPart = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Format: ORD-YYYYMMDD-XXXXXX
+        $orderCode = 'WU-' . $datePart . '-' . $randomPart;
+
+        // Check if code already exists in database
+        $exists = Order::where('order_code', $orderCode)->exists();
+
+        if (!$exists) {
+            $unique = true;
+        }
+    }
+
+    return $orderCode;
+}
+
+
+
     public function checkoutProduct($data, $product, $seller){
 
         // Webhook tambahkan pengurangan stock dan penambahan saldo penjual
@@ -24,7 +49,7 @@ class TransactionService
         }
 
         $user = Auth::user();
-        $data['order_code'] = rand();
+        $data['order_code'] = $this->generateUniqueOrderCode();
         $data['buyer_id'] = $user->id;
         $data['product_id'] = $product->id;
         $data['seller_id'] = $seller->id;
