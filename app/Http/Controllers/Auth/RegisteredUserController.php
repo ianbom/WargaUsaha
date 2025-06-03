@@ -73,6 +73,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        if ($user->role == 'Seller') {
+            return redirect(route('seller.profile.index', absolute: false));
+        }
+
+        return redirect(route('customer.home.index', absolute: false));
     }
 }

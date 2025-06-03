@@ -51,9 +51,12 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('home', CustomerHomeController::class);
     Route::resource('order', CustomerOrderController::class);
     Route::resource('review', CustomerReviewController::class);
+    Route::get('seller/{seller}', [CustomerHomeController::class, 'showSeller'])->name('home.showSeller');
     Route::get('home/product/list', [CustomerHomeController::class, 'indexProduct'])->name('home.indexProduct');
     Route::get('home/product/{product}', [CustomerHomeController::class, 'showProduct'])->name('home.showProduct');
     Route::post('product/checkout/{product}', [TransactionController::class, 'checkoutProduct'])->name('checkout.product');
+    Route::get('home/service/list', [CustomerHomeController::class, 'indexService'])->name('home.indexService');
+    Route::get('home/service/{service}', [CustomerHomeController::class, 'showService'])->name('home.showService');
 });
 
 

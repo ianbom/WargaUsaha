@@ -29,6 +29,12 @@ class MartService
         return $mart;
     }
 
+    public function getMartBySellerId($sellerId){
+
+        $mart = Mart::where('user_id', $sellerId)->first();
+        return $mart;
+    }
+
     public function updateMart($mart, $data){
 
         if (isset($data['banner_url']) && $data['banner_url']) {

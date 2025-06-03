@@ -21,11 +21,12 @@ class ProductService extends Service
         $mart = $this->martService->getMartByLoginUser();
         $product = Product::where('mart_id', $mart->id)->get();
 
-        // if ($product->isEmpty()) {
-        //    throw new Exception('No products found for the current user\'s mart.');
-        // }
-
         return $product;
+    }
+
+    public function getAllProductByMart($mart){
+
+        return Product::where('mart_id', $mart->id)->get();
     }
 
     public function getAllProduct(){
