@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MartRequest;
 use App\Models\Mart;
 use App\Services\MartService;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,13 +14,19 @@ use Illuminate\Support\Facades\DB;
 class MartController extends Controller
 {
     protected $martService;
-    public function __construct(MartService $martService){
+    protected $productService;
+    public function __construct(MartService $martService, ProductService $productService){
         $this->martService = $martService;
+        $this->productService = $productService;
     }
 
     public function index(){
         $mart = $this->martService->getMartByLoginUser();
-        return view('web.seller.mart.index', ['mart' => $mart]);
+        $products = $this->productService->getAllProductByMart($mart);
+        $user = Auth::user();
+        return view('web.seller.mart.index', ['mart' => $mart,
+        'user' => $user,
+        'products' => $products]);
 
     }
 

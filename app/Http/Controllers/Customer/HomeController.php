@@ -123,4 +123,30 @@ class HomeController extends Controller
         }
 
     }
+
+    public function showSellerProduct(User $seller){
+        try {
+            $mart = $this->martService->getMartBySellerId($seller->id);
+            $products = $this->productService->getAllProductByMart($mart);
+            $services = $this->serviceService->getAllServiceBySeller($seller);
+
+            return view('web.customer.seller.product', ['seller' => $seller, 'mart' => $mart, 'products' => $products, 'services' => $services]);
+        } catch (\Throwable $th) {
+            return response()->json(['err' => $th->getMessage()], 500);
+        }
+
+    }
+
+    public function showSellerService(User $seller){
+        try {
+            $mart = $this->martService->getMartBySellerId($seller->id);
+            $products = $this->productService->getAllProductByMart($mart);
+            $services = $this->serviceService->getAllServiceBySeller($seller);
+
+            return view('web.customer.seller.service', ['seller' => $seller, 'mart' => $mart, 'products' => $products, 'services' => $services]);
+        } catch (\Throwable $th) {
+            return response()->json(['err' => $th->getMessage()], 500);
+        }
+
+    }
 }

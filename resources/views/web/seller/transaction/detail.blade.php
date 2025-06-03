@@ -1,16 +1,16 @@
-<x-customer.app>
+<x-seller.app>
     <div class="min-h-screen py-4 bg-gray-50">
         <div class="max-w-6xl mx-auto px-10 sm:px-6 lg:px-8  ">
             <!-- Header -->
             <div class="mb-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <a href="{{ route('customer.order.index') }}"
+                        <a href="{{ route('seller.transaction.index') }}"
                            class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-2">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
-                            Kembali ke Riwayat Pesanan
+                            Kembali ke Riwayat Transaksi
                         </a>
                         <h1 class="text-3xl font-bold text-gray-900">Detail Pesanan</h1>
                         <p class="mt-2 text-gray-600">{{ $order->order_code }}</p>
@@ -145,33 +145,33 @@
                                 <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
-                                Informasi Penjual
+                                Informasi Pembeli
                             </h3>
                         </div>
                         <div class="p-6">
                             <div class="flex items-center space-x-4">
                                 <div class="flex-shrink-0">
-                                    @if($order->seller->profile_pic)
+                                    @if($order->buyer->profile_pic)
                                         <!-- Tampilkan gambar profil jika ada -->
                                         <img
                                             class="w-12 h-12 rounded-full object-cover border border-gray-200"
-                                            src="{{ asset('storage/' . $order->seller->profile_pic) }}"
-                                            alt="{{ $order->seller->name }}"
+                                            src="{{ asset('storage/' . $order->buyer->profile_pic) }}"
+                                            alt="{{ $order->buyer->name }}"
                                         >
                                     @else
                                         <!-- Tampilkan inisial jika tidak ada gambar profil -->
                                         <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
                                             <span class="text-sm font-medium text-gray-700">
-                                                {{ strtoupper(substr($order->seller->name, 0, 2)) }}
+                                                {{ strtoupper(substr($order->buyer->name, 0, 2)) }}
                                             </span>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="text-lg font-medium text-gray-900">{{ $order->seller->name }}</h4>
-                                    <p class="text-sm text-gray-600">{{ $order->seller->email }}</p>
-                                    @if($order->seller->phone)
-                                        <p class="text-sm text-gray-600">{{ $order->seller->phone }}</p>
+                                    <h4 class="text-lg font-medium text-gray-900">{{ $order->buyer->name }}</h4>
+                                    <p class="text-sm text-gray-600">{{ $order->buyer->email }}</p>
+                                    @if($order->buyer->phone)
+                                        <p class="text-sm text-gray-600">{{ $order->buyer->phone }}</p>
                                     @endif
                                 </div>
                                 <div>
@@ -186,7 +186,7 @@
                         </div>
                     </div>
 
-                    <!-- Review Section - Only show if order is completed -->
+                     <!-- Review Section - Only show if order is completed -->
                     @if($order->order_status == 'Completed')
                         <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                             <div class="px-6 py-4 border-b border-gray-200">
@@ -194,7 +194,7 @@
                                     <svg class="w-5 h-5 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                     </svg>
-                                    Berikan Review
+                                    Review dan Komentar
                                 </h3>
                             </div>
 
@@ -221,64 +221,29 @@
                                     </div>
                                 </div>
                             @else
-                                <!-- Show review form -->
+                                <!-- Show message when no review exists -->
                                 <div class="p-6">
-                                    <form action="{{ route('customer.review.store') }}" method="POST" class="space-y-4">
-                                        @csrf
-
-                                        <input type="hidden" name="order_id" value="{{ $order->id }}">
-                                        <!-- Rating Stars -->
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
-                                            <div class="flex items-center space-x-1" id="rating-stars">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                    <button type="button"
-                                                            class="star-btn focus:outline-none"
-                                                            data-rating="{{ $i }}">
-                                                        <svg class="w-8 h-8 text-gray-300 hover:text-yellow-400 transition-colors cursor-pointer"
-                                                             fill="currentColor"
-                                                             viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                                        </svg>
-                                                    </button>
-                                                @endfor
-                                            </div>
-                                            <input type="hidden" name="rating" id="rating-input" required>
-                                            @error('rating')
-                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                            @enderror
+                                    <div class="bg-gray-50 rounded-lg p-6 text-center">
+                                        <div class="flex justify-center mb-3">
+                                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                            </svg>
                                         </div>
-
-                                        <!-- Comment -->
-                                        <div>
-                                            <label for="comment" class="block text-sm font-medium text-gray-700 mb-2">
-                                                Komentar (Opsional)
-                                            </label>
-                                            <textarea name="comment"
-                                                      id="comment"
-                                                      rows="4"
-                                                      class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                                      placeholder="Bagikan pengalaman Anda...">{{ old('comment') }}</textarea>
-                                            @error('comment')
-                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                            @enderror
+                                        <h4 class="text-lg font-medium text-gray-900 mb-2">Belum Ada Review</h4>
+                                        <p class="text-gray-600 mb-4">Customer belum memberikan review dan penilaian untuk pesanan ini.</p>
+                                        <div class="flex items-center justify-center text-sm text-gray-500">
+                                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Review dapat diberikan setelah pesanan selesai
                                         </div>
-
-                                        <!-- Submit Button -->
-                                        <div class="flex justify-end">
-                                            <button type="submit"
-                                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                                                </svg>
-                                                Kirim Review
-                                            </button>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
                             @endif
                         </div>
                     @endif
+
+
                 </div>
 
 
@@ -339,20 +304,6 @@
                         <div class="p-6 space-y-3">
                             @if($order->order_status == 'Pending')
                                 <form action="{{ route('customer.order.update', $order) }}" method="POST"
-                                    onsubmit="return confirm('Apakah Anda yakin ingin membayar pesanan ini?')">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="text" name="order_status" value="Paid" hidden>
-                                    <button type="submit"
-                                       class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                                        </svg>
-                                        Bayar Sekarang
-                                    </button>
-                                </form>
-
-                                <form action="{{ route('customer.order.update', $order) }}" method="POST"
                                       onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">
                                     @csrf
                                     @method('PUT')
@@ -365,20 +316,7 @@
                                         Batalkan Pesanan
                                     </button>
                                 </form>
-                            @elseif($order->order_status == 'Paid')
-                                <form action="{{ route('customer.order.update', $order) }}" method="POST"
-                                      onsubmit="return confirm('Apakah Anda yakin pesanan ini sudah selesai?')">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="text" name="order_status" value="Completed" hidden>
-                                    <button type="submit"
-                                            class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        Selesaikan Pesanan
-                                    </button>
-                                </form>
+
                             @endif
 
                             <button class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -537,7 +475,7 @@
             </div>
         </div>
     </div>
-</x-customer.app>
+</x-seller.app>
 
  <script>
                     // Rating stars functionality

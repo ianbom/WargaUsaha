@@ -29,6 +29,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('banner_url')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->integer('review_count')->default(0);
+            $table->integer('total_rating')->default(0);
+            $table->decimal('average_rating', 6, 2)->default(0);
             $table->timestamps();
         });
 
@@ -48,6 +51,9 @@ return new class extends Migration
             $table->integer('stock');
             $table->decimal('price', 12, 2);
             $table->string('image_url');
+            $table->integer('review_count')->default(0);
+            $table->integer('total_rating')->default(0);
+            $table->decimal('average_rating', 6, 2)->default(0);
             $table->timestamps();
         });
 
@@ -67,6 +73,9 @@ return new class extends Migration
             $table->decimal('price', 12, 2);
             $table->string('image_url');
             $table->boolean('is_available')->default(true);
+            $table->integer('review_count')->default(0);
+            $table->integer('total_rating')->default(0);
+            $table->decimal('average_rating', 6, 2)->default(0);
             $table->timestamps();
         });
 
@@ -78,7 +87,7 @@ return new class extends Migration
             $table->enum('type', ['Product', 'Service']);
             $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('service_id')->nullable()->constrained('services')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('quantity')->default(1);
+            $table->integer('quantity')->nullable();
             $table->decimal('total_price', 12, 2);
             $table->text('note')->nullable();
             $table->timestamp('paid_at')->nullable();

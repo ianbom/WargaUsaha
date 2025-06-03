@@ -100,7 +100,7 @@
         <div class="main-content flex flex-col min-h-screen">
             <x-customer.header />
 
-            <div class="dvanimation p-6 animate__animated" :class="[$store.app.animation]">
+            <div class="dvanimation animate__animated" :class="[$store.app.animation]">
                 {{ $slot }}
             </div>
 

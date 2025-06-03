@@ -1,24 +1,58 @@
 <x-customer.app>
     <div class="min-h-screen bg-gray-50">
         <!-- Hero Section -->
-        <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-            <div class="container mx-auto px-4 py-16">
+         <div class="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+            </div>
+
+            <div class="container mx-auto px-4 py-20 relative z-10">
                 <div class="text-center">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight">
                         Selamat Datang di Toko Kami
                     </h1>
-                    <p class="text-xl md:text-2xl mb-8 opacity-90">
-                        Kecamatan Srengat, Kelurahan Kauman. Blitar
+                    <p class="text-xl md:text-2xl mb-4 opacity-90 font-light">
+                        Kecamatan Srengat, Kelurahan Kauman, Blitar
                     </p>
-                    <div class="relative max-w-md mx-auto">
+                    <p class="text-base md:text-lg mb-12 opacity-75 max-w-2xl mx-auto">
+                        Temukan produk berkualitas dengan harga terbaik untuk kebutuhan Anda
+                    </p>
+
+                    <!-- Enhanced Search Bar -->
+                    <div class="relative max-w-lg mx-auto mb-8">
+                        <form  method="GET" action="{{ route('customer.home.indexProduct') }}">
                         <input type="text"
-                               placeholder="Cari produk..."
-                               class="w-full px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-white">
-                        <button class="absolute right-2 top-2 p-2 text-gray-600 hover:text-gray-800">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                               name="name"
+                               value="{{ request('name') }}"
+                               placeholder="Cari produk favorit Anda..."
+                               class="w-full px-6 py-4 pr-14 rounded-2xl text-gray-800 focus:outline-none focus:ring-4 focus:ring-white/30 shadow-xl backdrop-blur-sm bg-white/95 transition-all duration-300">
+                        <button class="absolute right-3 top-3 p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-xl transition-all duration-200">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                             </svg>
                         </button>
+                        </form>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                        <div class="text-center p-4 bg-white/10 backdrop-blur-sm rounded-xl">
+                            <div class="text-2xl font-bold">500+</div>
+                            <div class="text-sm opacity-80">Produk</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/10 backdrop-blur-sm rounded-xl">
+                            <div class="text-2xl font-bold">1000+</div>
+                            <div class="text-sm opacity-80">Pelanggan</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/10 backdrop-blur-sm rounded-xl">
+                            <div class="text-2xl font-bold">24/7</div>
+                            <div class="text-sm opacity-80">Support</div>
+                        </div>
+                        <div class="text-center p-4 bg-white/10 backdrop-blur-sm rounded-xl">
+                            <div class="text-2xl font-bold">⭐ 4.9</div>
+                            <div class="text-sm opacity-80">Rating</div>
+                        </div>
                     </div>
                 </div>
             </div>

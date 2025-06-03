@@ -15,6 +15,11 @@ class TransactionService
         $this->walletService = $walletService;
     }
 
+    public function getAllOrderByLoginUser(){
+        $user = Auth::user();
+        return Order::where('seller_id', $user->id)->orderBy('created_at', 'desc')->get();
+    }
+
     public function getTransactionByOrderId($orderId){
         return Transaction::where('order_id', $orderId)->first();
     }

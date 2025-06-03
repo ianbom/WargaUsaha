@@ -12,18 +12,29 @@
 
         <div class="pt-5 space-y-8 ">
             <!-- Hero Section with Banner -->
-            <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-8 text-white">
-                <!-- Background Pattern -->
-                <div class="absolute inset-0 opacity-10">
-                    <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
-                </div>
+           <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-8 text-white">
+                <!-- Banner Background -->
+                @if($mart->banner_url)
+                    <div class="absolute inset-0">
+                        <img src="{{ asset('storage/' . $mart->banner_url) }}"
+                             alt="Banner {{ $mart->name }}"
+                             class="w-full h-full object-cover" />
+                        <!-- Dark overlay for better text readability -->
+                        <div class="absolute inset-0 bg-black/40"></div>
+                    </div>
+                @else
+                    <!-- Fallback Background Pattern -->
+                    <div class="absolute inset-0 opacity-10">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="4"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
+                    </div>
+                @endif
 
                 <div class="relative z-10 flex flex-col lg:flex-row items-center gap-8">
-                    <!-- Mart Banner -->
+                    <!-- Mart Profile Picture -->
                     <div class="relative group">
                         <div class="w-32 h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden border-4 border-white/20 shadow-xl group-hover:scale-105 transition-transform duration-300">
-                            @if($mart->banner_url)
-                                <img src="{{ asset('storage/' . $mart->banner_url) }}"
+                            @if($user->profile_pic)
+                                <img src="{{ asset('storage/' . $user->profile_pic) }}"
                                      alt="{{ $mart->name }}"
                                      class="w-full h-full object-cover" />
                             @else
@@ -46,13 +57,13 @@
 
                     <!-- Mart Info -->
                     <div class="flex-1 text-center lg:text-left">
-                        <h1 class="text-3xl lg:text-4xl font-bold mb-2">
+                        <h1 class="text-3xl lg:text-4xl font-bold mb-2 text-white drop-shadow-lg">
                             {{ $mart->name ?? 'Your Mart Name' }}
                         </h1>
-                        <p class="text-lg text-white/90 mb-4">
+                        <p class="text-lg text-white/90 mb-4 drop-shadow">
                             {{ $mart->martCategory->name ?? 'General Category' }}
                         </p>
-                        <p class="text-white/80 leading-relaxed mb-6 max-w-2xl">
+                        <p class="text-white/80 leading-relaxed mb-6 max-w-2xl drop-shadow">
                             {{ $mart->description ?? 'Add a description to tell customers about your mart and what makes it special.' }}
                         </p>
 
@@ -69,7 +80,7 @@
                             <form action="" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
-                                        class="inline-flex items-center px-6 py-3 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-colors duration-200 border border-white/20">
+                                        class="inline-flex items-center px-6 py-3 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-colors duration-200 border border-white/20 backdrop-blur-sm">
                                     @if($mart->is_active)
                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
@@ -95,7 +106,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Products</p>
-                            <h3 class="text-2xl font-bold text-blue-600">{{ $stats['total_products'] ?? 0 }}</h3>
+                            <h3 class="text-2xl font-bold text-blue-600">{{$products->count()}}</h3>
                         </div>
                         <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
                             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

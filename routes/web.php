@@ -9,6 +9,7 @@ use App\Http\Controllers\Seller\MartController as SellerMartController;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
 use App\Http\Controllers\Seller\ServiceController as SellerServiceController;
+use App\Http\Controllers\Seller\TransactionController as SellerTransactionController;
 use App\Http\Controllers\Seller\WalletController as SellerWalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,7 @@ Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
    Route::resource('product', SellerProductController::class);
    Route::resource('service', SellerServiceController::class);
    Route::resource('wallet', SellerWalletController::class);
+   Route::resource('transaction', SellerTransactionController::class);
 });
 
 
@@ -51,7 +53,10 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('home', CustomerHomeController::class);
     Route::resource('order', CustomerOrderController::class);
     Route::resource('review', CustomerReviewController::class);
+
     Route::get('seller/{seller}', [CustomerHomeController::class, 'showSeller'])->name('home.showSeller');
+    Route::get('seller/{seller}/product', [CustomerHomeController::class, 'showSellerProduct'])->name('home.showSeller.product');
+    Route::get('seller/{seller}/service', [CustomerHomeController::class, 'showSellerService'])->name('home.showSeller.service');
     Route::get('home/product/list', [CustomerHomeController::class, 'indexProduct'])->name('home.indexProduct');
     Route::get('home/product/{product}', [CustomerHomeController::class, 'showProduct'])->name('home.showProduct');
     Route::post('product/checkout/{product}', [TransactionController::class, 'checkoutProduct'])->name('checkout.product');

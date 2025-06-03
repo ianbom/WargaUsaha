@@ -12,10 +12,12 @@
                     <div class="flex items-end space-x-6">
                         <!-- Avatar Penjual -->
                         <div class="flex-shrink-0">
-                            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center border-4 border-white shadow-lg">
-                                <span class="text-2xl font-bold text-gray-600">
-                                    {{ strtoupper(substr($seller->name, 0, 1)) }}
-                                </span>
+                            <div class="w-24 h-24 rounded-full flex items-center justify-center border-2 border-gray-50 shadow-lg">
+                                <img
+
+                                            src="{{ asset('storage/' . $seller->profile_pic) }}"
+
+                                        >
                             </div>
                         </div>
 
@@ -44,12 +46,12 @@
                         Overview
                     </a>
                     @if($products->count() > 0)
-                        <a href="#products" class="tab-link py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        <a href="{{ route('customer.home.showSeller.product', $seller) }}" class="tab-link py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">
                             Produk ({{ $products->count() }})
                         </a>
                     @endif
                     @if($services->count() > 0)
-                        <a href="#services" class="tab-link py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">
+                        <a href="{{ route('customer.home.showSeller.service', $seller) }}" class="tab-link py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700">
                             Layanan ({{ $services->count() }})
                         </a>
                     @endif
@@ -93,7 +95,7 @@
                             <div class="bg-white rounded-lg shadow p-6">
                                 <div class="flex justify-between items-center mb-6">
                                     <h2 class="text-2xl font-bold text-gray-900">Produk Terbaru</h2>
-                                    <a href="/"
+                                    <a href="{{ route('customer.home.showSeller.product', $seller) }}"
                                        class="text-blue-600 hover:text-blue-700 font-medium">
                                         Lihat Semua →
                                     </a>
@@ -122,7 +124,7 @@
                             <div class="bg-white rounded-lg shadow p-6">
                                 <div class="flex justify-between items-center mb-6">
                                     <h2 class="text-2xl font-bold text-gray-900">Layanan</h2>
-                                    <a href="/"
+                                    <a href="{{ route('customer.home.showSeller.service', $seller) }}"
                                        class="text-blue-600 hover:text-blue-700 font-medium">
                                         Lihat Semua →
                                     </a>
