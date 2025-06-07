@@ -99,7 +99,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="/apps/scrumboard" class="group">
+                            <a href="/seller/withdraw" class="group">
                                 <div class="flex items-center">
 
                                     <svg class="group-hover:!text-primary shrink-0" width="20" height="20"

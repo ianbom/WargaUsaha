@@ -126,6 +126,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('bank_name')->nullable();
             $table->string('account_number')->nullable();
+            $table->string('account_name')->nullable();
             $table->decimal('amount', 12, 2)->default(0);
             $table->timestamps();
         });
@@ -134,6 +135,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('seller_wallet_id')->constrained('seller_wallets')->cascadeOnDelete()->cascadeOnUpdate();
             $table->decimal('amount', 12, 2);
+            $table->string('bank_name')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('account_name')->nullable();
             $table->timestamp('withdraw_accepted_date')->nullable();
             $table->timestamp('withdraw_rejected_date')->nullable();
             $table->text('reason')->nullable();

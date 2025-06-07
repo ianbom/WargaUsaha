@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WalletRequest;
+use App\Http\Requests\WalletTransactionRequest;
 use App\Models\SellerWallet;
 use App\Services\WalletService;
 use Illuminate\Http\Request;
@@ -29,5 +30,19 @@ class WalletController extends Controller
             return redirect()->back()->with('error', 'Failed to update wallet');
 
         }
+    }
+
+    public function storeWithdraw(WalletTransactionRequest $request){
+        $data = $request->all();
+        DB::beginTransaction();
+        try {
+          $walletTransaction = $this->walletService->createWithdrawTransaction($data);
+          DB::commit();
+          return redirect()->back()->with('success','Permintaan withdraw telah dibuat');
+        } catch (\Exception $th) {
+          DB::rollBack();
+          return redirect()->back()->with('error', 'Terjadi kesalahan :'. $th->getMessage());
+        }
+
     }
 }

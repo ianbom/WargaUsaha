@@ -220,12 +220,12 @@
                                                      Current Balance
                                                  </h6>
                                                  <span class="block text-2xl font-bold text-primary mt-1">
-                                                     Rp 2,500,000
+                                                     {{ $wallet->amount }}
                                                  </span>
                                              </div>
                                              <div class="text-right">
                                                  <span class="text-sm text-gray-500 dark:text-gray-400">Last Updated</span>
-                                                 <p class="text-sm text-gray-600 dark:text-gray-300">Today, 10:30 AM</p>
+                                                 <p class="text-sm text-gray-600 dark:text-gray-300">{{ $wallet->updated_at }}</p>
                                              </div>
                                          </div>
                                      </div>
@@ -239,14 +239,14 @@
                                                  </h6>
                                                  <div class="mt-2 space-y-1">
                                                      <p class="text-sm text-gray-600 dark:text-gray-300">
-                                                         <span class="font-medium">Bank:</span> Bank Central Asia (BCA)
+                                                         <span class="font-medium">Bank:</span> {{ $wallet->bank_name }}
                                                      </p>
                                                      <p class="text-sm text-gray-600 dark:text-gray-300">
-                                                         <span class="font-medium">Account:</span> 1234567890
+                                                         <span class="font-medium">Account:</span> {{ $wallet->account_number }}
                                                      </p>
                                                  </div>
                                              </div>
-                                             <button class="btn bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">Edit</button>
+                                             {{-- <button class="btn bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">Edit</button> --}}
                                          </div>
                                      </div>
                                  </div>
@@ -366,6 +366,17 @@
                                             @enderror
                                         </div>
 
+                                        <div class="mb-5">
+                                            <label for="account_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nama Pemilik</label>
+                                            <input id="account_name" name="account_name" type="text"
+                                                   value="{{ old('account_name', $wallet->account_name) }}"
+                                                   placeholder="Enter Account Number" required
+                                                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white @error('account_number') border-danger @enderror" />
+                                            @error('account_name')
+                                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+
                                         <button type="submit" class="btn bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                                             Update Bank Account
                                         </button>
@@ -374,46 +385,53 @@
                              </div>
 
                              <!-- Withdrawal Request -->
-                             <div class="panel bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                                 <div class="mb-5">
-                                     <h5 class="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Request Withdrawal</h5>
-                                     <p class="text-gray-600 dark:text-gray-300">Withdraw funds from your <span class="text-primary font-semibold">Wallet</span> to your bank account.</p>
-                                 </div>
-                                 <div class="mb-5">
-                                     <form>
-                                         <div class="mb-5">
-                                             <label for="withdrawAmount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Withdrawal Amount</label>
-                                             <div class="relative">
-                                                 <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">Rp</span>
-                                                 <input id="withdrawAmount" type="number" placeholder="0" min="10000" max="2500000"
-                                                     class="form-input w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white" />
-                                             </div>
-                                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Available balance: Rp 2,500,000</p>
-                                         </div>
-                                         <div class="mb-5">
-                                             <label for="withdrawNote" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Note (Optional)</label>
-                                             <textarea id="withdrawNote" rows="3" placeholder="Add a note for this withdrawal..."
-                                                 class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white resize-none"></textarea>
-                                         </div>
-                                         <div class="mb-5 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-                                             <div class="flex items-start space-x-2">
-                                                 <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                                                 </svg>
-                                                 <div>
-                                                     <h6 class="text-sm font-medium text-yellow-800 dark:text-yellow-300">Withdrawal Information</h6>
-                                                     <p class="text-xs text-yellow-700 dark:text-yellow-400 mt-1">
-                                                         • Minimum withdrawal: Rp 10,000<br>
-                                                         • Processing time: 1-3 business days<br>
-                                                         • No withdrawal fees
-                                                     </p>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                         <button type="submit" class="btn bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full">Request Withdrawal</button>
-                                     </form>
-                                 </div>
-                             </div>
+                            <div class="panel bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                                <div class="mb-5">
+                                    <h5 class="font-semibold text-lg mb-4 text-gray-800 dark:text-white">Request Withdrawal</h5>
+                                    <p class="text-gray-600 dark:text-gray-300">Withdraw funds from your <span class="text-primary font-semibold">Wallet</span> to your bank account.</p>
+                                </div>
+
+
+
+                                <div class="mb-5">
+                                    <form action="{{ route('seller.wallet.withdraw') }}" method="POST">
+                                        @csrf
+                                        <div class="mb-5">
+                                            <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Withdrawal Amount</label>
+                                            <div class="relative">
+                                                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400">Rp</span>
+                                                <input id="amount" name="amount" type="number" placeholder="0" min="10000" max="2500000" value="{{ old('amount') }}"
+                                                    class="form-input w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white @error('amount') border-red-500 @enderror" />
+                                            </div>
+                                            @error('amount')
+                                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                                            @enderror
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Available balance: Rp {{ number_format($wallet->amount ?? 0, 0, ',', '.') }}</p>
+                                        </div>
+
+
+                                        <div class="mb-5 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                                            <div class="flex items-start space-x-2">
+                                                <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                                </svg>
+                                                <div>
+                                                    <h6 class="text-sm font-medium text-yellow-800 dark:text-yellow-300">Withdrawal Information</h6>
+                                                    <p class="text-xs text-yellow-700 dark:text-yellow-400 mt-1">
+                                                        • Minimum withdrawal: Rp 10,000<br>
+                                                        • Processing time: 1-3 business days<br>
+                                                        • No withdrawal fees
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full">
+                                            Request Withdrawal
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                          </div>
                      </div>
                 </template>

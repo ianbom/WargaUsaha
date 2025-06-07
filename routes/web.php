@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\WithdrawController as AdminWithdrawController;
 use App\Http\Controllers\Customer\HomeController as CustomerHomeController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
 use App\Http\Controllers\Seller\ServiceController as SellerServiceController;
 use App\Http\Controllers\Seller\TransactionController as SellerTransactionController;
 use App\Http\Controllers\Seller\WalletController as SellerWalletController;
+use App\Http\Controllers\Seller\WithdrawController as SellerWithdrawController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -41,6 +43,8 @@ Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
    Route::resource('product', AdminProductController::class);
    Route::resource('service', AdminServiceController::class);
    Route::resource('transaction', AdminTransactionController::class);
+   Route::resource('withdraw', AdminWithdrawController::class);
+
 
    Route::get('registration/mart', [AdminMartController::class, 'registration'])->name('mart.registration');
 });
@@ -51,12 +55,15 @@ Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
    Route::resource('profile', SellerProfileController::class)->except('update');
    Route::get('profile/setting', [SellerProfileController::class, 'show'])->name('profile.show');
    Route::put('profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
+
    Route::get('mart', [SellerMartController::class, 'index'])->name('mart.index');
    Route::get('mart/setting', [SellerMartController::class, 'show'])->name('mart.show');
    Route::put('mart/update', [SellerMartController::class, 'update'])->name('mart.update');
    Route::resource('product', SellerProductController::class);
    Route::resource('service', SellerServiceController::class);
    Route::resource('wallet', SellerWalletController::class);
+   Route::resource('withdraw', SellerWithdrawController::class);
+   Route::post('withdraw/wallet', [SellerWalletController::class, 'storeWithdraw'])->name('wallet.withdraw');
    Route::resource('transaction', SellerTransactionController::class);
    Route::get('/order/product', [SellerTransactionController::class, 'indexProduct'])->name('transaction.product');
    Route::get('/order/service', [SellerTransactionController::class, 'indexService'])->name('transaction.service');
