@@ -20,6 +20,20 @@ return new class extends Migration
             $table->timestamps();
         });
 
+          Schema::create('product_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('icon_url');
+            $table->timestamps();
+        });
+
+         Schema::create('service_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('icon_url');
+            $table->timestamps();
+        });
+
 
         Schema::create('marts', function (Blueprint $table) {
             $table->id();
@@ -35,12 +49,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('product_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('icon_url');
-            $table->timestamps();
-        });
+
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
@@ -54,15 +63,11 @@ return new class extends Migration
             $table->integer('review_count')->default(0);
             $table->integer('total_rating')->default(0);
             $table->decimal('average_rating', 6, 2)->default(0);
+            $table->boolean('is_published')->default(true);
             $table->timestamps();
         });
 
-        Schema::create('service_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('icon_url');
-            $table->timestamps();
-        });
+
 
         Schema::create('services', function (Blueprint $table) {
             $table->id();

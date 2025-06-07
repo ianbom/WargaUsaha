@@ -48,7 +48,7 @@ class HomeController extends Controller
 
         try {
         $filters = $this->productService->buildFilters($request);
-
+       
         $perPage = 12;
         $page = $request->input('page', 1);
 

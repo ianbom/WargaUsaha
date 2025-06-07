@@ -86,18 +86,21 @@ class ProductService extends Service
            'products.name' => 'like',
            'products.product_category_id' => 'value',
            'products.price' => 'range',
+           'marts.is_active' => 'value',
 
         ];
 
         $selectColumns = [
            'products.*',
            'product_categories.name as category_name',
+           'marts.name as mart_name',
 
 
         ];
 
         $query = Product::select($selectColumns)
         ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+        ->join('marts', 'products.mart_id', '=', 'marts.id')
         ->orderBy('products.id', 'desc');
 
 
@@ -121,6 +124,8 @@ class ProductService extends Service
     public function buildFilters($request)
     {
         $filters = [];
+
+
 
         if ($request->filled('name')) {
             $filters['products.name'] = $request->input('name');
@@ -148,6 +153,8 @@ class ProductService extends Service
                 'max' => $request->input('price_max'),
             ];
         }
+
+        $filters['marts.is_active'] = true;
 
         return $filters;
     }
