@@ -72,6 +72,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mart_id')->nullable()->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('service_category_id')->constrained('service_categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('title');
             $table->text('description');
@@ -96,9 +97,10 @@ return new class extends Migration
             $table->decimal('total_price', 12, 2);
             $table->text('note')->nullable();
             $table->timestamp('paid_at')->nullable();
+            $table->timestamp('on_processed_at')->nullable();
             $table->timestamp('cancelled_at')->nullable();
             $table->timestamp('completed_at')->nullable();
-            $table->enum('order_status', ['Pending', 'Paid', 'Completed', 'Cancelled'])->default('Pending');
+            $table->enum('order_status', ['Pending', 'Paid', 'Completed', 'Cancelled', 'On-Proses'])->default('Pending');
             $table->timestamps();
         });
 

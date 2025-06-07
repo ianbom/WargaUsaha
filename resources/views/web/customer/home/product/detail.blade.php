@@ -189,140 +189,136 @@
             </div>
 
 
-            <!-- Buy Now Modal -->
-            <div
-                x-show="showModal"
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0"
-                class="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 bg-black/60 backdrop-blur-sm"
-                style="display: none;"
-            >
-                <div
-                    @click.outside="showModal = false"
-                    x-show="showModal"
-                    x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-200"
-                    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-                    class="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+<!-- Buy Now Modal -->
+<div
+    x-show="showModal"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 bg-black/60 backdrop-blur-sm"
+    style="display: none;"
+>
+    <div
+        @click.outside="showModal = false"
+        x-show="showModal"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+        x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+        class="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+    >
+        <!-- Header dengan gradient -->
+        <div class="relative bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8">
+            <div class="absolute inset-0 bg-black/5"></div>
+            <div class="relative flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-white">Konfirmasi Pembelian</h2>
+                    <p class="text-blue-100 text-sm mt-1">Periksa detail sebelum melanjutkan</p>
+                </div>
+                <button
+                    @click="showModal = false"
+                    type="button"
+                    class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors"
                 >
-                    <!-- Header dengan gradient -->
-                    <div class="relative bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8">
-                        <div class="absolute inset-0 bg-black/5"></div>
-                        <div class="relative flex items-center justify-between">
-                            <div>
-                                <h2 class="text-xl font-bold text-white">Konfirmasi Pembelian</h2>
-                                <p class="text-blue-100 text-sm mt-1">Periksa detail sebelum melanjutkan</p>
-                            </div>
-                            <button
-                                @click="showModal = false"
-                                class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors"
-                            >
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <form action="{{ route('customer.checkout.product', $product) }}" method="POST">
+            @csrf
+            <div class="p-6 space-y-6">
+                <!-- Product Summary Card -->
+                <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                            </svg>
                         </div>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="p-6 space-y-6">
-                        <!-- Product Summary Card -->
-                        <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                                    </svg>
-                                </div>
-                                <div class="flex-1">
-                                    <h3 class="font-semibold text-gray-900 line-clamp-2">{{ $product->name }}</h3>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <span class="text-sm text-gray-500" x-text="quantity + ' unit'"></span>
-                                        <span class="font-bold text-blue-600">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
-                                    </div>
-                                </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-900 line-clamp-2">{{ $product->name }}</h3>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-sm text-gray-500" x-text="quantity + ' unit'"></span>
+                                <span class="font-bold text-blue-600">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
                             </div>
-                        </div>
-
-                        <!-- Total Section -->
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-100">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm text-gray-600">Total Pembayaran</p>
-                                    <p class="text-xs text-gray-500 mt-1">Sudah termasuk pajak</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-2xl font-bold text-gray-900" x-text="'Rp ' + ({{ $product->price }} * quantity).toLocaleString('id-ID')"></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Store Info Minimalis -->
-                        @if($product->mart)
-                        <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m11 0v-4a2 2 0 00-2-2h-2m-3-4V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h4z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-900 text-sm">{{ $product->mart->name }}</p>
-                                <p class="text-xs text-gray-500">{{ $product->mart->user->name }}</p>
-                            </div>
-                        </div>
-                        @endif
-
-                        <!-- Buyer Info Minimalis -->
-                        <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-medium text-gray-900 text-sm">{{ auth()->user()->name ?? 'Nama Pembeli' }}</p>
-                                <p class="text-xs text-gray-500">
-                                    {{ Str::limit(auth()->user()->address ?? 'Alamat belum diisi', 30) }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="p-6 pt-0">
-                        <div class="flex gap-3">
-                            <button
-                                @click="showModal = false"
-                                class="flex-1 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200 text-sm"
-                            >
-                                Batal
-                            </button>
-
-                            <form action="{{ route('customer.checkout.product', $product) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="quantity" x-model="quantity">
-                                <button type="submit"
-                                class="flex-2 py-3 px-6 text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl text-sm flex items-center justify-center gap-2"
-                            >
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                                Lanjut Bayar
-                            </button>
-                            </form>
-
-
                         </div>
                     </div>
                 </div>
+
+                <!-- Note Input Section -->
+                <div class="space-y-3">
+                    <label for="note" class="block text-sm font-medium text-gray-700">
+                        <svg class="w-4 h-4 inline mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                        Catatan Tambahan
+                    </label>
+                    <textarea
+                        id="note"
+                        name="note"
+                        rows="3"
+                        maxlength="200"
+                        class="w-full px-4 py-3 border border-gray-200 rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 text-sm transition-colors"
+                        placeholder="Tulis catatan atau permintaan khusus untuk layanan ini..."
+
+                    ></textarea>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-gray-500">Catatan ini akan dikirim kepada penyedia layanan</span>
+                    </div>
+                </div>
+
+                <!-- Total Section -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-600">Total Pembayaran</p>
+                            {{-- <p class="text-xs text-gray-500 mt-1">Sudah termasuk pajak</p> --}}
+                        </div>
+                        <div class="text-right">
+                            <p class="text-2xl font-bold text-gray-900" x-text="'Rp ' + ({{ $product->price }} * quantity).toLocaleString('id-ID')"></p>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
+
+            <!-- Action Buttons -->
+            <div class="p-6 pt-0">
+                <div class="flex gap-3">
+                    <button
+                        @click="showModal = false"
+                        type="button"
+                        class="flex-1 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200 text-sm"
+                    >
+                        Batal
+                    </button>
+
+                    <input type="hidden" name="quantity" x-model="quantity">
+                    <button
+                        type="submit"
+                        class="flex-2 py-3 px-6 text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl text-sm flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        Lanjut Bayar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
             <!-- Product Description -->

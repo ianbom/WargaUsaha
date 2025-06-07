@@ -58,6 +58,9 @@ Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
    Route::resource('service', SellerServiceController::class);
    Route::resource('wallet', SellerWalletController::class);
    Route::resource('transaction', SellerTransactionController::class);
+   Route::get('/order/product', [SellerTransactionController::class, 'indexProduct'])->name('transaction.product');
+   Route::get('/order/service', [SellerTransactionController::class, 'indexService'])->name('transaction.service');
+
 });
 
 
@@ -76,6 +79,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::post('product/checkout/{product}', [TransactionController::class, 'checkoutProduct'])->name('checkout.product');
     Route::get('home/service/list', [CustomerHomeController::class, 'indexService'])->name('home.indexService');
     Route::get('home/service/{service}', [CustomerHomeController::class, 'showService'])->name('home.showService');
+    Route::post('service/checkout/{service}', [TransactionController::class, 'checkoutService'])->name('checkout.service');
 });
 
 

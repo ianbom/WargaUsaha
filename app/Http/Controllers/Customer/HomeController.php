@@ -48,7 +48,7 @@ class HomeController extends Controller
 
         try {
         $filters = $this->productService->buildFilters($request);
-       
+
         $perPage = 12;
         $page = $request->input('page', 1);
 
@@ -103,6 +103,7 @@ class HomeController extends Controller
     {
         try {
             $review = $this->serviceService->getServiceReviewByServiceId($service->id);
+            // return response()->json(['rev' => $review]);
             return view('web.customer.home.service.detail', [ 'service' => $service, 'review' => $review ]);
 
         } catch (\Throwable $th) {

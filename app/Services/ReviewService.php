@@ -6,6 +6,7 @@ use App\Models\Mart;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Review;
+use App\Models\Service;
 
 class ReviewService
 {
@@ -19,19 +20,23 @@ class ReviewService
 
     public function createReview($data){
         Review::create($data);
-
         $order = Order::findOrFail($data['order_id']);
-        $product = $order->product;
-        $mart = $order->product->mart;
 
-        $this->countProductReview($product->id, $data['rating']);
-        $this->countMartReview($mart->id, $data['rating']);
+        if ($order->type == 'Product') {
+            $product = $order->product;
+            $mart = $order->product->mart;
+            $this->countProductReview($product->id, $data['rating']);
+            $this->countMartReview($mart->id, $data['rating']);
+        } else {
+            $service = $order->service;
+            $mart = $order->service->user->mart;
+            $this->countServiceReview($service->id, $data['rating']);
+            $this->countMartReview($mart->id, $data['rating']);
+        }
 
-         return response()->json([
-            'order' => $order,
-            'product'=> $product,
-            'mart' => $mart
-        ]);
+
+
+
 
     }
 
@@ -41,6 +46,14 @@ class ReviewService
         $product->total_rating = $product->total_rating + $rating;
         $product->average_rating = $product->total_rating / $product->review_count;
         $product->save();
+    }
+
+    private function countServiceReview($serviceId, $rating){
+        $service = Service::findOrFail($serviceId);
+        $service->review_count = $service->review_count + 1;
+        $service->total_rating = $service->total_rating + $rating;
+        $service->average_rating = $service->total_rating / $service->review_count;
+        $service->save();
     }
 
     public function countMartReview($martId, $rating){
