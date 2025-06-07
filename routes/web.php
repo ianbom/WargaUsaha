@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\MartController as AdminMartController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Customer\HomeController as CustomerHomeController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
@@ -30,6 +35,15 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'index');
 Route::view('/prof', 'web.seller.profile.index');
 
+Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
+   Route::resource('mart', AdminMartController::class);
+   Route::resource('user', AdminUserController::class);
+   Route::resource('product', AdminProductController::class);
+   Route::resource('service', AdminServiceController::class);
+   Route::resource('transaction', AdminTransactionController::class);
+
+   Route::get('registration/mart', [AdminMartController::class, 'registration'])->name('mart.registration');
+});
 
 
 

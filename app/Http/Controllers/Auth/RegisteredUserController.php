@@ -65,6 +65,10 @@ class RegisteredUserController extends Controller
             'ward_id' => 1,
             'role' => 'Buyer',
             ]);
+             SellerWallet::create([
+                'user_id' => $user->id,
+                'amount' => 0
+            ]);
         }
 
 

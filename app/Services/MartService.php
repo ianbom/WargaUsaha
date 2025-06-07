@@ -17,6 +17,17 @@ class MartService
         //
     }
 
+    public function getAllMartRegistration()
+    {
+       $marts = Mart::orderBy('updated_at', 'desc')
+        ->where(function($query) {
+        $query->where('is_active', false)
+              ->orWhereNull('is_active');
+    })
+    ->get();
+        return $marts;
+    }
+
     public function getMartCategories()
     {
        $categories = MartCategory::orderBy('name', 'asc')->get();
