@@ -1,56 +1,59 @@
-<header class="sticky top-0 z-50 bg-white dark:bg-dark shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+<header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm dark:bg-dark dark:border-gray-700">
+    <div class="max-w-full px-4 mx-auto sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
 
-                <!-- Left Section: Logo & Mobile Menu Toggle -->
-                <div class="flex items-center gap-4">
-                    <!-- Mobile Menu Toggle -->
-                    <button
-                        type="button"
-                        class="lg:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200"
-                        @click="$store.app.toggleSidebar()"
-                        aria-label="Toggle menu">
-                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        </svg>
-                    </button>
+            <!-- Left Section: Logo & Mobile Menu Toggle -->
+            <div class="flex items-center gap-4">
+                <!-- Mobile Menu Toggle -->
+                <button type="button"
+                    class="p-2 transition-colors duration-200 bg-gray-100 rounded-lg lg:hidden hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                    @click="$store.app.toggleSidebar()" aria-label="Toggle menu">
+                    <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
 
-                    <!-- Logo -->
-                    <a href="/" class="flex items-center gap-2 group">
-                        <img class="w-8 h-8 transition-transform duration-200 group-hover:scale-105"
-                             src="/assets/images/logo.svg" alt="VRISTO Logo" />
-                        <span class="text-xl font-bold text-gray-800 dark:text-white hidden sm:block">
-                            VRISTO
-                        </span>
-                    </a>
-                </div>
+                <!-- Logo -->
+                <a href="/" class="flex items-center gap-2 group">
+                    <img class="w-8 h-8 transition-transform duration-200 group-hover:scale-105"
+                        src="/assets/images/logo.svg" alt="VRISTO Logo" />
+                    <span class="hidden text-xl font-bold text-gray-800 dark:text-white sm:block">
+                        VRISTO
+                    </span>
+                </a>
+            </div>
 
-                <!-- Center Section: Navigation Menu (Desktop) -->
-                <nav class="hidden lg:flex items-center space-x-1" x-data="header">
-                    <div class="flex items-center bg-gray-50 dark:bg-gray-800 rounded-lg p-1">
+            <!-- Center Section: Navigation Menu (Desktop) -->
+            <nav class="items-center hidden space-x-1 lg:flex" x-data="header">
+                <div class="flex items-center p-1 rounded-lg bg-gray-50 dark:bg-gray-800">
 
-                        <!-- Dashboard Menu -->
-                        <div class="relative group">
-                            <a href="/customer/home"  class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700 rounded-md transition-all duration-200">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13z"/>
-                                </svg>
-                                Home
+                    <!-- Dashboard Menu -->
+                    <div class="relative group">
+                        <a href="/customer/home"
+                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13z" />
+                            </svg>
+                            Home
 
-                            </a>
+                        </a>
 
-                        </div>
+                    </div>
 
-                        <!-- Apps Menu -->
-                        <div class="relative group">
-                             <a href="{{ route('customer.home.indexProduct') }}" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700 rounded-md transition-all duration-200">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z"/>
-                                </svg>
-                                Product
+                    <!-- Apps Menu -->
+                    <div class="relative group">
+                        <a href="{{ route('customer.home.indexProduct') }}"
+                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
+                            </svg>
+                            Products
 
-                            </a>
-                            {{-- <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700 rounded-md transition-all duration-200">
+                        </a>
+                        {{-- <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z"/>
                                 </svg>
@@ -59,65 +62,98 @@
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                                 </svg>
                             </button>
-                            <div class="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="absolute left-0 invisible w-48 mt-1 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 top-full dark:bg-gray-800 dark:border-gray-700 group-hover:opacity-100 group-hover:visible">
                                 <div class="py-1">
                                     <a href="/apps/chat" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary">Chat</a>
                                     <a href="/apps/mailbox" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary">Mailbox</a>
                                     <a href="/apps/todolist" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary">Todo List</a>
                                 </div>
                             </div> --}}
-                        </div>
+                    </div>
+                    <div class="relative group">
+                        <a href="{{ route('customer.home.indexService') }}"
+                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
+                                <path
+                                    d="M2 14C2 10.2288 2 8.34315 3.17157 7.17157C4.34315 6 6.22876 6 10 6H14C17.7712 6 19.6569 6 20.8284 7.17157C22 8.34315 22 10.2288 22 14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14Z"
+                                    stroke="#1C274C" stroke-width="1.5" />
+                                <path
+                                    d="M16 6C16 4.11438 16 3.17157 15.4142 2.58579C14.8284 2 13.8856 2 12 2C10.1144 2 9.17157 2 8.58579 2.58579C8 3.17157 8 4.11438 8 6"
+                                    stroke="#1C274C" stroke-width="1.5" />
+                                <path
+                                    d="M17 9C17 9.55228 16.5523 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44772 15.4477 8 16 8C16.5523 8 17 8.44772 17 9Z"
+                                    fill="#1C274C" />
+                                <path
+                                    d="M9 9C9 9.55228 8.55228 10 8 10C7.44772 10 7 9.55228 7 9C7 8.44772 7.44772 8 8 8C8.55228 8 9 8.44772 9 9Z"
+                                    fill="#1C274C" />
+                            </svg>
 
-                        <!-- Components Menu -->
-                        <div class="relative group">
-                            <a href="{{ route('customer.home.indexService') }}" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700 rounded-md transition-all duration-200">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                </svg>
-                                Services
+                            Available Jobs
 
-                            </a>
+                        </a>
 
-                        </div>
+                    </div>
+                    <!-- Components Menu -->
+                    <div class="relative group">
+                        <a href="{{ route('customer.home.indexService') }}"
+                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4zM6.5 10.9L5.1 9.5l.4-1.2L7.1 10l-1.2.4-.4.5zm8.9 3.6c-.9.9-2.4.9-3.3 0-.9-.9-.9-2.4 0-3.3.9-.9 2.4-.9 3.3 0 .9.9.9 2.4 0 3.3z" />
+                            </svg>
+                            Services
 
-                        <!-- Elements Menu -->
-                        <div class="relative group">
-                            <button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700 rounded-md transition-all duration-200">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/>
-                                </svg>
-                                Elements
-                                <svg class="w-3 h-3 transition-transform duration-200 group-hover:rotate-180" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
-                                </svg>
-                            </button>
-                            <div class="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                                <div class="py-1">
-                                    <a href="/elements/treeview" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary">Treeview</a>
-                                    <a href="/elements/typography" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary">Typography</a>
-                                </div>
+                        </a>
+
+                    </div>
+
+
+                    <!-- Elements Menu -->
+                    {{-- <div class="relative group">
+                        <button
+                            class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z" />
+                            </svg>
+                            Elements
+                            <svg class="w-3 h-3 transition-transform duration-200 group-hover:rotate-180"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            </svg>
+                        </button>
+                        <div
+                            class="absolute left-0 invisible w-48 mt-1 transition-all duration-200 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 top-full dark:bg-gray-800 dark:border-gray-700 group-hover:opacity-100 group-hover:visible">
+                            <div class="py-1">
+                                <a href="/elements/treeview"
+                                    class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary">Treeview</a>
+                                <a href="/elements/typography"
+                                    class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary">Typography</a>
                             </div>
                         </div>
-                    </div>
-                </nav>
+                    </div> --}}
+                </div>
+            </nav>
 
-                <!-- Right Section: Search & User Menu -->
-                <div class="flex items-center gap-3">
+            <!-- Right Section: Search & User Menu -->
+            <div class="flex items-center gap-3">
 
-                    <!-- Search Button (Mobile) -->
-                    <button
+                <!-- Search Button (Mobile) -->
+                <button type="button"
+                    class="p-2 transition-colors duration-200 bg-gray-100 rounded-lg sm:hidden hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                    aria-label="Search">
+                    <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+
+                <!-- Theme Toggle -->
+                {{-- <button
                         type="button"
-                        class="sm:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200"
-                        aria-label="Search">
-                        <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </button>
-
-                    <!-- Theme Toggle -->
-                    {{-- <button
-                        type="button"
-                        class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200"
+                        class="p-2 transition-colors duration-200 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
                         @click="document.documentElement.classList.toggle('dark')"
                         aria-label="Toggle theme">
                         <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -126,87 +162,92 @@
                         </svg>
                     </button> --}}
 
-                    <!-- User Dropdown -->
-                    <div class="relative" x-data="{ open: false }" @click.outside="open = false">
-                        <button
-                            type="button"
-                            class="flex items-center gap-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                            @click="open = !open"
-                            aria-label="User menu">
-                            <img class="w-8 h-8 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-700"
-                                 src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="User Avatar" />
-                            <div class="hidden md:block text-left">
-                                <div class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ auth()->user()->name }}</div>
-                                {{-- <div class="text-xs text-gray-500 dark:text-gray-400">Admin</div> --}}
+                <!-- User Dropdown -->
+                <div class="relative" x-data="{ open: false }" @click.outside="open = false">
+                    <button type="button"
+                        class="flex items-center gap-2 p-1 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                        @click="open = !open" aria-label="User menu">
+                        <img class="object-cover w-8 h-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
+                            src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="User Avatar" />
+                        <div class="hidden text-left md:block">
+                            <div class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ auth()->user()->name }}
                             </div>
-                        </button>
+                            {{-- <div class="text-xs text-gray-500 dark:text-gray-400">Admin</div> --}}
+                        </div>
+                    </button>
 
-                        <!-- Dropdown Menu -->
-                        <div x-show="open"
-                             x-transition:enter="transition ease-out duration-200"
-                             x-transition:enter-start="opacity-0 scale-95"
-                             x-transition:enter-end="opacity-100 scale-100"
-                             x-transition:leave="transition ease-in duration-150"
-                             x-transition:leave-start="opacity-100 scale-100"
-                             x-transition:leave-end="opacity-0 scale-95"
-                             class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+                    <!-- Dropdown Menu -->
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                        class="absolute right-0 z-50 w-64 py-1 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
 
-                            <!-- User Info -->
-                            <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                                <div class="flex items-center gap-3">
-                                    <img class="w-10 h-10 rounded-full object-cover"
-                                         src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="User Avatar" />
-                                    <div>
-                                        <div class="font-medium text-gray-900 dark:text-white flex items-center gap-2">
-                                            {{ auth()->user()->name }}
-                                            {{-- <span class="text-xs text-gray-500 dark:text-gray-400">Admin</span> --}}
+                        <!-- User Info -->
+                        <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center gap-3">
+                                <img class="object-cover w-10 h-10 rounded-full"
+                                    src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="User Avatar" />
+                                <div>
+                                    <div class="flex items-center gap-2 font-medium text-gray-900 dark:text-white">
+                                        {{ auth()->user()->name }}
+                                        {{-- <span class="text-xs text-gray-500 dark:text-gray-400">Admin</span> --}}
 
-                                        </div>
-                                        <div class="text-sm text-gray-500 dark:text-gray-400">{{ auth()->user()->email }}</div>
+                                    </div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ auth()->user()->email }}
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Menu Items -->
-                            <div class="py-1">
-                                <a href="/customer/profile" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                    </svg>
-                                    Profile
-                                </a>
-                                <a href="/customer/order" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                    </svg>
-                                    Inbox
-                                </a>
-                                <a href="/auth/boxed-lockscreen" class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                                    </svg>
-                                    Lock Screen
-                                </a>
-                            </div>
+                        <!-- Menu Items -->
+                        <div class="py-1">
+                            <a href="/customer/profile"
+                                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors duration-200 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                Profile
+                            </a>
+                            <a href="/customer/order"
+                                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors duration-200 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Inbox
+                            </a>
+                            <a href="/auth/boxed-lockscreen"
+                                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors duration-200 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                Lock Screen
+                            </a>
+                        </div>
 
-                            <!-- Logout -->
-                            <div class="border-t border-gray-200 dark:border-gray-700 pt-1">
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                        </svg>
-                                        Sign Out
-                                    </button>
-                                </form>
-                            </div>
+                        <!-- Logout -->
+                        <div class="pt-1 border-t border-gray-200 dark:border-gray-700">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="flex items-center w-full gap-3 px-4 py-2 text-sm text-red-600 transition-colors duration-200 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Sign Out
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
 
 <script>
@@ -233,47 +274,47 @@
             notifications: [{
                     id: 1,
                     profile: 'user-profile.jpeg',
-                    message: '<strong class="text-sm mr-1">John Doe</strong>invite you to <strong>Prototyping</strong>',
+                    message: '<strong class="mr-1 text-sm">John Doe</strong>invite you to <strong>Prototyping</strong>',
                     time: '45 min ago',
                 },
                 {
                     id: 2,
                     profile: 'profile-34.jpeg',
-                    message: '<strong class="text-sm mr-1">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
+                    message: '<strong class="mr-1 text-sm">Adam Nolan</strong>mentioned you to <strong>UX Basics</strong>',
                     time: '9h Ago',
                 },
                 {
                     id: 3,
                     profile: 'profile-16.jpeg',
-                    message: '<strong class="text-sm mr-1">Anna Morgan</strong>Upload a file',
+                    message: '<strong class="mr-1 text-sm">Anna Morgan</strong>Upload a file',
                     time: '9h Ago',
                 }
             ],
 
             messages: [{
                     id: 1,
-                    image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
+                    image: '<span class="grid rounded-full place-content-center w-9 h-9 bg-success-light dark:bg-success text-success dark:text-success-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>',
                     title: 'Congratulations!',
                     message: 'Your OS has been updated.',
                     time: '1hr',
                 },
                 {
                     id: 2,
-                    image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-info-light dark:bg-info text-info dark:text-info-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
+                    image: '<span class="grid rounded-full place-content-center w-9 h-9 bg-info-light dark:bg-info text-info dark:text-info-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>',
                     title: 'Did you know?',
                     message: 'You can switch between artboards.',
                     time: '2hr',
                 },
                 {
                     id: 3,
-                    image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-danger-light dark:bg-danger text-danger dark:text-danger-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
+                    image: '<span class="grid rounded-full place-content-center w-9 h-9 bg-danger-light dark:bg-danger text-danger dark:text-danger-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>',
                     title: 'Something went wrong!',
                     message: 'Send Reposrt',
                     time: '2days',
                 },
                 {
                     id: 4,
-                    image: '<span class="grid place-content-center w-9 h-9 rounded-full bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
+                    image: '<span class="grid rounded-full place-content-center w-9 h-9 bg-warning-light dark:bg-warning text-warning dark:text-warning-light"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">    <circle cx="12" cy="12" r="10"></circle>    <line x1="12" y1="8" x2="12" y2="12"></line>    <line x1="12" y1="16" x2="12.01" y2="16"></line></svg></span>',
                     title: 'Warning',
                     message: 'Your password strength is low.',
                     time: '5days',
