@@ -15,9 +15,25 @@ class TransactionService
         $this->walletService = $walletService;
     }
 
+    public function getServiceOrderByLoginSeller(){
+        $user = Auth::user();
+        $order = Order::where('seller_id', $user->id)
+        ->where('type', 'Service')
+        ->orderBy('updated_at','desc')->get();
+        return $order;
+    }
+
+    public function getProductOrderByLoginSeller(){
+        $user = Auth::user();
+        $order = Order::where('seller_id', $user->id)
+        ->where('type', 'Product')
+        ->orderBy('updated_at','desc')->get();
+        return $order;
+    }
+
     public function getAllOrderByLoginUser(){
         $user = Auth::user();
-        return Order::where('seller_id', $user->id)->orderBy('created_at', 'desc')->get();
+        return Order::where('seller_id', $user->id)->orderBy('updated_at', 'desc')->get();
     }
 
     public function getTransactionByOrderId($orderId){
@@ -34,7 +50,7 @@ class TransactionService
         $randomPart = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
         // Format: ORD-YYYYMMDD-XXXXXX
-        $orderCode = 'WU-' . $datePart . '-' . $randomPart;
+        $orderCode = 'WU-'  . $randomPart;
 
         // Check if code already exists in database
         $exists = Order::where('order_code', $orderCode)->exists();
@@ -74,7 +90,34 @@ class TransactionService
 
         Transaction::create([
             'order_id' => $order->id,
-            'payment_method' => 'Wallet',
+            'payment_method' => '',
+            'payment_status' => 'Pending',
+            'paid_amount' => $order->total_price,
+            'paid_at' => now(),
+        ]);
+
+        return $order;
+    }
+
+    public function checkoutService($data, $service, $seller){
+
+        // Webhook tambahkan pengurangan stock dan penambahan saldo penjual
+
+
+        $user = Auth::user();
+        $data['order_code'] = $this->generateUniqueOrderCode();
+        $data['buyer_id'] = $user->id;
+        $data['service_id'] = $service->id;
+        $data['seller_id'] = $seller->id;
+        $data['total_price'] = $service->price ;
+        $data['type'] = 'Service';
+        $data['order_status'] = 'Pending';
+
+        $order = Order::create($data);
+
+        Transaction::create([
+            'order_id' => $order->id,
+            'payment_method' => '',
             'payment_status' => 'Pending',
             'paid_amount' => $order->total_price,
             'paid_at' => now(),

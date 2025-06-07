@@ -25,6 +25,7 @@ class ReviewController extends Controller
             return redirect()->back()->with('success', 'Review berhasil ditambahkan');
         } catch (\Throwable $th) {
             DB::rollBack();
+
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }

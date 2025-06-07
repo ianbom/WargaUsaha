@@ -151,13 +151,13 @@
             <div class="mb-5">
                 <div class="border-b border-gray-200">
                     <nav class="-mb-px flex space-x-8">
-                        <button @click="activeTab = 'orders'"
+                        <button @click="switchTab('orders')"
                                 :class="activeTab === 'orders' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                                 class="py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap">
                             Riwayat Pesanan
                         </button>
                         @if($user->sellerWallet)
-                        <button @click="activeTab = 'wallet'"
+                        <button @click="switchTab('wallet')"
                                 :class="activeTab === 'wallet' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                                 class="py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap">
                             Transaksi Wallet
@@ -175,7 +175,7 @@
 
                 @if($allOrders->count() > 0)
                     <div class="overflow-x-auto">
-                        <table class="table-striped table-hover w-full">
+                        <table id="ordersTable" class="table-striped table-hover w-full">
                             <thead>
                                 <tr>
                                     <th>Kode Pesanan</th>
@@ -227,7 +227,7 @@
                                         @endphp
                                         <span class="badge {{ $statusClass }} text-white">{{ $order->order_status }}</span>
                                     </td>
-                                    <td>{{ $order->created_at->format('d M Y') }}</td>
+                                    <td data-sort="{{ $order->created_at->timestamp }}">{{ $order->created_at->format('d M Y') }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -273,7 +273,7 @@
                 <!-- Wallet Transactions -->
                 @if($user->sellerWallet->transactions->count() > 0)
                     <div class="overflow-x-auto">
-                        <table class="table-striped table-hover w-full">
+                        <table id="walletTable" class="table-striped table-hover w-full">
                             <thead>
                                 <tr>
                                     <th>ID Transaksi</th>
@@ -285,7 +285,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($user->sellerWallet->transactionsTransactions->sortByDesc('created_at') as $transaction)
+                                @foreach($user->sellerWallet->transactions->sortByDesc('created_at') as $transaction)
                                 <tr>
                                     <td>
                                         <span class="font-mono text-sm">#{{ $transaction->id }}</span>
@@ -302,8 +302,8 @@
                                         @endphp
                                         <span class="badge {{ $statusClass }} text-white">{{ $transaction->status }}</span>
                                     </td>
-                                    <td>{{ $transaction->created_at->format('d M Y H:i') }}</td>
-                                    <td>
+                                    <td data-sort="{{ $transaction->created_at->timestamp }}">{{ $transaction->created_at->format('d M Y H:i') }}</td>
+                                    <td data-sort="{{ $transaction->withdraw_accepted_date ? \Carbon\Carbon::parse($transaction->withdraw_accepted_date)->timestamp : ($transaction->withdraw_rejected_date ? \Carbon\Carbon::parse($transaction->withdraw_rejected_date)->timestamp : 0) }}">
                                         @if($transaction->withdraw_accepted_date)
                                             {{ \Carbon\Carbon::parse($transaction->withdraw_accepted_date)->format('d M Y H:i') }}
                                         @elseif($transaction->withdraw_rejected_date)
@@ -342,12 +342,90 @@
         document.addEventListener("alpine:init", () => {
             Alpine.data("userDetail", () => ({
                 activeTab: 'orders',
+                ordersDataTable: null,
+                walletDataTable: null,
 
                 init() {
-                    // Initialize any additional functionality if needed
+                    // Initialize orders table if it exists
+                    this.$nextTick(() => {
+                        if (document.getElementById('ordersTable')) {
+                            this.initOrdersTable();
+                        }
+                    });
+                },
+
+                switchTab(tab) {
+                    this.activeTab = tab;
+
+                    // Initialize wallet table when switching to wallet tab
+                    if (tab === 'wallet') {
+                        this.$nextTick(() => {
+                            if (document.getElementById('walletTable') && !this.walletDataTable) {
+                                this.initWalletTable();
+                            }
+                        });
+                    }
+                },
+
+                initOrdersTable() {
+                    if (this.ordersDataTable) {
+                        this.ordersDataTable.destroy();
+                    }
+
+                    try {
+                        this.ordersDataTable = new simpleDatatables.DataTable("#ordersTable", {
+                            searchable: true,
+                            sortable: true,
+                            perPage: 10,
+                            perPageSelect: [5, 10, 20, 50],
+                            labels: {
+                                placeholder: "Cari dalam tabel...",
+                                perPage: "Tampilkan {select} data per halaman",
+                                noRows: "Tidak ada data yang ditemukan",
+                                info: "Menampilkan {start} sampai {end} dari {rows} data",
+                                noResults: "Tidak ada hasil yang cocok dengan pencarian Anda"
+                            },
+                            layout: {
+                                top: "{select}{search}",
+                                bottom: "{info}{pager}"
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing orders table:', error);
+                    }
+                },
+
+                initWalletTable() {
+                    if (this.walletDataTable) {
+                        this.walletDataTable.destroy();
+                    }
+
+                    try {
+                        this.walletDataTable = new simpleDatatables.DataTable("#walletTable", {
+                            searchable: true,
+                            sortable: true,
+                            perPage: 10,
+                            perPageSelect: [5, 10, 20, 50],
+                            labels: {
+                                placeholder: "Cari dalam tabel...",
+                                perPage: "Tampilkan {select} data per halaman",
+                                noRows: "Tidak ada data yang ditemukan",
+                                info: "Menampilkan {start} sampai {end} dari {rows} data",
+                                noResults: "Tidak ada hasil yang cocok dengan pencarian Anda"
+                            },
+                            layout: {
+                                top: "{select}{search}",
+                                bottom: "{info}{pager}"
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing wallet table:', error);
+                    }
                 }
             }));
         });
     </script>
+
+
 
 </x-admin.app>

@@ -5,13 +5,24 @@
             <div class="mb-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <a href="{{ route('seller.transaction.index') }}"
+                        @if ($order->type == 'Product')
+                              <a href="{{ route('seller.transaction.product') }}"
                            class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-2">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
                             Kembali ke Riwayat Transaksi
                         </a>
+                        @else
+                          <a href="{{ route('seller.transaction.service') }}"
+                           class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 mb-2">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            Kembali ke Riwayat Transaksi
+                        </a>
+                        @endif
+
                         <h1 class="text-3xl font-bold text-gray-900">Detail Pesanan</h1>
                         <p class="mt-2 text-gray-600">{{ $order->order_code }}</p>
                     </div>
@@ -27,6 +38,15 @@
                                     Menunggu Pembayaran
                                 </span>
                                 @break
+                            @case('On-Proses')
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                <svg class="w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v1m6.364 1.636l-.707.707M20 12h-1M18.364 18.364l-.707-.707M12 20v-1m-6.364-1.636l.707-.707M4 12h1m1.636-6.364l.707.707" />
+                                </svg>
+                                Sedang Diproses
+                            </span>
+                            @break
                             @case('Paid')
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                                     <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -173,6 +193,18 @@
                                     @if($order->buyer->phone)
                                         <p class="text-sm text-gray-600">{{ $order->buyer->phone }}</p>
                                     @endif
+                                    @if($order->note)
+                                        <div class="mt-4">
+                                            <h5 class="text-sm font-semibold text-gray-800">Catatan dari Pembeli:</h5>
+                                            <p class="text-sm text-gray-700 mt-1 bg-gray-50 p-3 rounded border border-gray-200">
+                                                {{ $order->note }}
+                                            </p>
+                                        </div>
+                                        @else
+                                        <p class="text-sm text-gray-700 mt-1 bg-gray-50 p-3 rounded border border-gray-200">
+                                                Tidak ada catatan
+                                            </p>
+                                    @endif
                                 </div>
                                 <div>
                                     <button class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -303,6 +335,22 @@
                         </div>
                         <div class="p-6 space-y-3">
                             @if($order->order_status == 'Pending')
+
+                            <form action="{{ route('customer.order.update', $order) }}" method="POST"
+                                      onsubmit="return confirm('Apakah Anda yakin ingin menyetujui pesanan ini?')">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="text" name="order_status" value="On-Proses" hidden>
+                                    <button type="submit"
+                                            class="w-full inline-flex justify-center items-center px-4 py-2 border border-blue-300 shadow-sm text-sm font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M9 12l2 2l4 -4m5 2a9 9 0 11-18 0a9 9 0 0118 0z"/>
+                                        </svg>
+                                        Setujui Pesanan
+                                    </button>
+                            </form>
+
                                 <form action="{{ route('customer.order.update', $order) }}" method="POST"
                                       onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">
                                     @csrf
@@ -365,7 +413,8 @@
                                         </div>
                                     </li>
 
-                                    @if($order->order_status == 'Paid' || $order->order_status == 'Completed')
+                                    @if ($order->type == 'Product')
+                                      @if($order->order_status == 'Paid' || $order->order_status == 'Completed')
                                         <!-- Payment Received -->
                                         <li>
                                             <div class="relative pb-8">
@@ -435,8 +484,6 @@
                                         </li>
                                         @endif
 
-
-
                                     @if($order->order_status === 'Completed')
                                         <!-- Order Completed -->
                                         <li>
@@ -466,6 +513,127 @@
                                                 </div>
                                             </div>
                                         </li>
+                                    @endif
+                                    @else
+                                      @if($order->order_status === 'On-Proses' )
+                                        <!-- Order in Process -->
+                                        <li>
+                                            <div class="relative pb-8">
+                                                <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"></div>
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4 4 8-8"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                        <div>
+                                                            <p class="text-sm text-gray-500">Pesanan sedang diproses</p>
+                                                        </div>
+                                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                            {{ $order->updaton_processed_ated_at ? \Carbon\Carbon::parse($order->on_processed_at)->format('d M Y, H:i') : '-' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
+
+                                    @if($order->order_status == 'Cancelled')
+                                        <li>
+                                            <div class="relative pb-8">
+                                                <!-- Garis vertikal diubah menjadi abu-abu lebih muda -->
+                                                <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-100"></div>
+
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <!-- Ikon silang dengan latar abu-abu -->
+                                                        <span class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1 flex justify-between space-x-4">
+                                                        <div>
+                                                            <!-- Teks status dengan warna abu-abu -->
+                                                            <p class="text-sm font-medium text-gray-500">Pesanan Dibatalkan</p>
+                                                            <!-- Alasan pembatalan jika ada -->
+                                                            @if($order->cancellation_reason)
+                                                                <p class="text-xs text-gray-400 mt-1">
+                                                                    Alasan: {{ $order->cancellation_reason }}
+                                                                </p>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                            @if($order->cancelled_at)
+                                                                <!-- Perbaikan: gunakan cancelled_at bukan completed_at -->
+                                                                {{ \Carbon\Carbon::parse($order->cancelled_at)->format('d M Y, H:i') }}
+                                                            @else
+                                                                <span class="text-gray-400">Tanpa tanggal</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        @endif
+
+                                    @if($order->order_status === 'Completed')
+                                        <li>
+                                            <div class="relative pb-8">
+                                                <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"></div>
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4 4 8-8"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                        <div>
+                                                            <p class="text-sm text-gray-500">Pesanan diproses</p>
+                                                        </div>
+                                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                            {{ $order->on_processed_at ? \Carbon\Carbon::parse($order->on_processed_at)->format('d M Y, H:i') : '-' }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <!-- Order Completed -->
+                                        <li>
+                                            <div class="relative pb-8">
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                        <div>
+                                                            <p class="text-sm text-gray-500">Pesanan selesai</p>
+                                                        </div>
+                                                        <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                            @if($order->completed_at)
+
+                                                                    {{ $order->completed_at ? \Carbon\Carbon::parse($order->completed_at)->format('d M Y, H:i') : '-' }}
+
+                                                            @else
+                                                                {{ $order->updated_at->format('d M Y, H:i') }}
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endif
                                     @endif
                                 </ul>
                             </div>
