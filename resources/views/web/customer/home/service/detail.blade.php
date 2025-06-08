@@ -152,6 +152,7 @@
                 </div>
             </div>
 
+
             <!-- Consultation Modal -->
             <div
                 x-show="showModal"
@@ -173,7 +174,7 @@
                     x-transition:leave="transition ease-in duration-200"
                     x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                     x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-                    class="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+                    class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
                 >
                     <!-- Header dengan gradient -->
                     <div class="relative bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8">
@@ -181,7 +182,7 @@
                         <div class="relative flex items-center justify-between">
                             <div>
                                 <h2 class="text-xl font-bold text-white">Konsultasi Layanan</h2>
-                                <p class="text-blue-100 text-sm mt-1">Hubungi penyedia layanan</p>
+                                <p class="text-blue-100 text-sm mt-1">Pesan layanan sekarang</p>
                             </div>
                             <button
                                 @click="showModal = false"
@@ -193,9 +194,11 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- Content -->
-                    <div class="p-6 space-y-6">
+                
+                    <!-- Form Content -->
+                    <form action="{{ route('customer.checkout.service', $service) }}" method="POST" class="p-6 space-y-6">
+                        @csrf
+                    
                         <!-- Service Summary Card -->
                         <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
                             <div class="flex items-center gap-4">
@@ -213,8 +216,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Provider Info -->
+                    
+                        {{-- <!-- Provider Info -->
                         @if($service->user)
                         <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
                             <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -228,7 +231,7 @@
                             </div>
                         </div>
                         @endif
-
+                    
                         <!-- Customer Info -->
                         <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
                             <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -240,37 +243,82 @@
                                 <p class="font-medium text-gray-900 text-sm">{{ auth()->user()->name ?? 'Nama Customer' }}</p>
                                 <p class="text-xs text-gray-500">Customer</p>
                             </div>
+                        </div> --}}
+                    
+                        <!-- Note Input Field -->
+                        <div class="space-y-2">
+                            <label for="note" class="block text-sm font-medium text-gray-700">
+                                Catatan Tambahan
+                            </label>
+                            <textarea
+                                id="note"
+                                name="note"
+                                rows="4"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                placeholder="Tulis catatan atau permintaan khusus untuk layanan ini..."
+                            ></textarea>
+                            <p class="text-xs text-gray-500">
+                                Catatan ini akan dikirim kepada penyedia layanan untuk membantu mereka memahami kebutuhan Anda.
+                            </p>
                         </div>
-
-                        <!-- Contact Options -->
-                        <div class="space-y-3">
-                            <a href="tel:{{ $service->user->phone ?? '' }}"
-                               class="w-full flex items-center justify-center gap-2 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-medium transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                </svg>
-                                Hubungi via Telepon
-                            </a>
-
-                            <a href="mailto:{{ $service->user->email ?? '' }}"
-                               class="w-full flex items-center justify-center gap-2 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                                Hubungi via Email
-                            </a>
+                    
+                        <!-- Contact Information -->
+                        <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="text-sm">
+                                    <p class="font-medium text-blue-900 mb-1">Informasi Kontak</p>
+                                    <p class="text-blue-700 text-xs leading-relaxed">
+                                        Setelah checkout, Anda dapat menghubungi penyedia layanan melalui:
+                                    </p>
+                                    <div class="mt-2 space-y-1">
+                                        @if($service->user->phone)
+                                        <div class="flex items-center gap-2 text-xs text-blue-700">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                            </svg>
+                                            Telefon: {{ $service->user->phone }}
+                                        </div>
+                                        @endif
+                                        @if($service->user->email)
+                                        <div class="flex items-center gap-2 text-xs text-blue-700">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                            </svg>
+                                            Email: {{ $service->user->email }}
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="p-6 pt-0">
-                        <button
-                            @click="showModal = false"
-                            class="w-full py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200 text-sm"
-                        >
-                            Tutup
-                        </button>
-                    </div>
+                    
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                            <button
+                                type="button"
+                                @click="showModal = false"
+                                class="flex-1 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-all duration-200 text-sm"
+                            >
+                                Batal
+                            </button>
+                            <button
+                                type="submit"
+                                class="flex-1 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-medium transition-all duration-200 text-sm shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                            >
+                                <div class="flex items-center justify-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6 0v6a2 2 0 11-4 0v-6m4 0V9a2 2 0 10-4 0v4.01"/>
+                                    </svg>
+                                    Checkout Sekarang
+                                </div>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 

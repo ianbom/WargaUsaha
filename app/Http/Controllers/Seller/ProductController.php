@@ -25,6 +25,10 @@ class ProductController extends Controller
         return view('web.seller.product.index', ['products' => $products]);
     }
 
+    public function show(){
+
+    }
+
      public function create()
     {
         $categories = ProductCategory::orderBy('name', 'asc')->get();

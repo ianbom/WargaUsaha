@@ -40,6 +40,7 @@
                             <option value="Paid" {{ request('status') == 'Paid' ? 'selected' : '' }}>Dibayar</option>
                             <option value="Completed" {{ request('status') == 'Completed' ? 'selected' : '' }}>Selesai</option>
                             <option value="Cancelled" {{ request('status') == 'Cancelled' ? 'selected' : '' }}>Dibatalkan</option>
+                            <option value="On-Proses" {{ request('status') == 'On-Proses' ? 'selected' : '' }}>Dalam Proses</option>
                         </select>
                     </div>
 
@@ -107,14 +108,16 @@
                                                     Dibayar
                                                 </span>
                                                 @break
-                                            @case('Completed')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    Selesai
-                                                </span>
-                                                @break
+                                            @case('On-Proses')
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                <svg class="w-3 h-3 mr-1 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 4v1m6.364 1.636l-.707.707M20 12h-1M18.364 18.364l-.707-.707M12 20v-1m-6.364-1.636l.707-.707M4 12h1m1.636-6.364l.707.707" />
+                                                </svg>
+                                                Sedang Diproses
+                                            </span>
+                                            @break
+
                                             @case('Cancelled')
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                     <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -142,7 +145,7 @@
                                             @if($order->type == 'Product' && $order->product)
                                                 {{ $order->product->name }}
                                             @elseif($order->type == 'Service' && $order->service)
-                                                {{ $order->service->name }}
+                                                {{ $order->service->title }}
                                             @else
                                                 <span class="text-gray-400">Data tidak tersedia</span>
                                             @endif
@@ -157,10 +160,13 @@
                                     </div>
 
                                     <div>
+                                        @if ($order->type == 'Product')
                                         <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
                                             Kuantitas
                                         </label>
                                         <p class="text-sm font-medium text-gray-900">{{ number_format($order->quantity) }}</p>
+                                        @endif
+
                                     </div>
 
                                     <div>
