@@ -1,14 +1,10 @@
 <x-seller.app>
     <script src="/assets/js/simple-datatables.js"></script>
-
     <div class="mb-2">
          @include('web.seller.alert.success')
     </div>
-
-
-
     <div x-data="productsTable">
-        <div class="panel flex items-center justify-between overflow-x-auto whitespace-nowrap p-3 text-primary">
+        <div class="flex items-center justify-between p-3 overflow-x-auto panel whitespace-nowrap text-primary">
             <div class="flex items-center">
                 <div class="rounded-full bg-primary p-1.5 text-white ring-2 ring-primary/30 ltr:mr-3 rtl:ml-3">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5">
@@ -19,18 +15,18 @@
                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
                 </div>
-                <h5 class="font-semibold text-lg">Daftar Produk</h5>
+                <h5 class="text-lg font-semibold">Daftar Produk</h5>
             </div>
 
             <a href="{{ route('seller.product.create') }}" class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
                 Tambah Produk Baru
             </a>
         </div>
 
-        <div class="panel mt-6">
+        <div class="mt-6 panel">
             <table id="productsTable" class="table-striped table-hover">
                 <thead>
                     <tr>
@@ -54,12 +50,12 @@
                             <div class="flex">
                                 <img src="{{ asset('storage/' . $product->image_url) }}"
                                      alt="{{ $product->name }}"
-                                     class="w-12 h-12 rounded object-cover">
+                                     class="object-cover w-12 h-12 rounded">
                             </div>
                         </td>
                         <td>
                             <div class="font-semibold">{{ $product->name }}</div>
-                            <div class="text-xs text-gray-500 mt-1 line-clamp-2">{{ $product->description }}</div>
+                            <div class="mt-1 text-xs text-gray-500 line-clamp-2">{{ $product->description }}</div>
                         </td>
                         <td>
                             {{ $product->category->name }}
@@ -74,16 +70,16 @@
                         <td>
                             <div class="flex items-center space-x-2">
                                 <a href="{{ route('seller.product.edit', $product->id) }}"
-                                   class="btn btn-sm btn-outline-primary p-2 rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                   class="p-2 rounded-full btn btn-sm btn-outline-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
                                 </a>
                                 <form action="{{ route('seller.product.destroy', $product->id) }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" class="btn btn-sm btn-outline-danger p-2 rounded-full delete-btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <button type="button" class="p-2 rounded-full btn btn-sm btn-outline-danger delete-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
                                     </button>

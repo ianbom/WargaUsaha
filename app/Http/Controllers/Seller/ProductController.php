@@ -60,7 +60,6 @@ class ProductController extends Controller
      public function store(ProductRequest $request)
     {   $data = $request->all();
         DB::beginTransaction();
-
         try {
         DB::commit();
             $this->productService->createProduct($data);
