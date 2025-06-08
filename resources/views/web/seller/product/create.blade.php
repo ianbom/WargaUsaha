@@ -1,33 +1,35 @@
 <x-seller.app>
     <div x-data="form">
-        <ul class="flex space-x-2 rtl:space-x-reverse">
-            <li>
-                <a href="{{ route('seller.product.index') }}" class="text-primary hover:underline">Products</a>
-            </li>
-            <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                <span>Create Product</span>
-            </li>
-        </ul>
+        <div class="flex items-center justify-between ">
+            <div class="text-xl font-semibold text-gray-800">
+                Create Product
+            </div>
+            <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                <a href="#" class="transition-colors text-primary hover:underline">Dashboard</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <a href="{{ route('seller.product.index') }}" class="transition-colors text-primary hover:underline">Product</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-gray-800">Create Product</span>
+            </nav>
+        </div>
         <div class="pt-5">
             <!-- Create Product Form -->
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="text-lg font-semibold dark:text-white-light">Create New Product</h5>
-
                 </div>
 
                 <!-- Display Success/Error Messages -->
-                @if (session('success'))
-                    <div class="mb-5 alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                @if (session('error'))
-                    <div class="mb-5 alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
+                <div class="mb-0">
+                    @include('web.seller.alert.success')
+                </div>
+                <div class="mb-0">
+                    @include('web.seller.alert.error')
+                </div>
 
                 @if ($errors->any())
                     <div class="mb-5 alert alert-danger">

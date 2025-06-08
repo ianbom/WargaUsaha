@@ -5,8 +5,7 @@
                 Profile
             </div>
             <nav class="flex items-center space-x-2 text-sm text-gray-600">
-                <a href="#"
-                    class="transition-colors text-primary hover:underline">Users</a>
+                <a href="dashboard" class="transition-colors text-primary hover:underline">Dashboard</a>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
@@ -36,8 +35,15 @@
                     </div>
                     <div class="mb-5">
                         <div class="flex flex-col items-center justify-center">
-                            <img src="{{ auth()->user()->profile_pic ? asset('storage/' . auth()->user()->profile_pic) : '/assets/images/profile-34.jpeg' }}"
-                                alt="profile image" class="object-cover w-24 h-24 mb-5 rounded-full" />
+                            @if (auth()->user()->profile_pic)
+                                <img src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="Foto Profil"
+                                    class="object-cover w-24 h-24 mb-5 rounded-full">
+                            @else
+                                <span
+                                    class="flex items-center w-24 h-24 px-2 py-1 mb-5 text-sm text-center text-gray-500 bg-gray-100 rounded-full">Belum
+                                    ada foto</span>
+                            @endif
+
                             <p class="text-xl font-semibold text-primary">{{ auth()->user()->name }}</p>
                             <span class="px-2 py-1 mt-2 text-xs rounded-full bg-primary/10 text-primary">
                                 {{ auth()->user()->role }}
