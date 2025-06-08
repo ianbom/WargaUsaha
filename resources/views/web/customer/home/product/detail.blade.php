@@ -21,8 +21,6 @@
                 </nav>
             </div>
         </div>
-
-
         <div class="container px-4 py-8 mx-auto" x-data="{ showModal: false, quantity: 1 }">
             <div class="grid grid-cols-1 gap-12 mb-12 lg:grid-cols-2">
                 <!-- Product Image -->
