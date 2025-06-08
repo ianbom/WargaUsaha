@@ -30,7 +30,7 @@
                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    <span>Apps</span>
+                    <span>Menu</span>
                 </h2>
 
                 <li class="nav-item">
@@ -45,8 +45,6 @@
                                             stroke="#1C274C" stroke-width="1.5" />
                                         <path d="M15 18H9" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
                                     </svg>
-
-
                                     <span
                                         class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Dashboard</span>
                                 </div>
@@ -90,9 +88,7 @@
                                         <path
                                             d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5"
                                             stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
-
                                     </svg>
-
                                     <span
                                         class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Mart</span>
                                 </div>
@@ -101,7 +97,6 @@
                         <li class="nav-item">
                             <a href="/seller/product" class="group">
                                 <div class="flex items-center">
-
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -112,8 +107,6 @@
                                         <path d="M9 6V5C9 3.34315 10.3431 2 12 2C13.6569 2 15 3.34315 15 5V6"
                                             stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
                                     </svg>
-
-
                                     <span
                                         class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Products</span>
                                 </div>

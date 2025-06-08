@@ -76,16 +76,16 @@
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
                                 <path
                                     d="M2 14C2 10.2288 2 8.34315 3.17157 7.17157C4.34315 6 6.22876 6 10 6H14C17.7712 6 19.6569 6 20.8284 7.17157C22 8.34315 22 10.2288 22 14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14Z"
-                                    stroke="#1C274C" stroke-width="1.5" />
+                                    stroke="currentColor" stroke-width="1.5" />
                                 <path
                                     d="M16 6C16 4.11438 16 3.17157 15.4142 2.58579C14.8284 2 13.8856 2 12 2C10.1144 2 9.17157 2 8.58579 2.58579C8 3.17157 8 4.11438 8 6"
-                                    stroke="#1C274C" stroke-width="1.5" />
+                                    stroke="currentColor" stroke-width="1.5" />
                                 <path
                                     d="M17 9C17 9.55228 16.5523 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44772 15.4477 8 16 8C16.5523 8 17 8.44772 17 9Z"
-                                    fill="#1C274C" />
+                                    fill="currentColor" />
                                 <path
                                     d="M9 9C9 9.55228 8.55228 10 8 10C7.44772 10 7 9.55228 7 9C7 8.44772 7.44772 8 8 8C8.55228 8 9 8.44772 9 9Z"
-                                    fill="#1C274C" />
+                                    fill="currentColor" />
                             </svg>
 
                             Available Jobs
@@ -138,7 +138,27 @@
 
             <!-- Right Section: Search & User Menu -->
             <div class="flex items-center gap-3">
+                <div class="relative group">
+                    <a href="{{ route('customer.home.showCart') }}"
+                        class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2 3L2.26491 3.0883C3.58495 3.52832 4.24497 3.74832 4.62248 4.2721C5 4.79587 5 5.49159 5 6.88304V9.5C5 12.3284 5 13.7426 5.87868 14.6213C6.75736 15.5 8.17157 15.5 11 15.5H19"
+                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z"
+                                stroke="currentColor" stroke-width="1.5" />
+                            <path
+                                d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z"
+                                stroke="currentColor" stroke-width="1.5" />
+                            <path
+                                d="M5 6H16.4504C18.5054 6 19.5328 6 19.9775 6.67426C20.4221 7.34853 20.0173 8.29294 19.2078 10.1818L18.7792 11.1818C18.4013 12.0636 18.2123 12.5045 17.8366 12.7523C17.4609 13 16.9812 13 16.0218 13H5"
+                                stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                        Cart
+                    </a>
 
+                </div>
                 <!-- Search Button (Mobile) -->
                 <button type="button"
                     class="p-2 transition-colors duration-200 bg-gray-100 rounded-lg sm:hidden hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"

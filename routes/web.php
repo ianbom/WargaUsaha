@@ -38,36 +38,35 @@ Route::view('/', 'index');
 Route::view('/prof', 'web.seller.profile.index');
 
 Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
-   Route::resource('mart', AdminMartController::class);
-   Route::resource('user', AdminUserController::class);
-   Route::resource('product', AdminProductController::class);
-   Route::resource('service', AdminServiceController::class);
-   Route::resource('transaction', AdminTransactionController::class);
-   Route::resource('withdraw', AdminWithdrawController::class);
+    Route::resource('mart', AdminMartController::class);
+    Route::resource('user', AdminUserController::class);
+    Route::resource('product', AdminProductController::class);
+    Route::resource('service', AdminServiceController::class);
+    Route::resource('transaction', AdminTransactionController::class);
+    Route::resource('withdraw', AdminWithdrawController::class);
 
 
-   Route::get('registration/mart', [AdminMartController::class, 'registration'])->name('mart.registration');
+    Route::get('registration/mart', [AdminMartController::class, 'registration'])->name('mart.registration');
 });
 
 
 
 Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
-   Route::resource('profile', SellerProfileController::class)->except('update');
-   Route::get('profile/setting', [SellerProfileController::class, 'show'])->name('profile.show');
-   Route::put('profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
+    Route::resource('profile', SellerProfileController::class)->except('update');
+    Route::get('profile/setting', [SellerProfileController::class, 'show'])->name('profile.show');
+    Route::put('profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
 
-   Route::get('mart', [SellerMartController::class, 'index'])->name('mart.index');
-   Route::get('mart/setting', [SellerMartController::class, 'show'])->name('mart.show');
-   Route::put('mart/update', [SellerMartController::class, 'update'])->name('mart.update');
-   Route::resource('product', SellerProductController::class);
-   Route::resource('service', SellerServiceController::class);
-   Route::resource('wallet', SellerWalletController::class);
-   Route::resource('withdraw', SellerWithdrawController::class);
-   Route::post('withdraw/wallet', [SellerWalletController::class, 'storeWithdraw'])->name('wallet.withdraw');
-   Route::resource('transaction', SellerTransactionController::class);
-   Route::get('/order/product', [SellerTransactionController::class, 'indexProduct'])->name('transaction.product');
-   Route::get('/order/service', [SellerTransactionController::class, 'indexService'])->name('transaction.service');
-
+    Route::get('mart', [SellerMartController::class, 'index'])->name('mart.index');
+    Route::get('mart/setting', [SellerMartController::class, 'show'])->name('mart.show');
+    Route::put('mart/update', [SellerMartController::class, 'update'])->name('mart.update');
+    Route::resource('product', SellerProductController::class);
+    Route::resource('service', SellerServiceController::class);
+    Route::resource('wallet', SellerWalletController::class);
+    Route::resource('withdraw', SellerWithdrawController::class);
+    Route::post('withdraw/wallet', [SellerWalletController::class, 'storeWithdraw'])->name('wallet.withdraw');
+    Route::resource('transaction', SellerTransactionController::class);
+    Route::get('/order/product', [SellerTransactionController::class, 'indexProduct'])->name('transaction.product');
+    Route::get('/order/service', [SellerTransactionController::class, 'indexService'])->name('transaction.service');
 });
 
 
@@ -77,12 +76,12 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('home', CustomerHomeController::class);
     Route::resource('order', CustomerOrderController::class);
     Route::resource('review', CustomerReviewController::class);
-
     Route::get('seller/{seller}', [CustomerHomeController::class, 'showSeller'])->name('home.showSeller');
     Route::get('seller/{seller}/product', [CustomerHomeController::class, 'showSellerProduct'])->name('home.showSeller.product');
     Route::get('seller/{seller}/service', [CustomerHomeController::class, 'showSellerService'])->name('home.showSeller.service');
     Route::get('home/product/list', [CustomerHomeController::class, 'indexProduct'])->name('home.indexProduct');
     Route::get('home/product/{product}', [CustomerHomeController::class, 'showProduct'])->name('home.showProduct');
+    Route::get('home/cart/list', [CustomerHomeController::class, 'showCart'])->name('home.showCart');
     Route::post('product/checkout/{product}', [TransactionController::class, 'checkoutProduct'])->name('checkout.product');
     Route::get('home/service/list', [CustomerHomeController::class, 'indexService'])->name('home.indexService');
     Route::get('home/service/{service}', [CustomerHomeController::class, 'showService'])->name('home.showService');
@@ -208,4 +207,4 @@ Route::view('/auth/cover-password-reset', 'auth.cover-password-reset');
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
