@@ -1,38 +1,50 @@
 <x-seller.app>
     <div x-data="form">
-        <ul class="flex space-x-2 rtl:space-x-reverse">
-            <li>
-                <a href="{{ route('seller.service.index') }}" class="text-primary hover:underline">Services</a>
-            </li>
-            <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                <span>Edit Service</span>
-            </li>
-        </ul>
-
+        <div class="flex items-center justify-between ">
+            <div class="text-xl font-semibold text-gray-800">
+                Edit Service
+            </div>
+            <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                <a href="#" class="transition-colors text-primary hover:underline">Dashboard</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <a href="{{ route('seller.service.index') }}" class="transition-colors text-primary hover:underline">Service</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-gray-800">Edit Service</span>
+            </nav>
+        </div>
         <div class="pt-5">
             <!-- Edit Service Form -->
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
-                    <h5 class="font-semibold text-lg dark:text-white-light">Edit Service: {{ $service->name }}</h5>
+                    <h5 class="text-lg font-semibold dark:text-white-light">Edit Service: {{ $service->name }}</h5>
                 </div>
-
                 <!-- Display Success/Error Messages -->
-                @if(session('success'))
-                    <div class="alert alert-success mb-5">
+                <div class="mb-0">
+                    @include('web.seller.alert.success')
+                </div>
+                <div class="mb-0">
+                    @include('web.seller.alert.error')
+                </div>
+                {{-- @if (session('success'))
+                    <div class="mb-5 alert alert-success">
                         {{ session('success') }}
                     </div>
                 @endif
 
-                @if(session('error'))
-                    <div class="alert alert-danger mb-5">
+                @if (session('error'))
+                    <div class="mb-5 alert alert-danger">
                         {{ session('error') }}
                     </div>
-                @endif
+                @endif --}}
 
-                @if($errors->any())
-                    <div class="alert alert-danger mb-5">
+                @if ($errors->any())
+                    <div class="mb-5 alert alert-danger">
                         <ul class="mb-0">
-                            @foreach($errors->all() as $error)
+                            @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
@@ -40,27 +52,31 @@
                 @endif
 
                 <div class="mb-5">
-                    <form action="{{ route('seller.service.update', $service) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+                    <form action="{{ route('seller.service.update', $service) }}" method="POST"
+                        enctype="multipart/form-data" class="space-y-5">
                         @csrf
                         @method('PUT')
 
                         <!-- Service Name and Category -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label for="title" class="block text-sm font-medium mb-1">Service Name <span class="text-red-500">*</span></label>
+                                <label for="title" class="block mb-1 text-sm font-medium">Service Name <span
+                                        class="text-red-500">*</span></label>
                                 <input id="title" name="title" type="text" placeholder="Enter Service Name"
                                     class="form-input @error('title') border-red-500 @enderror"
                                     value="{{ old('title', $service->title) }}" required />
                                 @error('title')
-                                    <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                    <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div>
-                                <label for="service_category_id" class="block text-sm font-medium mb-1">Category <span class="text-red-500">*</span></label>
+                                <label for="service_category_id" class="block mb-1 text-sm font-medium">Category <span
+                                        class="text-red-500">*</span></label>
                                 <select id="service_category_id" name="service_category_id"
-                                    class="form-select text-white-dark @error('service_category_id') border-red-500 @enderror" required>
+                                    class="form-select text-white-dark @error('service_category_id') border-red-500 @enderror"
+                                    required>
                                     <option value="">Choose Category...</option>
-                                    @foreach($categories as $category)
+                                    @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
                                             {{ old('service_category_id', $service->service_category_id) == $category->id ? 'selected' : '' }}>
                                             {{ $category->name }}
@@ -68,62 +84,69 @@
                                     @endforeach
                                 </select>
                                 @error('service_category_id')
-                                    <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                    <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
                         <!-- Description -->
                         <div>
-                            <label for="description" class="block text-sm font-medium mb-1">Description <span class="text-red-500">*</span></label>
+                            <label for="description" class="block mb-1 text-sm font-medium">Description <span
+                                    class="text-red-500">*</span></label>
                             <textarea id="description" name="description" rows="4" placeholder="Enter Service Description"
                                 class="form-input @error('description') border-red-500 @enderror" required>{{ old('description', $service->description) }}</textarea>
                             @error('description')
-                                <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <!-- Price and Duration -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label for="price" class="block text-sm font-medium mb-1">Price (Rp) <span class="text-red-500">*</span></label>
-                                <input id="price" name="price" type="number" step="0.01" min="0" placeholder="Enter Price"
+                                <label for="price" class="block mb-1 text-sm font-medium">Price (Rp) <span
+                                        class="text-red-500">*</span></label>
+                                <input id="price" name="price" type="number" step="0.01" min="0"
+                                    placeholder="Enter Price"
                                     class="form-input @error('price') border-red-500 @enderror"
                                     value="{{ old('price', $service->price) }}" required />
                                 @error('price')
-                                    <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                    <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div>
-                                <label for="duration" class="block text-sm font-medium mb-1">Duration (minutes) <span class="text-red-500">*</span></label>
-                                <input id="duration" name="duration" type="number" min="1" placeholder="Enter Duration in Minutes"
+                                <label for="duration" class="block mb-1 text-sm font-medium">Duration (minutes) <span
+                                        class="text-red-500">*</span></label>
+                                <input id="duration" name="duration" type="number" min="1"
+                                    placeholder="Enter Duration in Minutes"
                                     class="form-input @error('duration') border-red-500 @enderror"
                                     value="{{ old('duration', $service->duration) }}" required />
                                 @error('duration')
-                                    <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                    <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
                         <!-- Current Image Display -->
                         <div>
-                            <label class="block text-sm font-medium mb-1">Current Service Image</label>
+                            <label class="block mb-1 text-sm font-medium">Current Service Image</label>
                             <div class="flex items-start gap-4">
                                 <div>
                                     <img src="{{ asset('storage/' . $service->image_url) }}"
-                                         alt="{{ $service->name }}"
-                                         class="w-32 h-32 object-cover rounded border border-gray-300 dark:border-gray-600" />
-                                    <p class="text-xs text-gray-500 mt-1">Current image</p>
+                                        alt="{{ $service->name }}"
+                                        class="object-cover w-32 h-32 border border-gray-300 rounded dark:border-gray-600" />
+                                    <p class="mt-1 text-xs text-gray-500">Current image</p>
                                 </div>
                                 <div class="flex-1">
-                                    <label for="image_url" class="block text-sm font-medium mb-1">
+                                    <label for="image_url" class="block mb-1 text-sm font-medium">
                                         Update Service Image <span class="text-gray-500">(optional)</span>
                                     </label>
-                                    <input id="image_url" name="image_url" type="file" accept="image/jpeg,image/png,image/jpg,image/gif"
+                                    <input id="image_url" name="image_url" type="file"
+                                        accept="image/jpeg,image/png,image/jpg,image/gif"
                                         class="form-input @error('image_url') border-red-500 @enderror" />
-                                    <p class="text-xs text-gray-500 mt-1">Leave empty to keep current image. Allowed formats: JPEG, PNG, JPG, GIF. Max size: 2MB</p>
+                                    <p class="mt-1 text-xs text-gray-500">Leave empty to keep current image. Allowed
+                                        formats: JPEG, PNG, JPG, GIF. Max size: 2MB</p>
                                     @error('image_url')
-                                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                                        <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
@@ -131,13 +154,15 @@
 
                         <!-- New Image Preview -->
                         <div id="imagePreview" class="hidden">
-                            <label class="block text-sm font-medium mb-1">New Image Preview</label>
+                            <label class="block mb-1 text-sm font-medium">New Image Preview</label>
                             <div class="flex items-center gap-4">
-                                <img id="previewImg" src="" alt="New Image Preview" class="w-32 h-32 object-cover rounded border border-green-300">
+                                <img id="previewImg" src="" alt="New Image Preview"
+                                    class="object-cover w-32 h-32 border border-green-300 rounded">
                                 <div>
-                                    <p class="text-sm text-green-600 font-medium">New image selected</p>
+                                    <p class="text-sm font-medium text-green-600">New image selected</p>
                                     <p class="text-xs text-gray-500">This will replace the current image</p>
-                                    <button type="button" onclick="clearImagePreview()" class="text-xs text-red-500 hover:text-red-700 mt-1">
+                                    <button type="button" onclick="clearImagePreview()"
+                                        class="mt-1 text-xs text-red-500 hover:text-red-700">
                                         Remove new image
                                     </button>
                                 </div>
@@ -147,15 +172,23 @@
                         <!-- Submit Buttons -->
                         <div class="flex items-center gap-4 !mt-6">
                             <button type="submit" class="btn btn-primary">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ltr:mr-2 rtl:ml-2">
-                                    <path d="M14 2.26953V6.40007C14 6.96012 14 7.24015 14.109 7.45406C14.2049 7.64222 14.3578 7.7952 14.546 7.89108C14.7599 8.00007 15.0399 8.00007 15.6 8.00007H19.7305M14 17H8M14 13H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M20 9.98822V17.2C20 18.8802 20 19.7202 19.673 20.362C19.3854 20.9265 18.9265 21.3854 18.362 21.673C17.7202 22 16.8802 22 15.2 22H8.8C7.11984 22 6.27976 22 5.63803 21.673C5.07354 21.3854 4.6146 20.9265 4.32698 20.362C4 19.7202 4 18.8802 4 17.2V6.8C4 5.11984 4 4.27976 4.32698 3.63803C4.6146 3.07354 5.07354 2.6146 5.63803 2.32698C6.27976 2 7.11984 2 8.8 2H12.0118C12.7455 2 13.1124 2 13.4577 2.08289C13.7638 2.15638 14.0564 2.27759 14.3249 2.44208C14.6276 2.6276 14.8829 2.88289 15.3936 3.39359L19.6064 7.60641C20.1171 8.11711 20.3724 8.3724 20.5579 8.67515C20.7224 8.94356 20.8436 9.2362 20.9171 9.5423C21 9.88757 21 10.2545 21 10.9882Z" stroke="currentColor" stroke-width="1.5"/>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ltr:mr-2 rtl:ml-2">
+                                    <path
+                                        d="M14 2.26953V6.40007C14 6.96012 14 7.24015 14.109 7.45406C14.2049 7.64222 14.3578 7.7952 14.546 7.89108C14.7599 8.00007 15.0399 8.00007 15.6 8.00007H19.7305M14 17H8M14 13H8M10 9H8"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M20 9.98822V17.2C20 18.8802 20 19.7202 19.673 20.362C19.3854 20.9265 18.9265 21.3854 18.362 21.673C17.7202 22 16.8802 22 15.2 22H8.8C7.11984 22 6.27976 22 5.63803 21.673C5.07354 21.3854 4.6146 20.9265 4.32698 20.362C4 19.7202 4 18.8802 4 17.2V6.8C4 5.11984 4 4.27976 4.32698 3.63803C4.6146 3.07354 5.07354 2.6146 5.63803 2.32698C6.27976 2 7.11984 2 8.8 2H12.0118C12.7455 2 13.1124 2 13.4577 2.08289C13.7638 2.15638 14.0564 2.27759 14.3249 2.44208C14.6276 2.6276 14.8829 2.88289 15.3936 3.39359L19.6064 7.60641C20.1171 8.11711 20.3724 8.3724 20.5579 8.67515C20.7224 8.94356 20.8436 9.2362 20.9171 9.5423C21 9.88757 21 10.2545 21 10.9882Z"
+                                        stroke="currentColor" stroke-width="1.5" />
                                 </svg>
                                 Update Service
                             </button>
                             <a href="{{ route('seller.service.index') }}" class="btn btn-outline-danger">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ltr:mr-2 rtl:ml-2">
-                                    <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ltr:mr-2 rtl:ml-2">
+                                    <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 Cancel
                             </a>
@@ -263,7 +296,8 @@
             // Show loading state
             const submitBtn = e.target.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<svg class="animate-spin w-4 h-4 mr-2" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Updating...';
+            submitBtn.innerHTML =
+                '<svg class="w-4 h-4 mr-2 animate-spin" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Updating...';
             submitBtn.disabled = true;
 
             // Re-enable after 10 seconds (fallback)

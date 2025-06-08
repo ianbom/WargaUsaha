@@ -1,13 +1,17 @@
 <x-seller.app>
     <div>
-        <ul class="flex space-x-2 rtl:space-x-reverse">
-            <li>
-                <a href="javascript:;" class="text-primary hover:underline">Users</a>
-            </li>
-            <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-                <span>Profile</span>
-            </li>
-        </ul>
+        <div class="flex items-center justify-between ">
+            <div class="text-xl font-semibold text-gray-800">
+                Profile
+            </div>
+            <nav class="flex items-center space-x-2 text-sm text-gray-600">
+                <a href="dashboard" class="transition-colors text-primary hover:underline">Dashboard</a>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                <span class="text-gray-800">Profile</span>
+            </nav>
+        </div>
         <div class="pt-5">
             <div class="grid grid-cols-1 gap-5 mb-5 lg:grid-cols-3 xl:grid-cols-3">
                 <!-- Profile Card -->
@@ -31,9 +35,15 @@
                     </div>
                     <div class="mb-5">
                         <div class="flex flex-col items-center justify-center">
-                            <img src="{{ auth()->user()->profile_pic ? asset('storage/' . auth()->user()->profile_pic) : '/assets/images/profile-34.jpeg' }}"
-                                 alt="profile image"
-                                 class="object-cover w-24 h-24 mb-5 rounded-full" />
+                            @if (auth()->user()->profile_pic)
+                                <img src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="Foto Profil"
+                                    class="object-cover w-24 h-24 mb-5 rounded-full">
+                            @else
+                                <span
+                                    class="flex items-center w-24 h-24 px-2 py-1 mb-5 text-sm text-center text-gray-500 bg-gray-100 rounded-full">Belum
+                                    ada foto</span>
+                            @endif
+
                             <p class="text-xl font-semibold text-primary">{{ auth()->user()->name }}</p>
                             <span class="px-2 py-1 mt-2 text-xs rounded-full bg-primary/10 text-primary">
                                 {{ auth()->user()->role }}
@@ -79,18 +89,18 @@
                                 </svg>
                                 {{ auth()->user()->created_at->format('M d, Y') }}
                             </li>
-                            @if(auth()->user()->ward)
-                            <li class="flex items-center gap-2">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
-                                    <path opacity="0.5"
-                                        d="M4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433Z"
-                                        stroke="currentColor" stroke-width="1.5" />
-                                    <circle cx="12" cy="10" r="3" stroke="currentColor"
-                                        stroke-width="1.5" />
-                                </svg>
-                                {{ auth()->user()->ward->name ?? 'Location not set' }}
-                            </li>
+                            @if (auth()->user()->ward)
+                                <li class="flex items-center gap-2">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
+                                        <path opacity="0.5"
+                                            d="M4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433Z"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                        <circle cx="12" cy="10" r="3" stroke="currentColor"
+                                            stroke-width="1.5" />
+                                    </svg>
+                                    {{ auth()->user()->ward->name ?? 'Location not set' }}
+                                </li>
                             @endif
                             <li>
                                 <a href="mailto:{{ auth()->user()->email }}" class="flex items-center gap-2">
@@ -106,22 +116,22 @@
                                     <span class="truncate text-primary">{{ auth()->user()->email }}</span>
                                 </a>
                             </li>
-                            @if(auth()->user()->phone)
-                            <li class="flex items-center gap-2">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
-                                    <path
-                                        d="M16.1007 13.359L16.5562 12.9062C17.1858 12.2801 18.1672 12.1515 18.9728 12.5894L20.8833 13.628C22.1102 14.2949 22.3806 15.9295 21.4217 16.883L20.0011 18.2954C19.6399 18.6546 19.1917 18.9171 18.6763 18.9651M4.00289 5.74561C3.96765 5.12559 4.25823 4.56668 4.69185 4.13552L6.26145 2.57483C7.13596 1.70529 8.61028 1.83992 9.37326 2.85908L10.6342 4.54348C11.2507 5.36691 11.1841 6.49484 10.4775 7.19738L10.1907 7.48257"
-                                        stroke="currentColor" stroke-width="1.5" />
-                                    <path opacity="0.5"
-                                        d="M18.6763 18.9651C17.0469 19.117 13.0622 18.9492 8.8154 14.7266C4.81076 10.7447 4.09308 7.33182 4.00293 5.74561"
-                                        stroke="currentColor" stroke-width="1.5" />
-                                    <path opacity="0.5"
-                                        d="M16.1007 13.3589C16.1007 13.3589 15.0181 14.4353 12.0631 11.4971C9.10807 8.55886 10.1907 7.48242 10.1907 7.48242"
-                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                </svg>
-                                <span class="whitespace-nowrap" dir="ltr">{{ auth()->user()->phone }}</span>
-                            </li>
+                            @if (auth()->user()->phone)
+                                <li class="flex items-center gap-2">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0">
+                                        <path
+                                            d="M16.1007 13.359L16.5562 12.9062C17.1858 12.2801 18.1672 12.1515 18.9728 12.5894L20.8833 13.628C22.1102 14.2949 22.3806 15.9295 21.4217 16.883L20.0011 18.2954C19.6399 18.6546 19.1917 18.9171 18.6763 18.9651M4.00289 5.74561C3.96765 5.12559 4.25823 4.56668 4.69185 4.13552L6.26145 2.57483C7.13596 1.70529 8.61028 1.83992 9.37326 2.85908L10.6342 4.54348C11.2507 5.36691 11.1841 6.49484 10.4775 7.19738L10.1907 7.48257"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                        <path opacity="0.5"
+                                            d="M18.6763 18.9651C17.0469 19.117 13.0622 18.9492 8.8154 14.7266C4.81076 10.7447 4.09308 7.33182 4.00293 5.74561"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                        <path opacity="0.5"
+                                            d="M16.1007 13.3589C16.1007 13.3589 15.0181 14.4353 12.0631 11.4971C9.10807 8.55886 10.1907 7.48242 10.1907 7.48242"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                    </svg>
+                                    <span class="whitespace-nowrap" dir="ltr">{{ auth()->user()->phone }}</span>
+                                </li>
                             @endif
                         </ul>
                         <ul class="flex items-center justify-center gap-2 mt-7">
@@ -168,127 +178,177 @@
                 </div>
 
                 <!-- Wallet Information Card -->
-                @if(auth()->user()->role === 'Seller' && auth()->user()->sellerWallet)
-                <div class="panel">
-                    <div class="flex items-center justify-between mb-5">
-                        <h5 class="text-lg font-semibold dark:text-white-light">Wallet Information</h5>
-                        <a href=""
-                           class="p-2 rounded-full ltr:ml-auto rtl:mr-auto btn btn-success">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
-                                <path d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z" stroke="currentColor" stroke-width="1.5"/>
-                                <path d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002" stroke="currentColor" stroke-width="1.5"/>
-                                <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="mb-5">
-                        <div class="space-y-4">
-                            <!-- Wallet Balance -->
-                            <div class="p-4 text-white rounded-lg bg-gradient-to-r from-blue-500 to-purple-600">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <p class="text-sm text-blue-100">Current Balance</p>
-                                        <p class="text-2xl font-bold">Rp {{ number_format(auth()->user()->sellerWallet->amount, 0, ',', '.') }}</p>
-                                    </div>
-                                    <div class="p-3 rounded-full bg-white/20">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6">
-                                            <path d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z" stroke="currentColor" stroke-width="1.5"/>
-                                            <path d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002" stroke="currentColor" stroke-width="1.5"/>
-                                            <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Bank Information -->
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                                    <div class="p-2 bg-green-100 rounded-full dark:bg-green-900">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-green-600 dark:text-green-400">
-                                            <path d="M3.5 8.5L8.5 11.5L15.5 7.5L20.5 10.5V18.5C20.5 19.6046 19.6046 20.5 18.5 20.5H5.5C4.39543 20.5 3.5 19.6046 3.5 18.5V8.5Z" stroke="currentColor" stroke-width="1.5"/>
-                                            <path d="M12 3.5L20.5 8.5L12 13.5L3.5 8.5L12 3.5Z" stroke="currentColor" stroke-width="1.5"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Bank Name</p>
-                                        <p class="font-semibold text-gray-900 dark:text-gray-100">{{ auth()->user()->sellerWallet->bank_name }}</p>
+                @if (auth()->user()->role === 'Seller' && auth()->user()->sellerWallet)
+                    <div class="panel">
+                        <div class="flex items-center justify-between mb-5">
+                            <h5 class="text-lg font-semibold dark:text-white-light">Wallet Information</h5>
+                            <a href="" class="p-2 rounded-full ltr:ml-auto rtl:mr-auto btn btn-success">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
+                                    <path
+                                        d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path
+                                        d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="mb-5">
+                            <div class="space-y-4">
+                                <!-- Wallet Balance -->
+                                <div class="p-4 text-white rounded-lg bg-gradient-to-r from-blue-500 to-purple-600">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm text-blue-100">Current Balance</p>
+                                            <p class="text-2xl font-bold">Rp
+                                                {{ number_format(auth()->user()->sellerWallet->amount, 0, ',', '.') }}
+                                            </p>
+                                        </div>
+                                        <div class="p-3 rounded-full bg-white/20">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" class="w-6 h-6">
+                                                <path
+                                                    d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                                <path
+                                                    d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                                <path d="M13.998 12L13.998 13" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                                    <div class="p-2 bg-blue-100 rounded-full dark:bg-blue-900">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-600 dark:text-blue-400">
-                                            <path d="M4 7C4 5.89543 4.89543 5 6 5H18C19.1046 5 20 5.89543 20 7V17C20 18.1046 19.1046 19 18 19H6C4.89543 19 4 18.1046 4 17V7Z" stroke="currentColor" stroke-width="1.5"/>
-                                            <path d="M4 9H20" stroke="currentColor" stroke-width="1.5"/>
-                                            <path d="M8 13H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                        </svg>
+                                <!-- Bank Information -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                        <div class="p-2 bg-green-100 rounded-full dark:bg-green-900">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="text-green-600 dark:text-green-400">
+                                                <path
+                                                    d="M3.5 8.5L8.5 11.5L15.5 7.5L20.5 10.5V18.5C20.5 19.6046 19.6046 20.5 18.5 20.5H5.5C4.39543 20.5 3.5 19.6046 3.5 18.5V8.5Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                                <path d="M12 3.5L20.5 8.5L12 13.5L3.5 8.5L12 3.5Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Bank Name</p>
+                                            <p class="font-semibold text-gray-900 dark:text-gray-100">
+                                                {{ auth()->user()->sellerWallet->bank_name }}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Account Number</p>
-                                        <p class="font-semibold text-gray-900 dark:text-gray-100">**** **** {{ substr(auth()->user()->sellerWallet->account_number, -4) }}</p>
+
+                                    <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                        <div class="p-2 bg-blue-100 rounded-full dark:bg-blue-900">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="text-blue-600 dark:text-blue-400">
+                                                <path
+                                                    d="M4 7C4 5.89543 4.89543 5 6 5H18C19.1046 5 20 5.89543 20 7V17C20 18.1046 19.1046 19 18 19H6C4.89543 19 4 18.1046 4 17V7Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                                <path d="M4 9H20" stroke="currentColor" stroke-width="1.5" />
+                                                <path d="M8 13H12" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Account Number</p>
+                                            <p class="font-semibold text-gray-900 dark:text-gray-100">**** ****
+                                                {{ substr(auth()->user()->sellerWallet->account_number, -4) }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+                                        <div class="p-2 bg-purple-100 rounded-full dark:bg-purple-900">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="text-purple-600 dark:text-purple-400">
+                                                <path d="M12 2V22" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <path
+                                                    d="M17 5H9.5C8.11929 5 7 6.11929 7 7.5C7 8.88071 8.11929 10 9.5 10H14.5C15.8807 10 17 11.1193 17 12.5C17 13.8807 15.8807 15 14.5 15H7"
+                                                    stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">Last Updated</p>
+                                            <p class="font-semibold text-gray-900 dark:text-gray-100">
+                                                {{ auth()->user()->sellerWallet->updated_at->format('M d, Y') }}</p>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                                    <div class="p-2 bg-purple-100 rounded-full dark:bg-purple-900">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-purple-600 dark:text-purple-400">
-                                            <path d="M12 2V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                            <path d="M17 5H9.5C8.11929 5 7 6.11929 7 7.5C7 8.88071 8.11929 10 9.5 10H14.5C15.8807 10 17 11.1193 17 12.5C17 13.8807 15.8807 15 14.5 15H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                        </svg>
+                                <!-- Quick Actions -->
+                                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <a href="" class="btn btn-outline-primary btn-sm">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                                <path d="M12 16V8M12 8L8 12M12 8L16 12" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </svg>
+                                            Withdraw
+                                        </a>
+                                        <a href="" class="btn btn-outline-info btn-sm">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                                <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </svg>
+                                            History
+                                        </a>
                                     </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Last Updated</p>
-                                        <p class="font-semibold text-gray-900 dark:text-gray-100">{{ auth()->user()->sellerWallet->updated_at->format('M d, Y') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Quick Actions -->
-                            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                                <div class="grid grid-cols-2 gap-3">
-                                    <a href="" class="btn btn-outline-primary btn-sm">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
-                                            <path d="M12 16V8M12 8L8 12M12 8L16 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/>
-                                        </svg>
-                                        Withdraw
-                                    </a>
-                                    <a href="" class="btn btn-outline-info btn-sm">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
-                                            <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5"/>
-                                        </svg>
-                                        History
-                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @elseif(auth()->user()->role === 'Seller' && !auth()->user()->sellerWallet)
-                <!-- No Wallet Setup Card -->
-                <div class="panel">
-                    <div class="flex items-center justify-between mb-5">
-                        <h5 class="text-lg font-semibold dark:text-white-light">Wallet Setup</h5>
-                    </div>
-                    <div class="py-8 text-center">
-                        <div class="mb-4">
-                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto text-gray-400">
-                                <path d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z" stroke="currentColor" stroke-width="1.5"/>
-                                <path d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002" stroke="currentColor" stroke-width="1.5"/>
-                                <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
+                    <!-- No Wallet Setup Card -->
+                    <div class="panel">
+                        <div class="flex items-center justify-between mb-5">
+                            <h5 class="text-lg font-semibold dark:text-white-light">Wallet Setup</h5>
                         </div>
-                        <h6 class="mb-2 font-semibold text-gray-900 dark:text-gray-100">No Wallet Setup</h6>
-                        <p class="mb-4 text-gray-500 dark:text-gray-400">You need to setup your wallet to start receiving payments</p>
-                        <a href="" class="btn btn-primary">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
-                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Setup Wallet
-                        </a>
+                        <div class="py-8 text-center">
+                            <div class="mb-4">
+                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="mx-auto text-gray-400">
+                                    <path
+                                        d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path
+                                        d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h6 class="mb-2 font-semibold text-gray-900 dark:text-gray-100">No Wallet Setup</h6>
+                            <p class="mb-4 text-gray-500 dark:text-gray-400">You need to setup your wallet to start
+                                receiving payments</p>
+                            <a href="" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                    <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Setup Wallet
+                            </a>
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 <!-- Additional Information Card -->
@@ -297,40 +357,52 @@
                         <h5 class="text-lg font-semibold dark:text-white-light">Additional Info</h5>
                     </div>
                     <div class="space-y-4">
-                        @if(auth()->user()->address)
-                        <div class="flex items-start gap-3">
-                            <div class="p-2 mt-1 bg-orange-100 rounded-full dark:bg-orange-900">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-orange-600 dark:text-orange-400">
-                                    <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
+                        @if (auth()->user()->address)
+                            <div class="flex items-start gap-3">
+                                <div class="p-2 mt-1 bg-orange-100 rounded-full dark:bg-orange-900">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="text-orange-600 dark:text-orange-400">
+                                        <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Address</p>
+                                    <p class="text-gray-900 dark:text-gray-100">{{ auth()->user()->address }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Address</p>
-                                <p class="text-gray-900 dark:text-gray-100">{{ auth()->user()->address }}</p>
-                            </div>
-                        </div>
                         @endif
 
-                        @if(auth()->user()->location_lat && auth()->user()->location_long)
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-red-100 rounded-full dark:bg-red-900">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-red-600 dark:text-red-400">
-                                    <path d="M12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433C4 5.64588 7.58172 2 12 2Z" stroke="currentColor" stroke-width="1.5"/>
-                                    <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
+                        @if (auth()->user()->location_lat && auth()->user()->location_long)
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-red-100 rounded-full dark:bg-red-900">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="text-red-600 dark:text-red-400">
+                                        <path
+                                            d="M12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433C4 5.64588 7.58172 2 12 2Z"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                        <circle cx="12" cy="10" r="3" stroke="currentColor"
+                                            stroke-width="1.5" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">GPS Coordinates</p>
+                                    <p class="text-xs text-gray-900 dark:text-gray-100">
+                                        {{ auth()->user()->location_lat }}, {{ auth()->user()->location_long }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">GPS Coordinates</p>
-                                <p class="text-xs text-gray-900 dark:text-gray-100">{{ auth()->user()->location_lat }}, {{ auth()->user()->location_long }}</p>
-                            </div>
-                        </div>
                         @endif
 
                         <div class="flex items-center gap-3">
                             <div class="p-2 bg-indigo-100 rounded-full dark:bg-indigo-900">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-indigo-600 dark:text-indigo-400">
-                                    <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="1.5"/>
-                                    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="1.5"/>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="text-indigo-600 dark:text-indigo-400">
+                                    <path
+                                        d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z"
+                                        stroke="currentColor" stroke-width="1.5" />
                                 </svg>
                             </div>
                             <div>
@@ -342,24 +414,31 @@
                             </div>
                         </div>
 
-                        @if(auth()->user()->is_admin)
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-yellow-100 rounded-full dark:bg-yellow-900">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-yellow-600 dark:text-yellow-400">
-                                    <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" stroke="currentColor" stroke-width="1.5"/>
-                                </svg>
+                        @if (auth()->user()->is_admin)
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-yellow-100 rounded-full dark:bg-yellow-900">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="text-yellow-600 dark:text-yellow-400">
+                                        <path
+                                            d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Admin Privileges</p>
+                                    <p class="font-semibold text-yellow-600 dark:text-yellow-400">Administrator</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Admin Privileges</p>
-                                <p class="font-semibold text-yellow-600 dark:text-yellow-400">Administrator</p>
-                            </div>
-                        </div>
                         @endif
 
                         <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
                             <a href="{{ route('seller.profile.show') }}" class="w-full btn btn-outline-primary">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
-                                    <path d="M14.6296 2.92142L13.8881 3.66293L7.07106 10.4799C6.60933 10.9416 6.37846 11.1725 6.17992 11.4271C5.94571 11.7273 5.74491 12.0522 5.58107 12.396C5.44219 12.6874 5.33894 12.9972 5.13245 13.6167L4.25745 16.2417L4.04356 16.8833C3.94194 17.1882 4.02128 17.5243 4.2485 17.7515C4.47573 17.9787 4.81182 18.0581 5.11667 17.9564L5.75834 17.7426L8.38334 16.8675C9.00284 16.6611 9.31256 16.5578 9.60398 16.4189C9.94775 16.2551 10.2727 16.0543 10.5729 15.8201C10.8275 15.6215 11.0583 15.3907 11.5201 14.929L18.3371 8.11195L19.0786 7.37044C20.3071 6.14188 20.3071 4.14999 19.0786 2.92142C17.85 1.69286 15.8581 1.69286 14.6296 2.92142Z" stroke="currentColor" stroke-width="1.5"/>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
+                                    <path
+                                        d="M14.6296 2.92142L13.8881 3.66293L7.07106 10.4799C6.60933 10.9416 6.37846 11.1725 6.17992 11.4271C5.94571 11.7273 5.74491 12.0522 5.58107 12.396C5.44219 12.6874 5.33894 12.9972 5.13245 13.6167L4.25745 16.2417L4.04356 16.8833C3.94194 17.1882 4.02128 17.5243 4.2485 17.7515C4.47573 17.9787 4.81182 18.0581 5.11667 17.9564L5.75834 17.7426L8.38334 16.8675C9.00284 16.6611 9.31256 16.5578 9.60398 16.4189C9.94775 16.2551 10.2727 16.0543 10.5729 15.8201C10.8275 15.6215 11.0583 15.3907 11.5201 14.929L18.3371 8.11195L19.0786 7.37044C20.3071 6.14188 20.3071 4.14999 19.0786 2.92142C17.85 1.69286 15.8581 1.69286 14.6296 2.92142Z"
+                                        stroke="currentColor" stroke-width="1.5" />
                                 </svg>
                                 Edit Profile
                             </a>

@@ -39,7 +39,6 @@ class MartController extends Controller
     public function update(MartRequest $request){
         $data = $request->all();
         $mart = $this->martService->getMartByLoginUser();
-
         DB::beginTransaction();
         try {
             $this->martService->updateMart($mart, $data);
