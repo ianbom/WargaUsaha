@@ -13,20 +13,12 @@
             </nav>
         </div>
         <div class="pt-5">
-            <!-- Alert Section -->
             <div class="mb-0">
                 @include('web.seller.alert.success')
             </div>
-
-            @if (session('error'))
-                <div class="mb-5 alert alert-danger">
-                    <strong>Error!</strong> {{ session('error') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif
-
+            <div class="mb-0">
+                @include('web.seller.alert.error')
+            </div>
             <div x-data="{ tab: 'home' }">
                 <ul
                     class="sm:flex font-semibold bg-white border-b border-[#ebedf2] dark:border-[#191e3a] mb-5 whitespace-nowrap overflow-y-auto rounded-md">
@@ -45,7 +37,6 @@
                             Home
                         </a>
                     </li>
-
                     <li class="inline-block">
                         <a href="javascript:;"
                             class="flex gap-2 p-4 border-b border-transparent hover:border-primary hover:text-primary"
@@ -65,27 +56,31 @@
                         </a>
                     </li>
                 </ul>
-
-
-
                 <template x-if="tab === 'home'">
                     <div>
                         <form method="POST" action="{{ route('seller.profile.update') }}" enctype="multipart/form-data"
                             class="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]">
                             @csrf
                             @method('PUT')
-
                             <h6 class="mb-5 text-lg font-bold">General Information</h6>
                             <div class="flex flex-col sm:flex-row">
                                 <div class="w-full mb-5 ltr:sm:mr-4 rtl:sm:ml-4 sm:w-2/12">
-                                    <!-- Profile Picture -->
+                                    <label class="block mb-2 font-medium" for="profile_pic">Profile Picture</label>
                                     <div class="relative group">
-                                        <img id="profile-preview"
-                                            src="{{ auth()->user()->profile_pic ? asset('storage/' . auth()->user()->profile_pic) : asset('build/images/profile-34.jpeg') }}"
-                                            alt="profile"
-                                            class="object-cover w-20 h-20 mx-auto rounded-full md:w-32 md:h-32">
+                                        <div id="profile-container"
+                                            class="flex items-center justify-center w-20 h-20 mx-auto overflow-hidden bg-gray-200 rounded-full md:w-32 md:h-32">
+                                            <img id="profile-preview"
+                                                src="{{ auth()->user()->profile_pic ? asset('storage/' . auth()->user()->profile_pic) : '' }}"
+                                                alt="Foto Profil"
+                                                class="object-cover w-full h-full rounded-full {{ auth()->user()->profile_pic ? '' : 'hidden' }}">
+                                            @unless (auth()->user()->profile_pic)
+                                                <div id="profile-placeholder" class="text-gray-500">Belum ada foto</div>
+                                            @endunless
+                                        </div>
+
                                         <label for="profile_pic"
-                                            class="absolute bottom-0 right-0 p-2 transition rounded-full cursor-pointer bg-primary hover:bg-blue-700">
+                                            class="absolute bottom-0 p-2 transition rounded-full cursor-pointer right-4 bg-primary hover:bg-blue-700"
+                                            aria-label="Ubah Foto">
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -97,10 +92,13 @@
                                                 <path
                                                     d="M18.562 2.9354L18.9791 2.5183C19.6702 1.82723 20.7906 1.82723 21.4817 2.5183C22.1728 3.20937 22.1728 4.32981 21.4817 5.02087L21.0646 5.43797M18.562 2.9354C18.562 2.9354 18.6142 3.82172 19.3962 4.60378C20.1783 5.38583 21.0646 5.43797 21.0646 5.43797M18.562 2.9354L14.7275 6.76995C14.4677 7.02968 14.3379 7.15954 14.2262 7.30273C14.0945 7.47163 13.9815 7.65439 13.8894 7.84776C13.8112 8.01169 13.7532 8.18591 13.637 8.53437L13.2651 9.65M21.0646 5.43797L17.23 9.27253C16.9703 9.53225 16.8405 9.66211 16.6973 9.7738C16.5284 9.90554 16.3456 10.0185 16.1522 10.1106C15.9883 10.1888 15.8141 10.2468 15.4656 10.363L14.35 10.7349M14.35 10.7349L13.6281 10.9755C13.4567 11.0327 13.2676 10.988 13.1398 10.8602C13.012 10.7324 12.9673 10.5433 13.0245 10.3719L13.2651 9.65M14.35 10.7349L13.2651 9.65"
                                                     stroke="white" stroke-width="1.5" />
-                                            </svg> <input type="file" id="profile_pic" name="profile_pic"
-                                                class="hidden" accept="image/*">
+                                            </svg>
                                         </label>
+
+                                        <input type="file" id="profile_pic" name="profile_pic" class="hidden"
+                                            accept="image/*">
                                     </div>
+
                                     @error('profile_pic')
                                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                                     @enderror
@@ -163,16 +161,6 @@
                                         @enderror
                                     </div>
 
-                                    <div>
-                                        <label for="profile_pic">Profile Picture</label>
-                                        <input type="file"
-                                            class="form-control @error('profile_pic') is-invalid @enderror"
-                                            id="profile_pic" name="profile_pic" accept="image/*">
-                                        @error('profile_pic')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
                                     <!-- Location Picker (Hidden) -->
                                     <input type="hidden" id="location_lat" name="location_lat"
                                         value="{{ old('location_lat', auth()->user()->location_lat ?? '') }}">
@@ -187,8 +175,15 @@
                                                 value="{{ auth()->user()->location_lat && auth()->user()->location_long ? auth()->user()->location_lat . ', ' . auth()->user()->location_long : 'Location not set' }}"
                                                 class="flex-1 form-input" readonly>
                                             <button type="button" id="get-location-btn"
-                                                class="ml-2 btn btn-primary">
-                                                <i class="ri-map-pin-line"></i>
+                                                class="flex items-center gap-2 ml-2 btn btn-secondary">
+                                                <svg width="24" height="24" viewBox="0 0 24 24"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M4 10.1433C4 5.64588 7.58172 2 12 2C16.4183 2 20 5.64588 20 10.1433C20 14.6055 17.4467 19.8124 13.4629 21.6744C12.5343 22.1085 11.4657 22.1085 10.5371 21.6744C6.55332 19.8124 4 14.6055 4 10.1433Z"
+                                                        stroke="#fff" stroke-width="1.5" />
+                                                    <circle cx="12" cy="10" r="3" stroke="#fff"
+                                                        stroke-width="1.5" />
+                                                </svg>
                                                 <span id="location-btn-text">Get Current Location</span>
                                             </button>
                                         </div>
@@ -201,8 +196,8 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mt-3 sm:col-span-2">
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <div class="my-3 sm:col-span-2">
+                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                                     </div>
                                 </div>
                             </div>
@@ -210,55 +205,62 @@
                     </div>
                 </template>
 
-                 <template x-if="tab === 'payment-details'">
-                     <div>
-                         <div class="grid grid-cols-1 gap-5 mb-5 lg:grid-cols-2">
-                             <!-- Current Wallet Information -->
-                             <div class="p-6 bg-white rounded-lg shadow-md panel dark:bg-gray-800">
-                                 <div class="mb-5">
-                                     <h5 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Current Wallet Information</h5>
-                                     <p class="text-gray-600 dark:text-gray-300">Your current <span class="font-semibold text-primary">Wallet</span> details and balance information.</p>
-                                 </div>
-                                 <div class="mb-5 space-y-4">
-                                     <!-- Wallet Balance -->
-                                     <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                                         <div class="flex items-center justify-between">
-                                             <div>
-                                                 <h6 class="text-gray-700 font-bold dark:text-white text-[15px]">
-                                                     Current Balance
-                                                 </h6>
-                                                 <span class="block mt-1 text-2xl font-bold text-primary">
-                                                     {{ $wallet->amount }}
-                                                 </span>
-                                             </div>
-                                             <div class="text-right">
-                                                 <span class="text-sm text-gray-500 dark:text-gray-400">Last Updated</span>
-                                                 <p class="text-sm text-gray-600 dark:text-gray-300">{{ $wallet->updated_at }}</p>
-                                             </div>
-                                         </div>
-                                     </div>
+                <template x-if="tab === 'payment-details'">
+                    <div>
+                        <div class="grid grid-cols-1 gap-5 mb-5 lg:grid-cols-2">
+                            <!-- Current Wallet Information -->
+                            <div class="p-6 bg-white rounded-lg shadow-md panel dark:bg-gray-800">
+                                <div class="mb-5">
+                                    <h5 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Current Wallet
+                                        Information</h5>
+                                    <p class="text-gray-600 dark:text-gray-300">Your current <span
+                                            class="font-semibold text-primary">Wallet</span> details and balance
+                                        information.</p>
+                                </div>
+                                <div class="mb-5 space-y-4">
+                                    <!-- Wallet Balance -->
+                                    <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h6 class="text-gray-700 font-bold dark:text-white text-[15px]">
+                                                    Current Balance
+                                                </h6>
+                                                <span class="block mt-1 text-2xl font-bold text-primary">
+                                                    {{ $wallet->amount }}
+                                                </span>
+                                            </div>
+                                            <div class="text-right">
+                                                <span class="text-sm text-gray-500 dark:text-gray-400">Last
+                                                    Updated</span>
+                                                <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                    {{ $wallet->updated_at }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                     <!-- Bank Information -->
-                                     <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
-                                         <div class="flex items-start justify-between">
-                                             <div class="flex-1">
-                                                 <h6 class="text-gray-700 font-bold dark:text-white text-[15px]">
-                                                     Bank Account
-                                                 </h6>
-                                                 <div class="mt-2 space-y-1">
-                                                     <p class="text-sm text-gray-600 dark:text-gray-300">
-                                                         <span class="font-medium">Bank:</span> {{ $wallet->bank_name }}
-                                                     </p>
-                                                     <p class="text-sm text-gray-600 dark:text-gray-300">
-                                                         <span class="font-medium">Account:</span> {{ $wallet->account_number }}
-                                                     </p>
-                                                 </div>
-                                             </div>
-                                             {{-- <button class="px-4 py-2 text-white transition-colors bg-gray-800 rounded btn hover:bg-gray-700">Edit</button> --}}
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
+                                    <!-- Bank Information -->
+                                    <div class="pb-4 border-b border-gray-200 dark:border-gray-700">
+                                        <div class="flex items-start justify-between">
+                                            <div class="flex-1">
+                                                <h6 class="text-gray-700 font-bold dark:text-white text-[15px]">
+                                                    Bank Account
+                                                </h6>
+                                                <div class="mt-2 space-y-1">
+                                                    <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                        <span class="font-medium">Bank:</span>
+                                                        {{ $wallet->bank_name }}
+                                                    </p>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                        <span class="font-medium">Account:</span>
+                                                        {{ $wallet->account_number }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            {{-- <button class="px-4 py-2 text-white transition-colors bg-gray-800 rounded btn hover:bg-gray-700">Edit</button> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Recent Transactions -->
                             <div class="p-6 bg-white rounded-lg shadow-md panel dark:bg-gray-800">
@@ -422,11 +424,13 @@
                                         </div>
 
                                         <div class="mb-5">
-                                            <label for="account_name" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nama Pemilik</label>
+                                            <label for="account_name"
+                                                class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Nama
+                                                Pemilik</label>
                                             <input id="account_name" name="account_name" type="text"
-                                                   value="{{ old('account_name', $wallet->account_name) }}"
-                                                   placeholder="Enter Account Number" required
-                                                   class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white @error('account_number') border-danger @enderror" />
+                                                value="{{ old('account_name', $wallet->account_name) }}"
+                                                placeholder="Enter Account Number" required
+                                                class="form-input w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white @error('account_number') border-danger @enderror" />
                                             @error('account_name')
                                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                                             @enderror
@@ -440,11 +444,13 @@
                                 </div>
                             </div>
 
-                             <!-- Withdrawal Request -->
+                            <!-- Withdrawal Request -->
                             <div class="p-6 bg-white rounded-lg shadow-md panel dark:bg-gray-800">
                                 <div class="mb-5">
-                                    <h5 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Request Withdrawal</h5>
-                                    <p class="text-gray-600 dark:text-gray-300">Withdraw funds from your <span class="font-semibold text-primary">Wallet</span> to your bank account.</p>
+                                    <h5 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Request
+                                        Withdrawal</h5>
+                                    <p class="text-gray-600 dark:text-gray-300">Withdraw funds from your <span
+                                            class="font-semibold text-primary">Wallet</span> to your bank account.</p>
                                 </div>
 
 
@@ -453,26 +459,38 @@
                                     <form action="{{ route('seller.wallet.withdraw') }}" method="POST">
                                         @csrf
                                         <div class="mb-5">
-                                            <label for="amount" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Withdrawal Amount</label>
+                                            <label for="amount"
+                                                class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Withdrawal
+                                                Amount</label>
                                             <div class="relative">
-                                                <span class="absolute text-gray-500 transform -translate-y-1/2 left-3 top-1/2 dark:text-gray-400">Rp</span>
-                                                <input id="amount" name="amount" type="number" placeholder="0" min="10000" max="2500000" value="{{ old('amount') }}"
+                                                <span
+                                                    class="absolute text-gray-500 transform -translate-y-1/2 left-3 top-1/2 dark:text-gray-400">Rp</span>
+                                                <input id="amount" name="amount" type="number" placeholder="0"
+                                                    min="10000" max="2500000" value="{{ old('amount') }}"
                                                     class="form-input w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white @error('amount') border-red-500 @enderror" />
                                             </div>
                                             @error('amount')
                                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                                             @enderror
-                                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Available balance: Rp {{ number_format($wallet->amount ?? 0, 0, ',', '.') }}</p>
+                                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Available balance:
+                                                Rp {{ number_format($wallet->amount ?? 0, 0, ',', '.') }}</p>
                                         </div>
 
 
-                                        <div class="p-4 mb-5 border border-yellow-200 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800">
+                                        <div
+                                            class="p-4 mb-5 border border-yellow-200 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800">
                                             <div class="flex items-start space-x-2">
-                                                <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                                <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.082 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                                    </path>
                                                 </svg>
                                                 <div>
-                                                    <h6 class="text-sm font-medium text-yellow-800 dark:text-yellow-300">Withdrawal Information</h6>
+                                                    <h6
+                                                        class="text-sm font-medium text-yellow-800 dark:text-yellow-300">
+                                                        Withdrawal Information</h6>
                                                     <p class="mt-1 text-xs text-yellow-700 dark:text-yellow-400">
                                                         • Minimum withdrawal: Rp 10,000<br>
                                                         • Processing time: 1-3 business days<br>
@@ -482,31 +500,61 @@
                                             </div>
                                         </div>
 
-                                        <button type="submit" class="w-full px-6 py-2 text-white transition-colors rounded-lg btn bg-primary hover:bg-blue-700">
+                                        <button type="submit"
+                                            class="w-full px-6 py-2 text-white transition-colors rounded-lg btn bg-primary hover:bg-blue-700">
                                             Request Withdrawal
                                         </button>
                                     </form>
                                 </div>
                             </div>
-                         </div>
-                     </div>
+                        </div>
+                    </div>
                 </template>
             </div>
         </div>
     </div>
 
     <script>
-        // Profile picture preview
-        document.getElementById('profile_pic').addEventListener('change', function(e) {
-            if (this.files && this.files[0]) {
+        // document.getElementById('profile_pic').addEventListener('change', function(e) {
+        //     const file = e.target.files[0];
+        //     if (!file) return;
+
+        //     const reader = new FileReader();
+        //     reader.onload = function(e) {
+        //         const preview = document.getElementById('profile-preview');
+        //         const placeholder = document.getElementById('profile-placeholder');
+
+        //         // Ganti src gambar
+        //         preview.src = e.target.result;
+        //         preview.classList.remove('hidden');
+
+        //         // Hapus placeholder "Belum ada foto" jika masih ada
+        //         if (placeholder) {
+        //             placeholder.remove();
+        //         }
+        //     };
+
+        //     reader.readAsDataURL(file);
+        // });
+
+        setTimeout(() => {
+            const input = document.getElementById('profile_pic');
+            if (!input) return; // fail-safe
+            const preview = document.getElementById('profile-preview');
+            const placeholder = document.getElementById('profile-placeholder');
+
+            input.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('profile-preview').src = e.target.result;
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    if (placeholder) placeholder.remove();
+                };
+                reader.readAsDataURL(file);
+            });
+        }, 500); // cukup de
         // Get current location
         document.getElementById('get-location-btn').addEventListener('click', function() {
             const button = this;
