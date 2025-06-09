@@ -72,9 +72,7 @@ class TransactionController extends Controller
         try {
         $this->transactionService->payTransaction($transaction);
         DB::commit();
-        return response()->json([
-            'oke' => 'hmm'
-        ]);
+        return redirect()->back()->with(['success', 'Pembayaran berhasil']);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
@@ -88,7 +86,7 @@ class TransactionController extends Controller
     try {
        $reason = $request->input('reason', 'Cancelled by customer');
          $this->transactionService->cancelTransaction($transaction, $reason);
-        return response()->json(['success', true]);
+        return response()->json(['success', 'Pembayaran dibatalkan']);
     } catch (\Throwable $th) {
         return response()->json([
             'err' => $th->getMessage()
