@@ -237,10 +237,8 @@ class helpers
     public static function smartDateTime($date)
     {
         if (!$date) return '-';
-
         $carbon = $date instanceof Carbon ? $date : Carbon::parse($date);
         $carbon->locale('id');
-
         if ($carbon->isToday()) {
             return 'Hari ini, ' . $carbon->format('H:i');
         } elseif ($carbon->isYesterday()) {

@@ -13,28 +13,32 @@ use Illuminate\Support\Facades\Storage;
 class ProductService extends Service
 {
     protected $martService;
-    public function __construct(MartService $martService){
+    public function __construct(MartService $martService)
+    {
         $this->martService = $martService;
     }
 
-    public function getAllProductByLoginUser(): Collection{
+    public function getAllProductByLoginUser(): Collection
+    {
         $mart = $this->martService->getMartByLoginUser();
         $product = Product::where('mart_id', $mart->id)->get();
-
         return $product;
     }
 
-    public function getAllProductByMart($mart){
+    public function getAllProductByMart($mart)
+    {
 
         return Product::where('mart_id', $mart->id)->get();
     }
 
-    public function getAllProduct(){
+    public function getAllProduct()
+    {
         $product = Product::all();
         return $product;
     }
 
-    public function getProductById($id){
+    public function getProductById($id)
+    {
         $product = Product::findOrFail($id);
         if (!$product) {
             return null; // or throw an exception
@@ -42,34 +46,34 @@ class ProductService extends Service
         return $product;
     }
 
-    public function getProductReviewByProductId($productId){
+    public function getProductReviewByProductId($productId)
+    {
         $orderId = Order::where('product_id', $productId)->pluck('id');
 
         $review = Review::whereIn('order_id', $orderId)->get();
         return $review;
     }
 
-    public function updateProduct($product, $data){
+    public function updateProduct($product, $data)
+    {
 
         if (isset($data['image_url']) && $data['image_url']) {
 
-        if ($product->image_url) {
-            Storage::delete('public/' . $product->image_url);
-        }
+            if ($product->image_url) {
+                Storage::delete('public/' . $product->image_url);
+            }
 
-        $path = $data['image_url']->store('products', 'public');
-        $data['image_url'] = $path;
-
+            $path = $data['image_url']->store('products', 'public');
+            $data['image_url'] = $path;
         } else {
             unset($data['image_url']);
         }
 
         $product->update($data);
         return $product;
-
     }
 
-     public function createProduct(array $data)
+    public function createProduct(array $data)
     {
         $imagePath = $data['image_url']->store('products', 'public');
 
@@ -77,37 +81,37 @@ class ProductService extends Service
         $data['image_url'] = $imagePath;
         $data['mart_id'] = $mart->id;
 
-        return Product::create( $data );
+        return Product::create($data);
     }
 
     public function queryListProduct(array $filters = [])
     {
         $allowedFilters = [
-           'products.name' => 'like',
-           'products.product_category_id' => 'value',
-           'products.price' => 'range',
-           'marts.is_active' => 'value',
+            'products.name' => 'like',
+            'products.product_category_id' => 'value',
+            'products.price' => 'range',
+            'marts.is_active' => 'value',
 
         ];
 
         $selectColumns = [
-           'products.*',
-           'product_categories.name as category_name',
-           'marts.name as mart_name',
+            'products.*',
+            'product_categories.name as category_name',
+            'marts.name as mart_name',
 
 
         ];
 
         $query = Product::select($selectColumns)
-        ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-        ->join('marts', 'products.mart_id', '=', 'marts.id')
-        ->orderBy('products.id', 'desc');
+            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->join('marts', 'products.mart_id', '=', 'marts.id')
+            ->orderBy('products.id', 'desc');
 
 
         $query = $this->applyFilters($query, $filters, $allowedFilters);
 
         $query->with([
-           'category'
+            'category'
         ]);
 
         return $query;
@@ -136,10 +140,10 @@ class ProductService extends Service
         }
 
         if ($request->filled('price_min') && $request->filled('price_max')) {
-        $filters['products.price'] = [
-            'min' => $request->input('price_min'),
-            'max' => $request->input('price_max'),
-        ];
+            $filters['products.price'] = [
+                'min' => $request->input('price_min'),
+                'max' => $request->input('price_max'),
+            ];
         } elseif ($request->filled('price_min')) {
             // Jika hanya minimum price
             $filters['products.price'] = [
@@ -158,6 +162,4 @@ class ProductService extends Service
 
         return $filters;
     }
-
-
 }

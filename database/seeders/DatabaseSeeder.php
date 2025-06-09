@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         MartCategorySeeder::class,
         ProductCategorySeeder::class,
         ServiceCategorySeeder::class,
+        JobCategorySeeder::class,
     ]);
     }
 }

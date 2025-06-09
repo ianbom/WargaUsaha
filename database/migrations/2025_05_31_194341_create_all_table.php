@@ -11,8 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-
-
         Schema::create('mart_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -20,14 +18,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-          Schema::create('product_categories', function (Blueprint $table) {
+        Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('icon_url');
             $table->timestamps();
         });
 
-         Schema::create('service_categories', function (Blueprint $table) {
+        Schema::create('service_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('icon_url');
@@ -203,6 +201,54 @@ return new class extends Migration
             $table->string('description');
             $table->string('status');
             $table->timestamp('expired_time');
+            $table->timestamps();
+        });
+        Schema::create('job_vacancy_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('category_name');
+            $table->timestamps();
+        });
+        Schema::create('job_vacancies', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('job_category_id')->constrained('job_vacancy_categories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('job_title');
+            $table->text('job_description');
+            $table->string('job_document')->nullable();
+            $table->text('skill_requirement')->nullable();
+            $table->decimal('salary_min', 12, 2);
+            $table->decimal('salary_max', 12, 2);
+            $table->text('location_detail')->nullable();
+            $table->enum('job_status', ['Open', 'In-Progress', 'Closed', 'Cancelled'])->default('Open');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->timestamps();
+        });
+        Schema::create('job_applications', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('job_vacancy_id')->constrained('job_vacancies')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->decimal('proposed_salary', 12, 2);
+            $table->string('cv_document');
+            $table->string('portfolio_document')->nullable();
+            $table->string('supporting_document')->nullable();
+            $table->enum('status', ['Pending', 'Accepted', 'Rejected'])->default('Pending');
+            $table->timestamps();
+        });
+        Schema::create('job_logs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('job_vacancy_id')->constrained('job_vacancies')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->enum('action', ['Create-Job', 'Apply-Job', 'Accept-Job', 'Reject-Job', 'Closed'])->default('Create-Job');
+            $table->timestamps();
+        });
+        Schema::create('job_reviews', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('job_vacancy_id')->constrained('job_vacancies')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('from_user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('to_user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('rating');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

@@ -19,17 +19,15 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(){
+    public function index()
+    {
         $products = $this->productService->getAllProductByLoginUser();
-
         return view('web.seller.product.index', ['products' => $products]);
     }
 
-    public function show(){
+    public function show() {}
 
-    }
-
-     public function create()
+    public function create()
     {
         $categories = ProductCategory::orderBy('name', 'asc')->get();
         return view('web.seller.product.create', ['categories' => $categories]);
@@ -44,7 +42,8 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(ProductRequest $request, Product $product){
+    public function update(ProductRequest $request, Product $product)
+    {
         $data = $request->all();
         DB::beginTransaction();
 
@@ -55,24 +54,24 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
-                             ->with('error', 'Gagal memperbarui produk: ' . $e->getMessage())
-                             ->withInput();
+                ->with('error', 'Gagal memperbarui produk: ' . $e->getMessage())
+                ->withInput();
         }
-
     }
 
-     public function store(ProductRequest $request)
-    {   $data = $request->all();
+    public function store(ProductRequest $request)
+    {
+        $data = $request->all();
         DB::beginTransaction();
         try {
-        DB::commit();
+            DB::commit();
             $this->productService->createProduct($data);
             return redirect()->route('seller.product.index')->with('success', 'Produk berhasil ditambahkan');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
-                             ->with('error', 'Gagal menambahkan produk: ' . $e->getMessage())
-                             ->withInput();
+                ->with('error', 'Gagal menambahkan produk: ' . $e->getMessage())
+                ->withInput();
         }
     }
 }
