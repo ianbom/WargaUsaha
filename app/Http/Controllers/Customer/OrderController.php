@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\GroupOrder;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -17,13 +18,15 @@ class OrderController extends Controller
     }
 
     public function index(Request $request){
+        
         $orders = $this->orderService->getAllOrderByLoginUser($request);
+
         return view('web.customer.profile.order.index', ['orders' => $orders]);
     }
 
-    public function show(Order $order){
+    public function show(GroupOrder $order){
 
-        return view('web.customer.profile.order.detail', ['order'=> $order]);
+        return view('web.customer.profile.order.detail', ['groupOrder'=> $order]);
     }
 
     public function update(Request $request, Order $order){

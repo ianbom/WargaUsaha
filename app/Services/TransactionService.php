@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\GroupOrder;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Transaction;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TransactionService
 {
@@ -62,6 +65,11 @@ class TransactionService
 
     return $orderCode;
 }
+
+    public function checkoutKeranjang(){
+
+    }
+
 
 
 
@@ -125,6 +133,91 @@ class TransactionService
 
         return $order;
     }
+
+    public function payTransaction($transaction){
+
+         if ($transaction->payment_status !== 'Pending') {
+        throw new Exception('Transaction is not in pending status');
+        }
+
+
+        $transaction->update([
+            'payment_status' => 'Paid',
+            'payment_method' => 'Qris',
+            'updated_at' => now(),
+
+        ]);
+
+        $groupOrderIds = $transaction->groupOrders->pluck('id');
+        GroupOrder::whereIn('id', $groupOrderIds)->update([
+            'order_status' => 'Paid',
+            'paid_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Bulk update orders
+        $orderIds = Order::whereIn('group_order_id', $groupOrderIds)->pluck('id');
+        Order::whereIn('id', $orderIds)->update([
+            'order_status' => 'Paid',
+            'paid_at' => now(),
+            'updated_at' => now()
+        ]);
+
+    }
+
+    public function cancelTransaction($transaction, $reason = null){
+    if ($transaction->payment_status !== 'Pending') {
+        throw new \Exception('Cannot cancel transaction with status: ' . $transaction->payment_status);
+    }
+
+        $transaction->update([
+            'payment_status' => 'Cancelled',
+            'updated_at' => now()
+        ]);
+
+
+        $groupOrderIds = $transaction->groupOrders->pluck('id');
+        GroupOrder::whereIn('id', $groupOrderIds)->update([
+            'order_status' => 'Cancelled',
+            'cancelled_at' => now(),
+            'updated_at' => now()
+        ]);
+
+
+         // Get orders for stock return
+        $orders = Order::whereIn('group_order_id', $groupOrderIds)
+            ->where('type', 'Product') // Only products need stock return
+            ->whereNotNull('product_id')
+            ->whereNotNull('quantity')
+            ->get();
+
+        // Update orders status
+        Order::whereIn('group_order_id', $groupOrderIds)->update([
+            'order_status' => 'Cancelled',
+            'cancelled_at' => now(),
+            'updated_at' => now()
+        ]);
+
+            foreach ($orders as $order) {
+            if ($order->product_id && $order->quantity > 0) {
+                // Increment stock back
+                Product::where('id', $order->product_id)
+                    ->increment('stock', $order->quantity);
+
+                // Log stock return for audit
+                Log::info('Stock returned due to order cancellation', [
+                    'product_id' => $order->product_id,
+                    'quantity_returned' => $order->quantity,
+                    'order_id' => $order->id,
+                    'transaction_id' => $transaction->id
+                ]);
+            }
+        }
+
+
+
+
+}
 
 
 }

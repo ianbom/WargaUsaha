@@ -40,6 +40,10 @@ class Order extends Model
         return $this->hasOne(Review::class);
     }
 
+    public function groupOrder(){
+        return $this->belongsTo(GroupOrder::class);
+    }
+
     public function getStatusBadgeClassAttribute(): string
     {
         return match($this->order_status) {

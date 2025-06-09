@@ -6,11 +6,12 @@ use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WithdrawController as AdminWithdrawController;
+use App\Http\Controllers\Customer\CartController as CustomerCartController;
 use App\Http\Controllers\Customer\HomeController as CustomerHomeController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
-use App\Http\Controllers\Customer\TransactionController;
+use App\Http\Controllers\Customer\TransactionController as CustomerTransactionController;
 use App\Http\Controllers\Seller\MartController as SellerMartController;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
@@ -76,16 +77,25 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('home', CustomerHomeController::class);
     Route::resource('order', CustomerOrderController::class);
     Route::resource('review', CustomerReviewController::class);
+    Route::resource('transaction', CustomerTransactionController::class);
+
     Route::get('seller/{seller}', [CustomerHomeController::class, 'showSeller'])->name('home.showSeller');
     Route::get('seller/{seller}/product', [CustomerHomeController::class, 'showSellerProduct'])->name('home.showSeller.product');
     Route::get('seller/{seller}/service', [CustomerHomeController::class, 'showSellerService'])->name('home.showSeller.service');
     Route::get('home/product/list', [CustomerHomeController::class, 'indexProduct'])->name('home.indexProduct');
     Route::get('home/product/{product}', [CustomerHomeController::class, 'showProduct'])->name('home.showProduct');
-    Route::get('home/cart/list', [CustomerHomeController::class, 'showCart'])->name('home.showCart');
-    Route::post('product/checkout/{product}', [TransactionController::class, 'checkoutProduct'])->name('checkout.product');
+
+    Route::resource('cart', CustomerCartController::class);
+    Route::post('checkout/cart', [CustomerCartController::class, 'checkoutCart'])->name('cart.checkout');
+
+    Route::put('pay/transaction/{transaction}', [CustomerTransactionController::class, 'payTransaction'])->name('transaction.pay');
+    Route::put('cancel/transaction/{transaction}', [CustomerTransactionController::class, 'cancelTransaction'])->name('transaction.cancel');
+
+
+    Route::post('product/checkout/{product}', [CustomerTransactionController::class, 'checkoutProduct'])->name('checkout.product');
     Route::get('home/service/list', [CustomerHomeController::class, 'indexService'])->name('home.indexService');
     Route::get('home/service/{service}', [CustomerHomeController::class, 'showService'])->name('home.showService');
-    Route::post('service/checkout/{service}', [TransactionController::class, 'checkoutService'])->name('checkout.service');
+    Route::post('service/checkout/{service}', [CustomerTransactionController::class, 'checkoutService'])->name('checkout.service');
 });
 
 
