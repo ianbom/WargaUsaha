@@ -99,7 +99,7 @@
         <x-employer.sidebar />
 
         <div class="flex flex-col min-h-screen main-content">
-            <x-seller.header />
+            <x-employer.header />
 
             <div class="p-6 dvanimation animate__animated" :class="[$store.app.animation]">
                 {{ $slot }}
