@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\GroupOrder;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,41 +17,54 @@ class OrderService
     }
 
 
-    public function getAllOrderByLoginUser($request){
-        $user = Auth::user();
-         $query = Order::query()
-            ->where('buyer_id', $user->id)
-            ->with(['product', 'service', 'seller'])
-            ->orderBy('created_at', 'desc');
+   public function getAllOrderByLoginUser($request)
+{
+    $user = Auth::user();
 
+    $query = GroupOrder::with(['orders.product', 'orders.service', 'mart', 'transaction'])
+        ->where('user_id', $user->id)
+        ->orderBy('created_at', 'desc');
 
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('order_code', 'like', "%{$search}%")
-                  ->orWhereHas('product', function ($productQuery) use ($search) {
-                      $productQuery->where('name', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('service', function ($serviceQuery) use ($search) {
-                      $serviceQuery->where('title', 'like', "%{$search}%");
-                  });
+    // Search functionality
+    if ($request->filled('search')) {
+        $search = $request->get('search');
+        $query->where(function ($q) use ($search) {
+            // Search by mart name
+            $q->whereHas('mart', function ($martQuery) use ($search) {
+                $martQuery->where('name', 'like', '%' . $search . '%');
+            })
+            // Search by product name
+            ->orWhereHas('orders.product', function ($productQuery) use ($search) {
+                $productQuery->where('name', 'like', '%' . $search . '%');
+            })
+            // Search by service title
+            ->orWhereHas('orders.service', function ($serviceQuery) use ($search) {
+                $serviceQuery->where('title', 'like', '%' . $search . '%');
+            })
+            // Search by order product_name (snapshot)
+            ->orWhereHas('orders', function ($orderQuery) use ($search) {
+                $orderQuery->where('product_name', 'like', '%' . $search . '%');
             });
-        }
-
-        // Type filter
-        if ($request->filled('type')) {
-            $query->where('type', $request->input('type'));
-        }
-
-        // Status filter
-        if ($request->filled('status')) {
-            $query->where('order_status', $request->input('status'));
-        }
-
-        $orders = $query->paginate(10);
-        return $orders;
-
+        });
     }
+
+    // Filter by type
+    if ($request->filled('type')) {
+        $type = $request->get('type');
+        $query->whereHas('orders', function ($orderQuery) use ($type) {
+            $orderQuery->where('type', $type);
+        });
+    }
+
+    // Filter by status
+    if ($request->filled('status')) {
+        $status = $request->get('status');
+        $query->where('order_status', $status);
+    }
+
+    $orders = $query->paginate(10);
+    return $orders;
+}
 
     public function paidOrder($paymentMethod, $order){
 

@@ -1,6 +1,9 @@
 <x-customer.app>
     <div class="min-h-screen bg-gray-50">
         <!-- Breadcrumb -->
+
+        @include('web.seller.alert.success')
+
         <div class="bg-white border-b">
             <div class="container flex items-center justify-between px-4 py-4 mx-auto">
                 <div class="text-xl font-semibold text-gray-800">
@@ -148,6 +151,9 @@
                             </div>
 
                             <div class="flex gap-3">
+                                <form action="{{ route('customer.cart.store') }}" method="POST">
+                                    @csrf
+                                    <input type="number" name="product_id" value="{{ $product->id }}" hidden>
                                 <button
                                     class="flex items-center justify-center flex-1 gap-2 px-6 py-3 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
                                     :class="{ 'opacity-50 cursor-not-allowed': {{ $product->stock }} == 0 }"
@@ -159,6 +165,7 @@
                                     </svg>
                                     <span x-text="{{ $product->stock }} == 0 ? 'Habis' : 'Tambah ke Keranjang'"></span>
                                 </button>
+                                </form>
 
                                 <button @click="showModal = true"
                                     class="px-6 py-3 font-medium text-blue-600 transition-colors duration-200 border-2 border-blue-600 rounded-lg hover:bg-blue-50"

@@ -72,8 +72,7 @@ class User extends Authenticatable
         return $this->hasOne(SellerWallet::class);
     }
 
-    public function foodSharings()
-    {
-        return $this->hasMany(FoodSharing::class);
+    public function carts(){
+        return $this->hasMany(Cart::class);
     }
 }

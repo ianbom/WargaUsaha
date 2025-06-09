@@ -85,33 +85,83 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->string('order_code')->unique();
-            $table->foreignId('buyer_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('seller_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('type', ['Product', 'Service']);
-            $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('service_id')->nullable()->constrained('services')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('quantity')->nullable();
-            $table->decimal('total_price', 12, 2);
-            $table->text('note')->nullable();
-            $table->timestamp('paid_at')->nullable();
-            $table->timestamp('on_processed_at')->nullable();
-            $table->timestamp('cancelled_at')->nullable();
-            $table->timestamp('completed_at')->nullable();
-            $table->enum('order_status', ['Pending', 'Paid', 'Completed', 'Cancelled', 'On-Proses'])->default('Pending');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('quantity')->default(1);
             $table->timestamps();
+
+            $table->unique(['user_id', 'product_id'], 'unique_user_product_cart');
         });
 
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('transaction_code')->unique();
+            // $table->foreignId('group_order_id')->constrained('group_orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('payment_method')->nullable();
             $table->string('payment_status')->nullable();
             $table->decimal('paid_amount', 12, 2);
+            $table->json('gateway_response')->nullable();
+            $table->timestamp('paid_at')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('group_orders', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->string('shipping_method')->nullable();
+            $table->decimal('shipping_cost', 12,2)->nullable();
+
+            $table->decimal('sub_total', 12,2);
+            $table->decimal('total_price', 12,2);
+
+            $table->enum('order_status', ['Pending', 'Shipped', 'Paid', 'Completed', 'Cancelled', 'On-Proses'])->default('Pending');
+            $table->timestamp('paid_at')->nullable();
+            $table->timestamp('on_processed_at')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
+            $table->timestamp('shipped_at')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('order_code')->unique(); // nanti hapus
+            $table->foreignId('group_order_id')->constrained('group_orders')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->foreignId('buyer_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate(); // hapus nanti
+            $table->foreignId('seller_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate(); // hapus nanti
+
+            $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->enum('type', ['Product', 'Service']);
+            $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('service_id')->nullable()->constrained('services')->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->integer('quantity')->nullable();
+            $table->decimal('total_price', 12, 2);
+            $table->text('note')->nullable();
+
+            $table->timestamp('paid_at')->nullable(); // hapus nanti
+            $table->timestamp('on_processed_at')->nullable(); // hapus nanti
+            $table->timestamp('cancelled_at')->nullable(); // hapus nanti
+            $table->timestamp('completed_at')->nullable(); // hapus nanti
+
+            //Snap
+            $table->string('product_name'); // nama product/service saat order
+            $table->decimal('product_price', 12, 2); // harga saat order
+
+            $table->enum('order_status', ['Pending', 'Paid', 'Completed', 'Cancelled', 'On-Proses'])->nullable()->default('Pending'); // hapus nanti
+            $table->timestamps();
+        });
+
+
 
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
