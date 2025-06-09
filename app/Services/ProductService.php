@@ -20,7 +20,6 @@ class ProductService extends Service
     public function getAllProductByLoginUser(): Collection{
         $mart = $this->martService->getMartByLoginUser();
         $product = Product::where('mart_id', $mart->id)->get();
-
         return $product;
     }
 

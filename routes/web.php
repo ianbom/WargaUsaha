@@ -18,6 +18,7 @@ use App\Http\Controllers\Seller\ServiceController as SellerServiceController;
 use App\Http\Controllers\Seller\TransactionController as SellerTransactionController;
 use App\Http\Controllers\Seller\WalletController as SellerWalletController;
 use App\Http\Controllers\Seller\WithdrawController as SellerWithdrawController;
+use App\Http\Controllers\Employer\JobVacancyController as EmployerJobVacancyController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -89,6 +90,12 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
 });
 
 
+Route::middleware('auth')->prefix('employer')->as('employer.')->group(function () {
+    Route::resource('profile', CustomerProfileController::class);
+    Route::resource('job', EmployerJobVacancyController::class);
+
+
+});
 
 
 
