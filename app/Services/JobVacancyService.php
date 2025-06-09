@@ -49,4 +49,18 @@ class JobVacancyService
         $jobVacancy = JobVacancy::create($data);
         return $jobVacancy;
     }
+    public function updateJobVacancy($jobVacancy, $data)
+    {
+        if (isset($data['job_document']) && $data['job_document']) {
+            if ($jobVacancy->job_document) {
+                Storage::delete('public/' . $jobVacancy->job_document);
+            }
+            $path = $data['job_document']->store('job_document', 'public');
+            $data['job_document'] = $path;
+        } else {
+            unset($data['job_document']);
+        }
+        $jobVacancy->update($data);
+        return $jobVacancy;
+    }
 }

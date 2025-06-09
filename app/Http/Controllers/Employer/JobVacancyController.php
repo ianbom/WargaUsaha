@@ -45,4 +45,36 @@ class JobVacancyController extends Controller
                 ->withInput();
         }
     }
+    public function edit(JobVacancy $job)
+    {
+        $job_categories = JobVacancyCategory::orderBy('category_name', 'asc')->get();
+        return view('web.employer.job.edit', [
+            'job' => $job,
+            'job_categories' => $job_categories
+        ]);
+    }
+    public function update(JobVacancyRequest $request, JobVacancy $job)
+    {
+        $data = $request->all();
+        DB::beginTransaction();
+        try {
+            $this->jobVacancyService->updateJobVacancy($job, $data);
+            DB::commit();
+            return redirect()->route('employer.job.index')->with('success', 'Lowongan Pekerjaan berhasil diperbarui');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Gagal memperbarui pekerjaan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+    public function destroy(JobVacancy $job)
+    {
+        try {
+            $job->delete();
+            return redirect()->route('employer.job.index')->with('success', 'Lowongan Pekerjaan berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus pekerjaan: ' . $e->getMessage());
+        }
+    }
 }

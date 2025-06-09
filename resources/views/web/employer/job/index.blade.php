@@ -26,7 +26,7 @@
                         <path d="M9 17H4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
                 </div>
-                <h5 class="text-lg font-semibold">Daftar Produk</h5>
+                <h5 class="text-lg font-semibold">Daftar Pekerjaan</h5>
             </div>
             <a href="{{ route('employer.job.create') }}" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="none"
@@ -68,7 +68,7 @@
                             <td>{{ $job->created_at->format('d M Y') }}</td>
                             <td>
                                 <div class="flex items-center space-x-2">
-                                    <a href="#"
+                                    <a href="{{ route('employer.job.edit', $job->id) }}"
                                         class="p-2 rounded-full btn btn-sm btn-outline-primary">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2">
@@ -76,11 +76,11 @@
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </a>
-                                    <form action="#" method="POST"
+                                    <form action="{{ route('employer.job.destroy', $job->id) }}" method="POST"
                                         class="delete-form">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button"
+                                        <button type="submit"
                                             class="p-2 rounded-full btn btn-sm btn-outline-danger delete-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
                                                 fill="none" stroke="currentColor" stroke-width="2">
@@ -99,6 +99,16 @@
     </div>
 
     <script>
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (!confirm('Apakah kamu yakin ingin menghapus data ini?')) {
+                    e.preventDefault();
+                } else {
+                    this.closest('form').submit();
+                }
+            });
+        });
+
         document.addEventListener("alpine:init", () => {
             Alpine.data("jobsTable", () => ({
                 init() {
@@ -107,10 +117,10 @@
                         perPage: 10,
                         perPageSelect: [5, 10, 20, 50],
                         labels: {
-                            placeholder: "Cari produk...",
-                            perPage: "{select} produk per halaman",
-                            noRows: "Tidak ada produk ditemukan",
-                            info: "Menampilkan {start} hingga {end} dari {rows} produk"
+                            placeholder: "Cari pekerjaan...",
+                            perPage: "{select} pekerjaan per halaman",
+                            noRows: "Tidak ada pekerjaan ditemukan",
+                            info: "Menampilkan {start} hingga {end} dari {rows} pekerjaan"
                         },
                         columns: [{
                                 select: 0,

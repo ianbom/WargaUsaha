@@ -28,7 +28,7 @@ class JobVacancyRequest extends FormRequest
             'skill_requirement' => 'required|string',
             'salary_min' => 'required|numeric|min:0',
             'salary_max' => 'required|numeric|min:0',
-            'job_document' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'job_document' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
         ];
     }
 }

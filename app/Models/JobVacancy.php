@@ -17,7 +17,7 @@ class JobVacancy extends Model
         'salary_max',
         'start_date',
         'end_date',
-        'detail_location',
+        'location_detail',
         'job_document',
         'user_id',
         'status'

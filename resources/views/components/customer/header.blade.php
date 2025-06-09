@@ -238,7 +238,7 @@
                                 </svg>
                                 Inbox
                             </a>
-                            <a href="/customer/order"
+                            <a href="{{route('employer.job.create')}}"
                                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors duration-200 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                     class="w-4 h-4">
