@@ -120,16 +120,17 @@ class TransactionService
         $data['total_price'] = $service->price ;
         $data['type'] = 'Service';
         $data['order_status'] = 'Pending';
+        $data['mart_id'] = $seller->mart->id;
 
         $order = Order::create($data);
 
-        Transaction::create([
-            'order_id' => $order->id,
-            'payment_method' => '',
-            'payment_status' => 'Pending',
-            'paid_amount' => $order->total_price,
-            'paid_at' => now(),
-        ]);
+        // Transaction::create([
+        //     'order_id' => $order->id,
+        //     'payment_method' => '',
+        //     'payment_status' => 'Pending',
+        //     'paid_amount' => $order->total_price,
+        //     'paid_at' => now(),
+        // ]);
 
         return $order;
     }

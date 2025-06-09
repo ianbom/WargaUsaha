@@ -48,7 +48,7 @@ class CartService
           $cart =  Cart::create([
             'user_id'=> $user->id,
             'product_id'=> $data['product_id'],
-            'quantity' => 1,
+            'quantity' => $data['quantity'],
             'total_price' => $product->price,
         ]);
         } else {
@@ -60,9 +60,10 @@ class CartService
 
   public function getCartData(array $cartIds): Collection
     {
-        return DB::table('carts')
+        return  DB::table('carts')
             ->join('products', 'carts.product_id', '=', 'products.id')
             ->join('marts', 'products.mart_id', '=', 'marts.id')
+            ->join('users', 'marts.user_id', '=', 'users.id')
             ->whereIn('carts.id', $cartIds)
             ->select(
                 'carts.*',
@@ -70,9 +71,14 @@ class CartService
                 'products.price as current_price',
                 'products.mart_id',
                 'products.stock',
-                'marts.name as mart_name'
+                'marts.name as mart_name',
+                'users.name as seller_name',
+                'users.id as seller_id'
+
             )
             ->get();
+
+
     }
 
 
@@ -207,6 +213,8 @@ class CartService
         $orders = [];
 
         foreach ($groupData['carts'] as $cart) {
+
+
             $cartItem = collect($cartItems)->firstWhere('cart_id', $cart->id);
             $orderCode = $this->generateOrderCode();
 
@@ -214,7 +222,7 @@ class CartService
                 'order_code' => $orderCode,
                 'group_order_id' => $groupOrderId,
                 'buyer_id' => Auth::id(),
-                'seller_id' => null,
+                'seller_id' => $cart->seller_id,
                 'mart_id' => $cart->mart_id,
                 'type' => 'Product',
                 'product_id' => $cart->product_id,
@@ -241,6 +249,8 @@ class CartService
             // Update stok produk
             $this->updateProductStock($cart->product_id, $cartItem['quantity']);
         }
+
+
 
         return $orders;
     }

@@ -153,6 +153,7 @@
                             <div class="flex gap-3">
                                 <form action="{{ route('customer.cart.store') }}" method="POST">
                                     @csrf
+                                    <input type="number" name="quantity" x-model="quantity" value="x-model" hidden>
                                     <input type="number" name="product_id" value="{{ $product->id }}" hidden>
                                 <button
                                     class="flex items-center justify-center flex-1 gap-2 px-6 py-3 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
@@ -167,12 +168,17 @@
                                 </button>
                                 </form>
 
-                                <button @click="showModal = true"
+                                <form action="{{ route('customer.checkout.product', $product) }}" method="POST">
+                                    @csrf
+                                <input type="number" name="quantity" x-model="quantity" value="x-model" hidden>
+                                <input type="number" name="product_id" value="{{ $product->id }}" hidden>
+                                <button type="submit"
                                     class="px-6 py-3 font-medium text-blue-600 transition-colors duration-200 border-2 border-blue-600 rounded-lg hover:bg-blue-50"
                                     :class="{ 'opacity-50 cursor-not-allowed': {{ $product->stock }} == 0 }"
                                     :disabled="{{ $product->stock }} == 0">
                                     Beli Sekarang
                                 </button>
+                                </form>
                             </div>
                         </div>
                     </div>

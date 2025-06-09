@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CartRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\Transaction;
+use App\Services\CartService;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,22 +17,23 @@ use Illuminate\Support\Facades\DB;
 class TransactionController extends Controller
 {
     protected $transactionService;
-    public function __construct(TransactionService $transactionService)
+    protected $cartService;
+    public function __construct(TransactionService $transactionService, CartService $cartService)
     {
         $this->transactionService = $transactionService;
+        $this->cartService = $cartService;
     }
 
-    public function checkoutProduct(Product $product, OrderRequest $request){
-
+     public function checkoutProduct(CartRequest $request){
         $data = $request->all();
+        // dd($data);
         DB::beginTransaction();
-        $seller = $product->mart->user;
         try {
-            $order = $this->transactionService->checkoutProduct($data, $product, $seller);
+            $this->cartService->addProductToCart($data);
             DB::commit();
-            return redirect()->route('customer.order.show', $order->id)->with('success', 'Order placed successfully');
-        } catch (\Throwable $th) {
-            DB::rollBack();
+            return redirect()->route('customer.cart.index');
+        } catch (\Exception $th) {
+           DB::rollBack();
            return redirect()->back()->with('error', $th->getMessage());
         }
     }
@@ -42,10 +45,10 @@ class TransactionController extends Controller
         try {
             $order = $this->transactionService->checkoutService($data, $service, $seller);
             DB::commit();
-            return redirect()->route('customer.order.show', $order->id)->with('success', 'Order placed successfully');
+            return redirect()->route('customer.service.show', $order->id)->with('success', 'Order placed successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
-           return redirect()->back()->with('error', $th->getMessage());
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
