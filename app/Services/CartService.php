@@ -171,8 +171,10 @@ class CartService
 
     public function createTransaction(string $transactionCode, float $grandTotal): int
     {
+        $user = Auth::user();
         return DB::table('transactions')->insertGetId([
             'transaction_code' => $transactionCode,
+            'user_id' => $user->id,
             'payment_method' => null,
             'payment_status' => 'Pending',
             'paid_amount' => $grandTotal,
