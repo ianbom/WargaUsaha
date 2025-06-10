@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\JobVacancy;
 use App\Models\JobVacancyCategory;
-
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -32,6 +32,11 @@ class JobVacancyService extends Service
     {
         $jobVacancyCategory = JobVacancyCategory::all();
         return $jobVacancyCategory;
+    }
+    public function getJobVacancyByJobId($jobId)
+    {
+        $job = JobVacancy::findOrFail($jobId);
+        return $job;
     }
     public function getJobVacancyById($id)
     {

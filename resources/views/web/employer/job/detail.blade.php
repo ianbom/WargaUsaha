@@ -142,47 +142,48 @@
                             </h3>
                             <p class="text-gray-700">{{ $job->location_detail }}</p>
                         </div>
+                    </div>
 
-                        <!-- Job Document -->
-                        <div class="p-6 border border-gray-200 bg-gray-50 rounded-xl">
-                            <h3 class="flex items-center mb-4 text-xl font-semibold text-gray-900">
+                    <!-- Sidebar -->
+                    <div class="space-y-6">
+                        <!-- Document Information -->
+                        <div class="p-6 border border-gray-200 rounded-xl">
+                            <h3 class="flex items-center mb-4 text-lg font-semibold text-gray-900">
                                 <svg class="w-5 h-5 mr-2 text-purple-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                                     </path>
                                 </svg>
-                                Job Document
+                                Dokumen
                             </h3>
-                            @if ($job->job_document)
-                                <a href="{{ asset('storage/' . $job->job_document) }}" target="_blank"
-                                    class="inline-flex items-center px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                        </path>
-                                    </svg>
-                                    View Document
-                                </a>
-                            @else
-                                <div class="flex items-center text-gray-500">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    No document attached
-                                </div>
-                            @endif
+                            <div class="space-y-3">
+                                @if ($job->job_document)
+                                    <a href="{{ asset('storage/' . $job->job_document) }}" target="_blank"
+                                        class="inline-flex items-center px-4 py-2 text-blue-600 transition-colors duration-200 border border-blue-600 rounded-lg bir hover:bg-blue-700 hover:text-white">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                            </path>
+                                        </svg>
+                                        Lihat Dokumen
+                                    </a>
+                                @else
+                                    <div class="flex items-center text-gray-500">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        No document attached
+                                    </div>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Sidebar -->
-                    <div class="space-y-6">
                         <!-- Salary Information -->
                         <div
-                            class="p-6 border border-gray-200 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
+                            class="p-6 border border-gray-200 to-emerald-50 rounded-xl">
                             <h3 class="flex items-center mb-4 text-lg font-semibold text-gray-900">
                                 <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">

@@ -109,6 +109,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
 
     // Route Lowongan Pekerjaan
     Route::get('home/job/list', [CustomerHomeController::class, 'indexJobVacancy'])->name('home.indexJobVacancy');
+    Route::get('home/job/{job}', [CustomerHomeController::class, 'showJobVacancy'])->name('home.showJobVacancy');
 });
 
 

@@ -17,10 +17,10 @@
 
                 <!-- Logo -->
                 <a href="/" class="flex items-center gap-2 group">
-                    <img class="w-8 h-8 transition-transform duration-200 group-hover:scale-105"
-                        src="/assets/images/logo.svg" alt="VRISTO Logo" />
+                    {{-- <img class="w-8 h-8 transition-transform duration-200 group-hover:scale-105"
+                        src="/assets/images/logo.svg" alt="VRISTO Logo" /> --}}
                     <span class="hidden text-xl font-bold text-gray-800 dark:text-white sm:block">
-                        VRISTO
+                        WargaUsaha
                     </span>
                 </a>
             </div>
@@ -33,10 +33,13 @@
                     <div class="relative group">
                         <a href="/customer/home"
                             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M3 13h1v7c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-7h1a1 1 0 0 0 .707-1.707l-9-9a.999.999 0 0 0-1.414 0l-9 9A1 1 0 0 0 3 13z" />
+                                    d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"
+                                    stroke="currentColor" stroke-width="1.5" />
+                                <path d="M15 18H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                             </svg>
+
                             Home
 
                         </a>
@@ -71,7 +74,7 @@
                             </div> --}}
                     </div>
                     <div class="relative group">
-                        <a href="{{ route('customer.home.indexService') }}"
+                        <a href="{{ route('customer.home.indexJobVacancy') }}"
                             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
                                 <path
@@ -97,10 +100,14 @@
                     <div class="relative group">
                         <a href="{{ route('customer.home.indexService') }}"
                             class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4zM6.5 10.9L5.1 9.5l.4-1.2L7.1 10l-1.2.4-.4.5zm8.9 3.6c-.9.9-2.4.9-3.3 0-.9-.9-.9-2.4 0-3.3.9-.9 2.4-.9 3.3 0 .9.9.9 2.4 0 3.3z" />
+                                    d="M3 10.4167C3 7.21907 3 5.62028 3.37752 5.08241C3.75503 4.54454 5.25832 4.02996 8.26491 3.00079L8.83772 2.80472C10.405 2.26824 11.1886 2 12 2C12.8114 2 13.595 2.26824 15.1623 2.80472L15.7351 3.00079C18.7417 4.02996 20.245 4.54454 20.6225 5.08241C21 5.62028 21 7.21907 21 10.4167C21 10.8996 21 11.4234 21 11.9914C21 17.6294 16.761 20.3655 14.1014 21.5273C13.38 21.8424 13.0193 22 12 22C10.9807 22 10.62 21.8424 9.89856 21.5273C7.23896 20.3655 3 17.6294 3 11.9914C3 11.4234 3 10.8996 3 10.4167Z"
+                                    stroke="currentColor" stroke-width="1.5" />
+                                <path d="M9.5 12.4L10.9286 14L14.5 10" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
+
                             Services
 
                         </a>
@@ -190,7 +197,8 @@
                         <img class="object-cover w-8 h-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
                             src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="User Avatar" />
                         <div class="hidden text-left md:block">
-                            <div class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ auth()->user()->name }}
+                            <div class="text-sm font-medium text-gray-700 dark:text-gray-200">
+                                {{ auth()->user()->name }}
                             </div>
                             {{-- <div class="text-xs text-gray-500 dark:text-gray-400">Admin</div> --}}
                         </div>
@@ -238,7 +246,7 @@
                                 </svg>
                                 Riwayat Product
                             </a>
-                             <a href="/customer/service"
+                            <a href="/customer/service"
                                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors duration-200 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -254,7 +262,7 @@
                                 </svg>
                                 Riwayat Transaksi
                             </a>
-                            <a href="{{route('employer.job.create')}}"
+                            <a href="{{ route('employer.job.create') }}"
                                 class="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 transition-colors duration-200 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                     class="w-4 h-4">

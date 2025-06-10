@@ -28,7 +28,6 @@ class ServiceService extends Service
 
     public function getServiceReviewByServiceId($serviceId){
         $orderId = Order::where('service_id', $serviceId)->pluck('id');
-
         $review = Review::whereIn('order_id', $orderId)->get();
         return $review;
     }

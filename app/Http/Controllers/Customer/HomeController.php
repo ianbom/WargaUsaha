@@ -15,6 +15,7 @@ use App\Services\MartService;
 use App\Services\ProductService;
 use App\Services\ServiceService;
 use App\Services\JobVacancyService;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -139,6 +140,11 @@ class HomeController extends Controller
             Log::error('Error fetching job vacancies: ' . $th->getMessage());
             return response()->json(['err' => $th->getMessage()], 500);
         }
+    }
+    public function showJobVacancy(JobVacancy $job)
+    {
+
+        return view('web.customer.home.job.detail', ['job' => $job]);
     }
     public function showSeller(User $seller)
     {
