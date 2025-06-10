@@ -385,7 +385,7 @@
                                     </button>
                                 @endif
 
-                                <form action="{{ route('customer.order.update', $order) }}" method="POST"
+                                <form action="{{ route('seller.transaction.serviceReject', $order) }}" method="POST"
                                       onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">
                                     @csrf
                                     @method('PUT')

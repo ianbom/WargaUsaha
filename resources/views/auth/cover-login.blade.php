@@ -113,12 +113,7 @@
                                     <p class="bg-red-100 text-red-600 text-xs mt-1"">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div>
-                                <label class="flex cursor-pointer items-center">
-                                    <input type="checkbox" class="form-checkbox bg-white dark:bg-black" />
-                                    <span class="text-white-dark">Subscribe to weekly newsletter</span>
-                                </label>
-                            </div>
+
                             <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
                                 Sign in
                             </button>
@@ -188,7 +183,8 @@
                         </div>
                         <div class="text-center dark:text-white">
                             Don't have an account ?
-                            <a href="/auth/cover-register" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">SIGN UP</a>
+                            <a href="{{ route('register') }}" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">SIGN UP</a>
+                            Forgot Account ? <a href="{{ route('password.request') }}" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">Forgot Password</a>
                         </div>
                     </div>
                     <p class="absolute bottom-6 w-full text-center dark:text-white">

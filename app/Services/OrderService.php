@@ -129,10 +129,10 @@ class OrderService
             'on_processed_at' => now(),
         ]);
 
-        $transaction = $this->transactionService->getTransactionByOrderId($order->id);
-        $transaction->update([
-            'payment_status' => 'On-Proses',
-        ]);
+        // $transaction = $this->transactionService->getTransactionByOrderId($order->id);
+        // $transaction->update([
+        //     'payment_status' => 'On-Proses',
+        // ]);
     }
 
     public function completeOrder($order, $seller){
@@ -156,7 +156,7 @@ class OrderService
                 return 'Pesanan telah dibayar';
             case 'On-Proses':
                 $this->prosesOrder($order);
-                return 'Pesanan telah dibatalkan';
+                return 'Pesanan diproses';
             case 'Cancelled':
                 $this->cancelOrder($order);
                 return 'Pesanan telah dibatalkan';

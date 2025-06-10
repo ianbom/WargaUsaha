@@ -26,6 +26,12 @@ class TransactionService
         return $order;
     }
 
+    public function getGroupOrderByLoginSeller(){
+        $user = Auth::user();
+        $groupOrder = GroupOrder::where('mart_id', $user->mart->id)->get();
+        return $groupOrder;
+    }
+
     public function getProductOrderByLoginSeller(){
         $user = Auth::user();
         $order = Order::where('seller_id', $user->id)

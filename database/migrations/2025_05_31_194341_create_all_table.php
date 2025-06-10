@@ -132,7 +132,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('order_code')->unique(); // nanti hapus
-            $table->foreignId('group_order_id')->constrained('group_orders')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('group_order_id')->nullable()->constrained('group_orders')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->foreignId('buyer_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate(); // hapus nanti
             $table->foreignId('seller_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate(); // hapus nanti
@@ -152,8 +152,8 @@ return new class extends Migration
             $table->timestamp('completed_at')->nullable(); // hapus nanti
 
             //Snap
-            $table->string('product_name'); // nama product/service saat order
-            $table->decimal('product_price', 12, 2); // harga saat order
+            $table->string('product_name')->nullable(); // nama product/service saat order
+            $table->decimal('product_price', 12, 2)->nullable(); // harga saat order
 
             $table->enum('order_status', ['Pending', 'Paid', 'Completed', 'Cancelled', 'On-Proses'])->nullable()->default('Pending'); // hapus nanti
             $table->timestamps();

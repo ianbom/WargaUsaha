@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceRequest;
+use App\Models\Order;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Services\ServiceService;
@@ -62,6 +63,39 @@ class ServiceController extends Controller
                              ->with('error', 'Gagal memperbarui produk: ' . $e->getMessage())
                              ->withInput();
         }
+
+    }
+
+    public function acceptServiceOrder(Order $order){
+        try {
+            $order->update([
+            'on_processed_at' => now(),
+            'order_status' => 'On-Proses'
+        ]);
+        return redirect()->back()->with('success','Pesanan layanan disetujui');
+        } catch (\Throwable $th) {
+           return redirect()->back()
+                             ->with('error', 'Terjadi kesalahan');
+
+        }
+
+    }
+
+       public function cancelServiceOrder(Order $order){
+        DB::beginTransaction();
+         try {
+            $order->update([
+            'cancelled_at' => now(),
+            'order_status' => 'Cancelled'
+        ]);
+        DB::commit();
+        return redirect()->back()->with('success','Pesanan layanan ditolak');
+        } catch (\Throwable $th) {
+           DB::rollBack();
+            return redirect()->back()
+                             ->with('error', 'Terjadi kesalahan');
+        }
+
 
     }
 

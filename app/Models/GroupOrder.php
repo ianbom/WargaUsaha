@@ -27,4 +27,8 @@ class GroupOrder extends Model
     {
         return $this->belongsTo(Mart::class);
     }
+
+    public function getBuyerName(){
+        
+    }
 }

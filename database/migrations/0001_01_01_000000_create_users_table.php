@@ -38,6 +38,8 @@ return new class extends Migration
             $table->float('location_long')->nullable();
             $table->string('profile_pic')->nullable();
             $table->boolean('is_verified')->default(false);
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
 

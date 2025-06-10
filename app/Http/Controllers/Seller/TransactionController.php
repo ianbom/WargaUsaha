@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Models\GroupOrder;
 use App\Models\Order;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class TransactionController extends Controller
 
     }
     public function indexProduct(){
-        $orders = $this->transactionService->getProductOrderByLoginSeller();
+        $orders = $this->transactionService->getGroupOrderByLoginSeller();
+
         return view('web.seller.transaction.index_product', ['orders' => $orders]); // sebener e iki nde index.product ngebug
 
     }
@@ -32,9 +34,14 @@ class TransactionController extends Controller
 
 
 
-    public function show(Order $transaction){
-        return view('web.seller.transaction.detail', ['order'=> $transaction]);
+    public function show(GroupOrder $transaction){
+        return view('web.seller.transaction.detail', ['groupOrder'=> $transaction]);
     }
+
+    public function showService(Order $order){
+        return view('web.seller.transaction.detail_service', ['order'=> $order]);
+    }
+
 
 
 }

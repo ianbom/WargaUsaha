@@ -9,25 +9,11 @@
             <img src="/assets/images/auth/coming-soon-object2.png" alt="image" class="absolute left-24 top-0 h-40 md:left-[30%]" />
             <img src="/assets/images/auth/coming-soon-object3.png" alt="image" class="absolute right-0 top-0 h-[300px]" />
             <img src="/assets/images/auth/polygon-object.svg" alt="image" class="absolute bottom-0 end-[28%]" />
-            <div class="relative flex w-full max-w-[1502px] flex-col justify-between overflow-hidden rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 lg:min-h-[758px] lg:flex-row lg:gap-10 xl:gap-0">
-                <div
-                    class="relative hidden w-full items-center justify-center bg-[linear-gradient(225deg,rgba(239,18,98,1)_0%,rgba(67,97,238,1)_100%)] p-5 lg:inline-flex lg:max-w-[835px] xl:-ms-28 ltr:xl:skew-x-[14deg] rtl:xl:skew-x-[-14deg]">
-                    <div class="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"></div>
-                    <div class="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
-                        <a href="/" class="w-48 block lg:w-72 ms-10">
-                            <img src="/assets/images/auth/logo-white.svg" alt="Logo" class="w-full" />
-                        </a>
-                        <div class="mt-24 hidden w-full max-w-[430px] lg:block">
-                            <img src="/assets/images/auth/reset-password.svg" alt="Cover Image" class="w-full" />
-                        </div>
-                    </div>
-                </div>
-                <div class="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
-                    <div class="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
-                        <a href="/" class="block w-8 lg:hidden">
-                            <img src="/assets/images/logo.svg" alt="Logo" class="w-full" />
-                        </a>
-                        <div class="dropdown ms-auto w-max" x-data="dropdown" @click.outside="open = false">
+            <div
+                class="relative w-full max-w-[870px] rounded-md bg-[linear-gradient(45deg,#fff9f9_0%,rgba(255,255,255,0)_25%,rgba(255,255,255,0)_75%,_#fff9f9_100%)] p-2 dark:bg-[linear-gradient(52.22deg,#0E1726_0%,rgba(14,23,38,0)_18.66%,rgba(14,23,38,0)_51.04%,rgba(14,23,38,0)_80.07%,#0E1726_100%)]">
+                <div class="relative flex flex-col justify-center rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 px-6 lg:min-h-[758px] py-20">
+                    <div class="absolute top-6 end-6">
+                        <div class="dropdown" x-data="dropdown" @click.outside="open = false">
                             <a href="javascript:;" class="flex items-center gap-2.5 rounded-lg border border-white-dark/30 bg-white px-2 py-1.5 text-white-dark hover:border-primary hover:text-primary dark:bg-black"
                                 :class="{ '!border-primary !text-primary': open }" @click="toggle">
                                 <div>
@@ -55,32 +41,41 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="w-full max-w-[440px] lg:mt-16">
+                    <div class="mx-auto w-full max-w-[440px]">
                         <div class="mb-7">
-                            <h1 class="mb-3 text-2xl font-bold !leading-snug dark:text-white">Password Reset</h1>
-                            <p>Enter your email to recover your ID</p>
+                            <h1 class="mb-3 text-2xl font-bold !leading-snug dark:text-white">Reset Password</h1>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Enter your new password to reset your account</p>
                         </div>
 
-                        <!-- Session Status -->
-                        @if (session('status'))
-                            <div class="mb-4 rounded-md bg-green-50 p-4 border border-green-200">
+                        <!-- Display validation errors -->
+                        @if ($errors->any())
+                            <div class="mb-4 rounded-md bg-red-50 p-4 border border-red-200">
                                 <div class="flex">
                                     <div class="flex-shrink-0">
-                                        <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
                                     <div class="ml-3">
-                                        <p class="text-sm font-medium text-green-800">
-                                            {{ session('status') }}
-                                        </p>
+                                        <div class="text-sm text-red-800">
+                                            <ul class="list-disc list-inside space-y-1">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         @endif
 
-                        <form class="space-y-5" action="{{ route('password.email') }}" method="POST">
+                        <form class="space-y-5" action="{{ route('password.store') }}" method="POST">
                             @csrf
+
+                            <!-- Hidden Token -->
+                            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+
+                            <!-- Email Field -->
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700 dark:text-white">Email</label>
                                 <div class="relative text-white-dark">
@@ -88,13 +83,14 @@
                                         id="email"
                                         name="email"
                                         type="email"
-                                        value="{{ old('email') }}"
+                                        value="{{ old('email', $request->email) }}"
                                         placeholder="Enter Email"
-                                        class="form-input pl-10 placeholder:text-white-dark @error('email') border-red-500 @enderror"
+                                        class="form-input ps-10 placeholder:text-white-dark @error('email') border-red-500 @enderror"
                                         required
                                         autofocus
+                                        readonly
                                     />
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2">
+                                    <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                                             <path opacity="0.5"
                                                 d="M10.65 2.25H7.35C4.23873 2.25 2.6831 2.25 1.71655 3.23851C0.75 4.22703 0.75 5.81802 0.75 9C0.75 12.182 0.75 13.773 1.71655 14.7615C2.6831 15.75 4.23873 15.75 7.35 15.75H10.65C13.7613 15.75 15.3169 15.75 16.2835 14.7615C17.25 13.773 17.25 12.182 17.25 9C17.25 5.81802 17.25 4.22703 16.2835 3.23851C15.3169 2.25 13.7613 2.25 10.65 2.25Z"
@@ -109,26 +105,99 @@
                                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            <!-- Password Field -->
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700 dark:text-white">New Password</label>
+                                <div class="relative text-white-dark">
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        placeholder="Enter New Password"
+                                        class="form-input ps-10 placeholder:text-white-dark @error('password') border-red-500 @enderror"
+                                        required
+                                    />
+                                    <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                            <path opacity="0.5"
+                                                d="M1.5 12C1.5 8.68629 4.18629 6 7.5 6H10.5C13.8137 6 16.5 8.68629 16.5 12C16.5 15.3137 13.8137 18 10.5 18H7.5C4.18629 18 1.5 15.3137 1.5 12Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M6 12.75C6.41421 12.75 6.75 12.4142 6.75 12C6.75 11.5858 6.41421 11.25 6 11.25C5.58579 11.25 5.25 11.5858 5.25 12C5.25 12.4142 5.58579 12.75 6 12.75Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M9 12.75C9.41421 12.75 9.75 12.4142 9.75 12C9.75 11.5858 9.41421 11.25 9 11.25C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M12.75 12C12.75 12.4142 12.4142 12.75 12 12.75C11.5858 12.75 11.25 12.4142 11.25 12C11.25 11.5858 11.5858 11.25 12 11.25C12.4142 11.25 12.75 11.5858 12.75 12Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M5.0625 6C5.0625 3.82538 6.82538 2.0625 9 2.0625C11.1746 2.0625 12.9375 3.82538 12.9375 6V6.56066C13.4629 6.87439 13.9289 7.27034 14.3187 7.72959C14.4138 7.83815 14.5 7.95243 14.5781 8.07143C14.5388 8.04803 14.4985 8.0259 14.4573 8.00503C13.6654 7.61914 12.7726 7.40625 11.8359 7.40625H6.16406C5.22739 7.40625 4.33456 7.61914 3.54272 8.00503C3.50147 8.0259 3.46121 8.04803 3.42188 8.07143C3.5 7.95243 3.58618 7.83815 3.68127 7.72959C4.07107 7.27034 4.53711 6.87439 5.0625 6.56066V6Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </span>
+                                </div>
+                                @error('password')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Confirm Password Field -->
+                            <div>
+                                <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-white">Confirm Password</label>
+                                <div class="relative text-white-dark">
+                                    <input
+                                        id="password_confirmation"
+                                        name="password_confirmation"
+                                        type="password"
+                                        placeholder="Confirm New Password"
+                                        class="form-input ps-10 placeholder:text-white-dark @error('password_confirmation') border-red-500 @enderror"
+                                        required
+                                    />
+                                    <span class="absolute start-4 top-1/2 -translate-y-1/2">
+                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                            <path opacity="0.5"
+                                                d="M1.5 12C1.5 8.68629 4.18629 6 7.5 6H10.5C13.8137 6 16.5 8.68629 16.5 12C16.5 15.3137 13.8137 18 10.5 18H7.5C4.18629 18 1.5 15.3137 1.5 12Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M6 12.75C6.41421 12.75 6.75 12.4142 6.75 12C6.75 11.5858 6.41421 11.25 6 11.25C5.58579 11.25 5.25 11.5858 5.25 12C5.25 12.4142 5.58579 12.75 6 12.75Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M9 12.75C9.41421 12.75 9.75 12.4142 9.75 12C9.75 11.5858 9.41421 11.25 9 11.25C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M12.75 12C12.75 12.4142 12.4142 12.75 12 12.75C11.5858 12.75 11.25 12.4142 11.25 12C11.25 11.5858 11.5858 11.25 12 11.25C12.4142 11.25 12.75 11.5858 12.75 12Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M5.0625 6C5.0625 3.82538 6.82538 2.0625 9 2.0625C11.1746 2.0625 12.9375 3.82538 12.9375 6V6.56066C13.4629 6.87439 13.9289 7.27034 14.3187 7.72959C14.4138 7.83815 14.5 7.95243 14.5781 8.07143C14.5388 8.04803 14.4985 8.0259 14.4573 8.00503C13.6654 7.61914 12.7726 7.40625 11.8359 7.40625H6.16406C5.22739 7.40625 4.33456 7.61914 3.54272 8.00503C3.50147 8.0259 3.46121 8.04803 3.42188 8.07143C3.5 7.95243 3.58618 7.83815 3.68127 7.72959C4.07107 7.27034 4.53711 6.87439 5.0625 6.56066V6Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                    </span>
+                                </div>
+                                @error('password_confirmation')
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                             <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                                EMAIL PASSWORD RESET LINK
+                                RESET PASSWORD
                             </button>
                         </form>
 
                         <!-- Back to Login Link -->
                         <div class="mt-6 text-center">
-                            <a href="{{ route('login') }}" class="text-primary hover:underline">
+                            <a href="{{ route('login') }}" class="text-sm text-primary hover:underline">
                                 Back to Login
                             </a>
                         </div>
                     </div>
-                    <p class="absolute bottom-6 w-full text-center dark:text-white">
-                        © <span id="footer-year">2022</span>. VRISTO All Rights Reserved.
-                    </p>
                 </div>
             </div>
         </div>
     </div>
     <script>
+        // main section
         document.addEventListener('alpine:init', () => {
             Alpine.data('auth', () => ({
                 languages: [{
@@ -214,9 +283,6 @@
                 ],
             }));
         });
-
-        // Update footer year
-        document.getElementById('footer-year').textContent = new Date().getFullYear();
     </script>
 
 </x-layout.auth>

@@ -70,6 +70,9 @@ Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
     Route::resource('withdraw', SellerWithdrawController::class);
     Route::post('withdraw/wallet', [SellerWalletController::class, 'storeWithdraw'])->name('wallet.withdraw');
     Route::resource('transaction', SellerTransactionController::class);
+    Route::get('/transaction/service/{order}', [SellerTransactionController::class, 'showService'])->name('transaction.serviceDetail');
+    Route::put('accept/transaction/service/{order}', [SellerServiceController::class, 'acceptServiceOrder'])->name('transaction.serviceAccept');
+    Route::put('reject/transaction/service/{order}', [SellerServiceController::class, 'cancelServiceOrder'])->name('transaction.serviceReject');
     Route::get('/order/product', [SellerTransactionController::class, 'indexProduct'])->name('transaction.product');
     Route::get('/order/service', [SellerTransactionController::class, 'indexService'])->name('transaction.service');
 });
