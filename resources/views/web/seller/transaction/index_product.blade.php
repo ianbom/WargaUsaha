@@ -50,9 +50,9 @@
                         <th>No</th>
                         <th>Kode Order</th>
                         <th>Pembeli</th>
-                        <th>Tipe</th>
-                        <th>Produk/Layanan</th>
-                        <th>Qty</th>
+                        {{-- <th>Tipe</th> --}}
+                        {{-- <th>Produk</th> --}}
+                        {{-- <th>Qty</th> --}}
                         <th>Total</th>
                         <th>Status</th>
                         <th>Tanggal</th>
@@ -63,40 +63,12 @@
                     @foreach ($orders as $key => $order)
                         <tr>
                             <td>{{ $key + 1 }}</td>
+                            <td>{{ $order->code_group_order }}</td>
                             <td>
-                                <div class="font-semibold text-primary">{{ $order->order_code }}</div>
+                                <div class="font-medium">{{ $order->user->name ?? 'N/A' }}</div>
+                                <div class="text-xs text-gray-500">{{ $order->user->email ?? '' }}</div>
                             </td>
-                            <td>
-                                <div class="font-medium">{{ $order->buyer->name ?? 'N/A' }}</div>
-                                <div class="text-xs text-gray-500">{{ $order->buyer->email ?? '' }}</div>
-                            </td>
-                            <td>
-                                <span
-                                    class="badge {{ $order->type === 'Product' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
-                                    {{ $order->type }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="font-medium">
-                                    @if ($order->type === 'Product' && $order->product)
-                                        {{ $order->product->name }}
-                                    @elseif($order->type === 'Service' && $order->service)
-                                        {{ $order->service->title }}
-                                    @else
-                                        N/A
-                                    @endif
-                                </div>
-                                @if ($order->note)
-                                    <div class="mt-1 text-xs text-gray-500 line-clamp-2">{{ $order->note }}</div>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($order->quantity)
-                                    <span class="font-medium">{{ $order->quantity }}</span>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
+
                             <td>
                                 <div class="font-semibold text-green-600">
                                     Rp {{ number_format($order->total_price, 0, ',', '.') }}

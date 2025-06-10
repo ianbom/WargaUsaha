@@ -149,6 +149,29 @@ class CartService
     return $orderCode;
 }
 
+    public function generateGroupOrderCode(){
+    $datePart = now()->format('Ymd'); // Format: TahunBulanTanggal (contoh: 20250601)
+    $unique = false;
+    $orderCode = '';
+
+    while (!$unique) {
+        // Generate random 6 digit number
+        $randomPart = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Format: ORD-YYYYMMDD-XXXXXX
+        $orderCode = 'GO-'  . $randomPart;
+
+        // Check if code already exists in database
+        $exists = Order::where('order_code', $orderCode)->exists();
+
+        if (!$exists) {
+            $unique = true;
+        }
+    }
+
+    return $orderCode;
+}
+
 
 
     private function generateOrderCode(){
@@ -194,6 +217,7 @@ class CartService
     public function createGroupOrder(array $groupData, int $transactionId, string $shippingMethod): int
     {
         return DB::table('group_orders')->insertGetId([
+            'code_group_order' => $this->generateGroupOrderCode(),
             'transaction_id' => $transactionId,
             'user_id' => Auth::id(),
             'mart_id' => $groupData['mart_id'],

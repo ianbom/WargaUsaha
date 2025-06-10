@@ -18,7 +18,7 @@ class OrderController extends Controller
     }
 
     public function index(Request $request){
-        
+
         $orders = $this->orderService->getAllOrderByLoginUser($request);
 
         return view('web.customer.profile.order.index', ['orders' => $orders]);
@@ -29,7 +29,7 @@ class OrderController extends Controller
         return view('web.customer.profile.order.detail', ['groupOrder'=> $order]);
     }
 
-    public function update(Request $request, Order $order){
+    public function update(Request $request, Order $order){ // iki ga kanggo
         DB::beginTransaction();
 
         try {
@@ -38,6 +38,7 @@ class OrderController extends Controller
             return redirect()->back()->with('success', $result);
         } catch (\Exception $e) {
             DB::rollBack();
+            // return response()->json(['err' => $e->getMessage()],500);
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
 

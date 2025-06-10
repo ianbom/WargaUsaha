@@ -110,7 +110,7 @@
                             <td>
                                 <div class="flex items-center space-x-2">
 
-                                    <a href="{{ route('seller.transaction.show', $order) }}"
+                                    <a href="{{ route('seller.transaction.serviceDetail', $order) }}"
                                         class="p-2 rounded-full btn btn-sm btn-outline-info detail-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2">

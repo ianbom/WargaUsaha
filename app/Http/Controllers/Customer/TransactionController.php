@@ -48,6 +48,7 @@ class TransactionController extends Controller
             return redirect()->route('customer.service.show', $order->id)->with('success', 'Order placed successfully');
         } catch (\Throwable $th) {
             DB::rollBack();
+            return response()->json(['err' => $th->getMessage()],500);
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
