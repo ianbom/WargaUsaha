@@ -14,6 +14,7 @@ use App\Http\Controllers\Customer\ProfileController as CustomerProfileController
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
 use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
 use App\Http\Controllers\Customer\TransactionController as CustomerTransactionController;
+use App\Http\Controllers\Customer\JobApplicantController as CustomerJobApplicantController;
 use App\Http\Controllers\Seller\MartController as SellerMartController;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\Seller\ProfileController as SellerProfileController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Seller\TransactionController as SellerTransactionContro
 use App\Http\Controllers\Seller\WalletController as SellerWalletController;
 use App\Http\Controllers\Seller\WithdrawController as SellerWithdrawController;
 use App\Http\Controllers\Employer\JobVacancyController as EmployerJobVacancyController;
+use App\Http\Controllers\Employer\JobApplicantController as EmployerJobApplicantController;
 use App\Livewire\IndexChat;
 use Illuminate\Support\Facades\Route;
 
@@ -110,12 +112,14 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     // Route Lowongan Pekerjaan
     Route::get('home/job/list', [CustomerHomeController::class, 'indexJobVacancy'])->name('home.indexJobVacancy');
     Route::get('home/job/{job}', [CustomerHomeController::class, 'showJobVacancy'])->name('home.showJobVacancy');
+    Route::resource( 'jobApply', CustomerJobApplicantController::class);
 });
 
 
 Route::middleware('auth')->prefix('employer')->as('employer.')->group(function () {
     Route::resource('profile', CustomerProfileController::class);
-    Route::resource('job', EmployerJobVacancyController::class);
+    Route::resource( 'job', EmployerJobVacancyController::class);
+    Route::resource( 'job-applicant', EmployerJobApplicantController::class);
 });
 
 

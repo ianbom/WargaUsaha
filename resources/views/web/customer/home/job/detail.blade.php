@@ -18,7 +18,15 @@
         </div>
 
         <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
-
+            @if ($errors->any())
+                <div class="mb-5 alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="overflow-hidden bg-white shadow dark:bg-[#0e1726] rounded-2xl">
                 <!-- Job Header -->
 
@@ -84,34 +92,53 @@
                                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                                 <div @click.away="showApply = false"
                                     class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+                                    @if ($errors->any())
+                                        <div class="mb-5 alert alert-danger">
+                                            <ul class="mb-0">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <h2 class="mb-4 text-lg font-semibold text-black">Form Lamaran</h2>
-                                    <form action="#" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('customer.jobApply.store') }}" method="POST"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <div class="mb-4">
                                             <label for="proposed_salary"
                                                 class="block text-sm font-medium text-gray-700">Gaji
                                                 yang Diharapkan <span class="text-red-500">*</span> </label>
                                             <input type="number" name="proposed_salary" id="proposed_salary" required
-                                                class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm" />
+                                                class="block w-full px-3 py-2 mt-1 text-black border border-gray-300 rounded-md shadow-sm" />
                                             <span class="text-sm text-gray-600">Range: {{ $job->salary_min }} -
                                                 {{ $job->salary_max }}</span>
+                                            <input type="hidden" name="job_vacancy_id" id="job_vacancy_id"
+                                                value="{{ $job->id }}">
+                                            @error('proposed_salary')
+                                                <span class="mt-1 text-xs text-red-500">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="mb-4">
-                                            <label for="resume" class="block text-sm font-medium text-gray-700">Upload
+                                            <label for="cv_document"
+                                                class="block text-sm font-medium text-gray-700">Upload
                                                 CV <span class="text-red-500">*</span></label>
-                                            <input type="file" name="resume" id="resume" required
+                                            <input type="file" name="cv_document" id="cv_document" required
                                                 class="block w-full mt-1 text-sm text-gray-900 file:bg-primary file:text-white file:rounded file:px-3 file:py-1" />
                                         </div>
                                         <div class="mb-4">
-                                            <label for="resume" class="block text-sm font-medium text-gray-700">Upload
+                                            <label for="portfolio_document"
+                                                class="block text-sm font-medium text-gray-700">Upload
                                                 Portofolio <span class="text-red-500">*</span></label>
-                                            <input type="file" name="resume" id="resume" required
+                                            <input type="file" name="portfolio_document" id="portfolio_document"
+                                                required
                                                 class="block w-full mt-1 text-sm text-gray-900 file:bg-primary file:text-white file:rounded file:px-3 file:py-1" />
                                         </div>
                                         <div class="mb-4">
-                                            <label for="resume" class="block text-sm font-medium text-gray-700">Upload
+                                            <label for="supporting_document"
+                                                class="block text-sm font-medium text-gray-700">Upload
                                                 Dokumen Pendukung</label>
-                                            <input type="file" name="resume" id="resume" required
+                                            <input type="file" name="supporting_document" id="supporting_document"
                                                 class="block w-full mt-1 text-sm text-gray-900 file:bg-primary file:text-white file:rounded file:px-3 file:py-1" />
                                             <span class="text-sm text-gray-600">Opsional</span>
                                         </div>
