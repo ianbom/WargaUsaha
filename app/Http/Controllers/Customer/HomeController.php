@@ -9,9 +9,12 @@ use App\Models\Review;
 use App\Models\Service;
 use App\Models\ServiceCategory;
 use App\Models\User;
+use App\Models\JobVacancy;
+use App\Models\JobVacancyCategory;
 use App\Services\MartService;
 use App\Services\ProductService;
 use App\Services\ServiceService;
+use App\Services\JobVacancyService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -22,12 +25,14 @@ class HomeController extends Controller
     protected $productService;
     protected $serviceService;
     protected $martService;
+    protected $jobVacancyService;
 
-    public function __construct(ProductService $productService, ServiceService $serviceService, MartService $martService)
+    public function __construct(ProductService $productService, ServiceService $serviceService, MartService $martService, JobVacancyService $jobVacancyService)
     {
         $this->productService = $productService;
         $this->serviceService = $serviceService;
         $this->martService = $martService;
+        $this->jobVacancyService = $jobVacancyService;
     }
 
     public function index()
@@ -36,23 +41,11 @@ class HomeController extends Controller
         $products = $this->productService->getAllProduct();
         return view('web.customer.home.index', ['products' => $products, 'categories' => $categories]);
     }
-
-    public function showProduct(Product $product)
-    {
-        try {
-            $review = $this->productService->getProductReviewByProductId($product->id);
-            return view('web.customer.home.product.detail', ['product' => $product, 'review' => $review]);
-        } catch (\Throwable $th) {
-            return response()->json(['err' => $th->getMessage()], 500);
-        }
-    }
-
     public function indexProduct(Request $request)
     {
 
         try {
             $filters = $this->productService->buildFilters($request);
-
             $perPage = 12;
             $page = $request->input('page', 1);
 
@@ -67,10 +60,18 @@ class HomeController extends Controller
             );
             $categories = ProductCategory::orderBy('name', 'asc')->get();
 
-
             return view('web.customer.home.product.index', ['products' => $products, 'categories' => $categories, 'filters' => $filters]);
         } catch (\Throwable $th) {
             Log::error('Error fetching products: ' . $th->getMessage());
+            return response()->json(['err' => $th->getMessage()], 500);
+        }
+    }
+    public function showProduct(Product $product)
+    {
+        try {
+            $review = $this->productService->getProductReviewByProductId($product->id);
+            return view('web.customer.home.product.detail', ['product' => $product, 'review' => $review]);
+        } catch (\Throwable $th) {
             return response()->json(['err' => $th->getMessage()], 500);
         }
     }
@@ -113,7 +114,32 @@ class HomeController extends Controller
             return response()->json(['err' => $th->getMessage()], 500);
         }
     }
-
+    public function indexJobVacancy(Request $request)
+    {
+        try {
+            $filters = $this->jobVacancyService->buildFilters($request);
+            $perPage = 12;
+            $page = $request->input('page', 1);
+            $result = $this->jobVacancyService->getListJobVacancy($filters, $perPage, $page);
+            $job = $result['data'];
+            $job = new LengthAwarePaginator(
+                $result['data'],
+                $result['meta']['total'],
+                $result['meta']['per_page'],
+                $result['meta']['current_page'],
+                ['path' => RequestPagination::url()]
+            );
+            $job_categories = JobVacancyCategory::orderBy('category_name', 'asc')->get();
+            return view('web.customer.home.job.index', [
+                'job' => $job,
+                'job_categories' => $job_categories,
+                'filters' => $filters
+            ]);
+        } catch (\Throwable $th) {
+            Log::error('Error fetching job vacancies: ' . $th->getMessage());
+            return response()->json(['err' => $th->getMessage()], 500);
+        }
+    }
     public function showSeller(User $seller)
     {
         try {

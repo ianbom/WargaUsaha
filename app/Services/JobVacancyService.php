@@ -8,7 +8,7 @@ use App\Models\JobVacancyCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class JobVacancyService
+class JobVacancyService extends Service
 {
     /**
      * Create a new class instance.
@@ -62,5 +62,63 @@ class JobVacancyService
         }
         $jobVacancy->update($data);
         return $jobVacancy;
+    }
+    public function queryListJobVacancy(array $filters = [])
+    {
+        $allowedFilters = [
+            'job_vacancies.job_title' => 'like',
+            'job_vacancies.job_category_id' => 'value',
+            'job_vacancies.salary_min' => '>=',
+            'job_vacancies.salary_max' => '<=',
+        ];
+
+        $selectColumns = [
+            'job_vacancies.*',
+            'job_vacancy_categories.category_name as category_name',
+        ];
+
+        $query = JobVacancy::select($selectColumns)
+            ->join('job_vacancy_categories', 'job_vacancies.job_category_id', '=', 'job_vacancy_categories.id')
+            ->orderBy('job_vacancies.id', 'desc');
+
+        $query = $this->applyFilters($query, $filters, $allowedFilters);
+
+        $query->with([
+            'jobCategory'
+        ]);
+
+        return $query;
+    }
+
+    public function getListJobVacancy(array $filters = [], int $perPage = null, int $page = null)
+    {
+
+        $query = $this->queryListJobVacancy($filters);
+
+        return $this->paginate($query, $perPage, $page);
+    }
+
+    public function buildFilters($request)
+    {
+        $filters = [];
+
+        if ($request->filled('job_title')) {
+            $filters['job_vacancies.job_title'] = $request->input('job_title');
+        }
+
+        if ($request->filled('job_category_id')) {
+            $filters['job_vacancies.job_category_id'] = $request->input('job_category_id');
+        }
+
+        if ($request->filled('salary_min')) {
+            // cari pekerjaan dengan salary_max >= salary_min user
+            $filters['job_vacancies.salary_max'] = ['>=', $request->input('salary_min')];
+        }
+
+        if ($request->filled('salary_max')) {
+            // cari pekerjaan dengan salary_min <= salary_max user
+            $filters['job_vacancies.salary_min'] = ['<=', $request->input('salary_max')];
+        }
+        return $filters;
     }
 }
