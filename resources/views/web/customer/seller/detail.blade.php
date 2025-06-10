@@ -196,7 +196,7 @@
                             </div>
 
                             <button class="w-full bg-blue-600 text-white py-2 rounded-lg mt-4 hover:bg-blue-700 transition-colors">
-                                Hubungi Penjual
+                                <a href="{{ route('customer.chat.detail', $seller->id) }}">Hubungi Penjual</a>
                             </button>
                         </div>
                     </div>

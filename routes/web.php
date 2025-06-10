@@ -8,9 +8,11 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WithdrawController as AdminWithdrawController;
 use App\Http\Controllers\Customer\CartController as CustomerCartController;
 use App\Http\Controllers\Customer\HomeController as CustomerHomeController;
+use App\Http\Controllers\Customer\MessageController as CustomerMessageController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
+use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
 use App\Http\Controllers\Customer\TransactionController as CustomerTransactionController;
 use App\Http\Controllers\Seller\MartController as SellerMartController;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
@@ -20,6 +22,7 @@ use App\Http\Controllers\Seller\TransactionController as SellerTransactionContro
 use App\Http\Controllers\Seller\WalletController as SellerWalletController;
 use App\Http\Controllers\Seller\WithdrawController as SellerWithdrawController;
 use App\Http\Controllers\Employer\JobVacancyController as EmployerJobVacancyController;
+use App\Livewire\IndexChat;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -79,6 +82,11 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('order', CustomerOrderController::class);
     Route::resource('review', CustomerReviewController::class);
     Route::resource('transaction', CustomerTransactionController::class);
+    Route::resource('message', CustomerMessageController::class);
+    Route::resource('service', CustomerServiceController::class);
+    Route::get('chat/{user}', [CustomerMessageController::class, 'chat'])->name('chat.detail');
+
+    // Route::get('chat', IndexChat::class)->name('chat');
 
     Route::get('seller/{seller}', [CustomerHomeController::class, 'showSeller'])->name('home.showSeller');
     Route::get('seller/{seller}/product', [CustomerHomeController::class, 'showSellerProduct'])->name('home.showSeller.product');
@@ -94,7 +102,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::put('cancel/transaction/{transaction}', [CustomerTransactionController::class, 'cancelTransaction'])->name('transaction.cancel');
 
 
-    Route::post('product/checkout/{product}', [CustomerTransactionController::class, 'checkoutProduct'])->name('checkout.product');
+    Route::post('product/checkout', [CustomerTransactionController::class, 'checkoutProduct'])->name('checkout.product');
     Route::get('home/service/list', [CustomerHomeController::class, 'indexService'])->name('home.indexService');
     Route::get('home/service/{service}', [CustomerHomeController::class, 'showService'])->name('home.showService');
     Route::post('service/checkout/{service}', [CustomerTransactionController::class, 'checkoutService'])->name('checkout.service');

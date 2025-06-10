@@ -29,6 +29,7 @@ class CartController extends Controller
 
     public function store(CartRequest $request){
         $data = $request->all();
+        // dd($data);
         DB::beginTransaction();
         try {
              $this->cartService->addProductToCart($data);

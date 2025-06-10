@@ -66,6 +66,34 @@ class OrderService
     return $orders;
 }
 
+       public function getAllServiceOrderByLoginUser($request){
+        $user = Auth::user();
+         $query = Order::query()
+            ->where('buyer_id', $user->id)
+            ->where('type', 'Service')
+            ->with(['product', 'service', 'seller'])
+            ->orderBy('created_at', 'desc');
+
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('order_code', 'like', "%{$search}%")
+                  ->orWhereHas('service', function ($serviceQuery) use ($search) {
+                      $serviceQuery->where('title', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('order_status', $request->input('status'));
+        }
+
+        $orders = $query->paginate(10);
+        return $orders;
+
+    }
     public function paidOrder($paymentMethod, $order){
 
         $order->update([
