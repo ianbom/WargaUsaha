@@ -2,14 +2,14 @@
     <script src="/assets/js/simple-datatables.js"></script>
     <div class="flex items-center justify-between ">
         <div class="text-xl font-semibold text-gray-800">
-            Job
+            Pelamar Kerja
         </div>
         <nav class="flex items-center space-x-2 text-sm text-gray-600">
             <a href="#" class="transition-colors text-primary hover:underline">Dashboard</a>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
-            <span class="text-gray-800">Job</span>
+            <span class="text-gray-800">Pelamar Kerja</span>
         </nav>
     </div>
     <div class="mb-5">
@@ -26,52 +26,54 @@
                         <path d="M9 17H4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
                 </div>
-                <h5 class="text-lg font-semibold">Daftar Pekerjaan</h5>
+                <h5 class="text-lg font-semibold">Daftar Pelamar Kerja</h5>
             </div>
-            <a href="{{ route('employer.job.create') }}" class="btn btn-primary">
+            {{-- <a href="{{ route('employer.job.create') }}" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
                 Tambah Lowongan Pekerjaan Baru
-            </a>
+            </a> --}}
         </div>
-
         <div class="mt-6 panel">
             <table id="jobsTable" class="table-striped table-hover">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Lowongan</th>
-                        <th>Kategori</th>
-                        <th>Gaji Atas</th>
-                        <th>Gaji Bawah</th>
+                        <th>Nama Pelamar</th>
+                        <th>Email</th>
+                        <th>Pekerjaan</th>
+                        <th>Pembuat Loker</th>
+                        <th>Gaji yang diinginkan</th>
                         <th>Status</th>
                         <th>Dibuat</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($job_vacancies as $key => $job)
+                    @foreach ($job_applicant as $key => $job)
                         <tr>
                             <td>
                                 {{ $key + 1 }}
                             </td>
                             <td>
-                                <div class="font-semibold">{{ $job->job_title }}</div>
+                                <div class="font-semibold">{{ $job->user->name }}</div>
                                 {{-- <div class="mt-1 text-xs text-gray-500 line-clamp-2">{{ $product->description }}</div> --}}
                             </td>
                             <td>
-                                {{ $job->jobCategory->category_name }}
+                                {{ $job->user->email }}
                             </td>
-                            <td>Rp {{ number_format($job->salary_min, 0, ',', '.') }}</td>
-                            <td>Rp {{ number_format($job->salary_max, 0, ',', '.') }}</td>
-                            <td>{{ $job->job_status }}</td>
+                            <td>
+                                {{ $job->jobVacancy->job_title }}
+                            </td>
+                            <td>{{$job->jobVacancy->user->name}}</td>
+                            <td>Rp {{ number_format($job->proposed_salary, 0, ',', '.') }}</td>
+                            <td>{{ $job->status }}</td>
                             <td>{{ $job->created_at->format('d M Y') }}</td>
                             <td>
                                 <div class="flex items-center space-x-2">
-                                    <a href="{{ route('employer.job.show', $job) }}"
-                                        class="p-2 rounded-full btn btn-sm btn-outline-info detail-btn">
+                                    <a href="#" class="p-2 rounded-full btn btn-sm btn-outline-info detail-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -81,16 +83,14 @@
                                         </svg>
                                     </a>
 
-                                    <a href="{{ route('employer.job.edit', $job->id) }}"
-                                        class="p-2 rounded-full btn btn-sm btn-outline-primary">
+                                    <a href="#" class="p-2 rounded-full btn btn-sm btn-outline-primary">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                     </a>
-                                    <form action="{{ route('employer.job.destroy', $job->id) }}" method="POST"
-                                        class="delete-form">
+                                    <form action="#" method="POST" class="delete-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"

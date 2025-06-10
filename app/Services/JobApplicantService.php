@@ -4,38 +4,41 @@ namespace App\Services;
 
 use App\Models\JobVacancy;
 use App\Models\JobVacancyCategory;
-use Illuminate\Contracts\Queue\Job;
+use App\Models\JobApplication;
+use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
-class JobVacancyService extends Service
+class JobApplicantService extends Service
 {
     /**
      * Create a new class instance.
      */
-    // protected $jobVacancyService;
-    // public function __construct(JobVacancyService $jobVacancyService)
-    // {
-    //     $this->jobVacancyService = $jobVacancyService;
-    // }
-    public function getAllJobVacancy()
+    public function getAllJobApplicant()
     {
-        $jobVacancy = JobVacancy::all();
-        return $jobVacancy;
+        $jobApplicant = JobApplication::all();
+        return $jobApplicant;
     }
-    public function getAllJobVacancyByLoginUser()
+    // public function getAllJobVacancyByLoginUser()
+    // {
+    //     $job = JobVacancy::where('user_id', Auth::user()->id)->get();
+    //     return $job;
+    // }
+    // public function getAllJobVacancyCategory()
+    // {
+    //     $jobVacancyCategory = JobVacancyCategory::all();
+    //     return $jobVacancyCategory;
+    // }
+    public function getAllJobApplicantByLoginUser()
     {
-        $job = JobVacancy::where('user_id', Auth::user()->id)->get();
+        $job = JobApplication::where('user_id', Auth::user()->id)->get();
         return $job;
     }
-    public function getAllJobVacancyCategory()
+    public function getJobApplicantBy($jobId)
     {
-        $jobVacancyCategory = JobVacancyCategory::all();
-        return $jobVacancyCategory;
-    }
-    public function getJobVacancyByJobId($jobId)
-    {
-        $job = JobVacancy::findOrFail($jobId);
+        $job = JobApplication::findOrFail($jobId);
         return $job;
     }
     public function getJobVacancyById($id)
@@ -46,13 +49,21 @@ class JobVacancyService extends Service
         }
         return $jobVacancy;
     }
-    public function createJobVacancy(array $data)
+    public function createJobApplicant(array $data)
     {
-        $documentPath = $data['job_document']->store('job_document', 'public');
-        $data['job_document'] = $documentPath;
+        $cvPath = $data['cv_document']->store('job_applicant_cv', 'public');
+        $portfolioPath = $data['portfolio_document']->store('job_applicant_portfolio', 'public');
+        $supportingDocumentPath = isset($data['supporting_document'])
+            ? $data['supporting_document']->store('job_applicant_supporting_document', 'public')
+            : null;
+        $data['cv_document'] = $cvPath;
+        $data['portfolio_document'] = $portfolioPath;
+        $data['supporting_document'] = $supportingDocumentPath;
+
         $data['user_id'] = Auth::user()->id;
-        $jobVacancy = JobVacancy::create($data);
-        return $jobVacancy;
+
+        $jobApplicant = JobApplication::create($data);
+        return $jobApplicant;
     }
     public function updateJobVacancy($jobVacancy, $data)
     {

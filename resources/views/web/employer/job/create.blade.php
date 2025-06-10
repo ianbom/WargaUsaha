@@ -255,7 +255,7 @@
             }));
         });
         document.addEventListener('DOMContentLoaded', function() {
-            const input = document.getElementById('pdf_document');
+            const input = document.getElementById('job_document');
             const uploadArea = document.getElementById('upload-area');
             const fileInfo = document.getElementById('file-info');
             const fileName = document.getElementById('file-name');

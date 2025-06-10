@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\JobApplication;
+use App\Models\JobVacancy;
 
 class User extends Authenticatable
 {
@@ -42,7 +44,7 @@ class User extends Authenticatable
         ];
     }
 
-     public function ward()
+    public function ward()
     {
         return $this->belongsTo(Ward::class);
     }
@@ -72,7 +74,16 @@ class User extends Authenticatable
         return $this->hasOne(SellerWallet::class);
     }
 
-    public function carts(){
+    public function carts()
+    {
         return $this->hasMany(Cart::class);
+    }
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class, 'user_id');
+    }
+    public function jobVacancies()
+    {
+        return $this->hasMany(JobVacancy::class, 'user_id');
     }
 }

@@ -23,7 +23,10 @@ class JobVacancyController extends Controller
         $job_vacancies = $this->jobVacancyService->getAllJobVacancyByLoginUser();
         return view('web.employer.job.index', ['job_vacancies' => $job_vacancies]);
     }
-    public function show() {}
+    public function show(JobVacancy $job)
+    {
+        return view('web.employer.job.detail', ['job' => $job]);
+    }
     public function create()
     {
         $job_categories = JobVacancyCategory::orderBy('category_name', 'asc')->get();
