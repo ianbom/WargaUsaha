@@ -1,6 +1,9 @@
 <x-customer.app>
     <div class="min-h-screen bg-gray-50">
         <!-- Header Section -->
+
+        @include('web.seller.alert.success')
+
         <div class="bg-white shadow-sm border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -160,11 +163,18 @@
                                                     {{ $product->stock <= 0 ? 'disabled' : '' }}>
                                                 {{ $product->stock <= 0 ? 'Stok Habis' : 'Lihat' }}
                                             </a>
-                                            <button class="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200">
+                                            <form action="{{ route('customer.cart.store') }}" method="POST">
+                                                @csrf
+                                                 <input type="number" name="quantity" value="1" hidden>
+                                                <input type="number" name="product_id" value="{{ $product->id }}" hidden>
+                                            <button type="submit" class="bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                                    <path d="M2 3h2l.4 2M7 13h10l4-8H6.4M7 13L5.4 5M7 13l-2 4h13M10 21a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2z"
+                                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                                                 </svg>
                                             </button>
+                                            </form>
+
                                         </div>
                                     </div>
                                 </div>

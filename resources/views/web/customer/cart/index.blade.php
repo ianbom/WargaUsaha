@@ -1,5 +1,8 @@
 <x-customer.app>
     <div class="min-h-screen py-4 bg-gray-50">
+
+        @include('web.seller.alert.success')
+
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-5">
@@ -62,7 +65,7 @@
                                                     <p class="mb-3 text-sm text-gray-500">
                                                         {{ $cart->product->description }}</p>
 
-                                                    <div class="grid grid-cols-1 gap-3 mb-4 md:grid-cols-2">
+                                                    <div class="grid grid-cols-1 gap-1 mb-4 md:grid-cols-3">
                                                         <div>
                                                             <label
                                                                 class="block mb-1 text-xs font-medium tracking-wide text-gray-500 uppercase">Toko</label>
@@ -72,7 +75,7 @@
                                                         <div>
                                                             <label
                                                                 class="block mb-1 text-xs font-medium tracking-wide text-gray-500 uppercase">Harga
-                                                                Satuan</label>
+                                                                </label>
                                                             <p class="text-sm font-medium text-gray-900">Rp
                                                                 {{ number_format($cart->product->price, 0, ',', '.') }}
                                                             </p>

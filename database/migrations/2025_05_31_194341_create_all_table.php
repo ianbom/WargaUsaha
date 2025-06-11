@@ -110,6 +110,7 @@ return new class extends Migration
 
         Schema::create('group_orders', function (Blueprint $table) {
             $table->id();
+            $table->string('group_order_id')->nullable()->unique();
             $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();

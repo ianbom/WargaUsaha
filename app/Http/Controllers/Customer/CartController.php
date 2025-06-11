@@ -32,9 +32,13 @@ class CartController extends Controller
         // dd($data);
         DB::beginTransaction();
         try {
-             $this->cartService->addProductToCart($data);
+            $result = $this->cartService->addProductToCart($data);
             DB::commit();
-            return redirect()->back()->with('success','Product ditambahkan ke keranjang');
+
+            if($result == true){
+                 return redirect()->back()->with('success','Product ditambahkan ke keranjang');
+            } else{  return redirect()->back()->with('success','Product sudah berada di keranjang'); }
+
         } catch (\Exception $th) {
            DB::rollBack();
            return redirect()->back()->with('error', $th->getMessage());
@@ -98,10 +102,7 @@ class CartController extends Controller
             DB::rollBack();
             Log::error('Error updating cart: ' . $e->getMessage());
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan saat memperbarui quantity'
-            ], 500);
+            return redirect()->back()->with('error',''. $e->getMessage());
         }
     }
 
@@ -132,11 +133,7 @@ class CartController extends Controller
 
             $stockErrors = $this->cartService->validateProductStock($carts, $cartItems); // cek stock
             if (!empty($stockErrors)) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Stok tidak mencukupi',
-                    'errors' => $stockErrors
-                ], 400);
+              throw new Exception('Permintaan melebihi stock');
             }
 
             $groupedCarts = $this->cartService->groupCartsByMart($carts); // grouping cart by mart_id
@@ -180,10 +177,7 @@ class CartController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             Log::error($e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Checkout gagal: ' . $e->getMessage()
-            ], 500);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

@@ -51,8 +51,9 @@ class CartService
             'quantity' => $data['quantity'],
             'total_price' => $product->price,
         ]);
+        return true;
         } else {
-            throw new Exception('Product sudah dikeranjang');
+           return false;
         }
 
     }
