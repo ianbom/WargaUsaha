@@ -1,5 +1,8 @@
 <x-admin.app>
     <div class="container mx-auto px-4 py-6">
+
+        @include('web.seller.alert.success')
+
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center space-x-4">
@@ -103,31 +106,57 @@
                 </div>
 
                 <div class="bg-white rounded-lg shadow-md p-6 border border-blue-100">
-                    <div class="flex justify-between items-start mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800 flex items-center">
-                            <i class="fas fa-clipboard-check text-blue-500 mr-2"></i> Verifikasi Toko
-                        </h2>
-                        <span class="px-3 py-1 text-xs rounded-full {{ $mart->is_active ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                            {{ $mart->is_active ? 'Terverifikasi' : 'Belum Diverifikasi' }}
-                        </span>
-                    </div>
+                             <div class="flex justify-between items-start mb-4">
+                                <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                                    <i class="fas fa-clipboard-check text-blue-500 mr-2"></i> Verifikasi Toko
+                                </h2>
 
-                    <div class="space-y-4">
-                        <!-- Tombol Aksi -->
-                        <div class="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-gray-200">
-                            <button
+                                @if ($mart->is_verified === true)
+                                    <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                                        Terverifikasi
+                                    </span>
+                                @elseif (is_null($mart->is_verified))
+                                    <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">
+                                        Belum Diverifikasi
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 text-xs rounded-full bg-red-500 text-white">
+                                        Verifikasi Ditolak
+                                    </span>
+                                @endif
+                            </div>
 
-                                class="flex-1 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white py-3 px-4 rounded-lg flex items-center justify-center transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50">
-                                <i class="fas fa-check-circle mr-2"></i> Terima Verifikasi
-                            </button>
-                            <button
 
-                                class="flex-1 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white py-3 px-4 rounded-lg flex items-center justify-center transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
-                                <i class="fas fa-times-circle mr-2"></i> Tolak Verifikasi
-                            </button>
+
+                   @if ($mart->is_verified === null)
+                        <div class="space-y-4">
+                            <!-- Tombol Aksi -->
+                            <div class="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-gray-200">
+
+                                <form action="{{ route('admin.mart.registrationAccept', $mart) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin verifikasi toko ini?')" class="flex-1">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                        class="w-full bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white py-3 px-4 rounded-lg flex items-center justify-center transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50">
+                                        <i class="fas fa-check-circle mr-2"></i> Terima Verifikasi
+                                    </button>
+                                </form>
+
+
+                                <form action="{{ route('admin.mart.registrationReject', $mart) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menolak verifikasi toko ini?')" class="flex-1">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                        class="w-full bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white py-3 px-4 rounded-lg flex items-center justify-center transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
+                                        <i class="fas fa-times-circle mr-2"></i> Tolak Verifikasi
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+
+                    @endif
                 </div>
+
             </div>
 
             <!-- Right Column - Products & Services -->

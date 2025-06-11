@@ -17,12 +17,19 @@ class MartService
         //
     }
 
+    public function acceptOrRejectMartRegistration($mart, $status, $isActive){
+        $mart->update([
+            'is_verified' => $status,
+            'is_active' => $isActive
+        ]);
+    }
+
+
     public function getAllMartRegistration()
     {
        $marts = Mart::orderBy('updated_at', 'desc')
         ->where(function($query) {
-        $query->where('is_active', false)
-              ->orWhereNull('is_active');
+        $query->where('is_verified', null);
     })
     ->get();
         return $marts;

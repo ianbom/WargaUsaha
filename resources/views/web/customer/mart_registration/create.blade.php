@@ -1,21 +1,17 @@
 <x-customer.app>
 
-    <div>
+    <div class="max-w-7xl mt-4 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="flex items-center justify-between ">
             <div class="text-xl font-semibold text-gray-800">
                 Registrasi Toko Baru
             </div>
             <nav class="flex items-center space-x-2 text-sm text-gray-600">
-                <a href="#"
-                    class="transition-colors text-primary hover:underline">Dashboard</a>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
                 <a href="{{ route('customer.home.index') }}"
-                    class="transition-colors text-primary hover:underline">Toko Saya</a>
+                    class="transition-colors text-primary hover:underline">Home</a>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
+
                 <span class="text-gray-800">Registrasi Toko Baru</span>
             </nav>
         </div>
@@ -27,7 +23,7 @@
 
             </div>
 
-            <div>
+            <div >
                 <form method="POST" action="{{ route('customer.mart-registration.store') }}" enctype="multipart/form-data"
                     class="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]">
                     @csrf

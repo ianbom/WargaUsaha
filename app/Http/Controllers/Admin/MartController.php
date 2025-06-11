@@ -7,6 +7,7 @@ use App\Models\Mart;
 use App\Models\User;
 use App\Services\MartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MartController extends Controller
 {
@@ -30,6 +31,33 @@ class MartController extends Controller
     public function show(Mart $mart){
 
         return view('web.admin.mart.detail', ['mart' => $mart]);
+    }
+
+    public function acceptMartRegistration(Mart $mart){
+       DB::beginTransaction();
+
+        try {
+            $this->martService->acceptOrRejectMartRegistration($mart, true, false);
+            DB::commit();
+            return redirect()->back()->with('success','Toko berhasil diverifikasi');
+       } catch (\Throwable $th) {
+        DB::rollBack();
+        return redirect()->back()->with('error', $th->getMessage());
+       }
+
+    }
+
+    public function rejectMartRegistration(Mart $mart){
+       DB::beginTransaction();
+        try {
+            $this->martService->acceptOrRejectMartRegistration($mart, false, null);
+            DB::commit();
+            return redirect()->back()->with('success','Verifikasi toko ditolak');
+       } catch (\Throwable $th) {
+        DB::rollBack();
+        return redirect()->back()->with('error', $th->getMessage());
+       }
+
     }
 
 

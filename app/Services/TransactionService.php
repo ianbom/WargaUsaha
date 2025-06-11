@@ -143,7 +143,7 @@ class TransactionService
 
     public function payTransaction($transaction){
 
-         if ($transaction->payment_status !== 'Pending') {
+        if ($transaction->payment_status !== 'Pending') {
         throw new Exception('Transaction is not in pending status');
         }
 

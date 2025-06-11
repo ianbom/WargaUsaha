@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MartRegistrationRequest;
 use App\Models\Mart;
 use App\Models\MartCategory;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,13 +23,20 @@ class MartRegistrationController extends Controller
         $user = Auth::user();
         DB::beginTransaction();
         try {
-             $data['user_id'] = $user->id;
+        if($user->mart){
+           throw new Exception('Anda sudah memiliki toko');
+        }
+
+        $data['user_id'] = $user->id;
+        $pathBanner = $data['banner_url']->store('banner_url', 'public');
+        $data['banner_url'] = $pathBanner;
+
         Mart::create($data);
         DB::commit();
         return redirect()->back()->with('success','Registrasi toko berhasil');
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan');
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 }
