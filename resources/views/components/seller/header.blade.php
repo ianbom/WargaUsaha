@@ -20,7 +20,7 @@
                     </svg>
                 </a>
             </div>
-            <div class="hidden ltr:mr-2 rtl:ml-2 sm:block">
+            {{-- <div class="hidden ltr:mr-2 rtl:ml-2 sm:block">
                 <ul class="flex items-center space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
                     <li>
                         <a href="/apps/calendar"
@@ -69,11 +69,11 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
             <div x-data="header"
                 class="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
                 <div class="sm:ltr:mr-auto sm:rtl:ml-auto" x-data="{ search: false }" @click.outside="search = false">
-                    <form
+                    {{-- <form
                         class="absolute inset-x-0 z-10 hidden mx-4 -translate-y-1/2 sm:relative sm:top-0 top-1/2 sm:translate-y-0 sm:mx-0 sm:block"
                         :class="{ '!block': search }" @submit.prevent="search = false">
                         <div class="relative">
@@ -114,9 +114,9 @@
                             <path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5"
                                 stroke-linecap="round" />
                         </svg>
-                    </button>
+                    </button> --}}
                 </div>
-                <div>
+                {{-- <div>
                     <a href="javascript:;" x-cloak x-show="$store.app.theme === 'light'" href="javascript:;"
                         class="flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
                         @click="$store.app.toggleTheme('dark')">
@@ -161,9 +161,9 @@
                                 stroke-linecap="round" />
                         </svg>
                     </a>
-                </div>
+                </div> --}}
 
-                <div class="dropdown shrink-0" x-data="dropdown" @click.outside="open = false">
+                {{-- <div class="dropdown shrink-0" x-data="dropdown" @click.outside="open = false">
                     <a href="javascript:;"
                         class="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
                         @click="toggle">
@@ -365,15 +365,15 @@
                             </li>
                         </template>
                     </ul>
-                </div>
+                </div> --}}
                 <div class="flex-shrink-0 dropdown" x-data="dropdown" @click.outside="open = false">
                     <a href="javascript:;" class="relative group" @click="toggle()">
                         <div class="flex items-center gap-2">
                             <img class="object-cover rounded-full w-9 h-9 saturate-50 group-hover:saturate-100"
                                 src="{{ asset('storage/' . auth()->user()->profile_pic) }}" alt="image" />
-                            {{-- <div class="font-medium text-gray-900 dark:text-white">
+                            <div class="font-medium text-gray-900 dark:text-white">
                                 {{ auth()->user()->name }}
-                            </div> --}}
+                            </div>
                         </div>
 
 

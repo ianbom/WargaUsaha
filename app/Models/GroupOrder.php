@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Mart;
 use Illuminate\Database\Eloquent\Model;
 
 class GroupOrder extends Model
@@ -29,6 +29,6 @@ class GroupOrder extends Model
     }
 
     public function getBuyerName(){
-        
+
     }
 }
