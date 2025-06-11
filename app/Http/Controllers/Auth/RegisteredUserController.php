@@ -51,6 +51,8 @@ class RegisteredUserController extends Controller
 
             Mart::create([
                 'user_id' => $user->id,
+                'is_active' => true,
+                'is_verified' => true
             ]);
 
             SellerWallet::create([

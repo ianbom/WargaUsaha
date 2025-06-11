@@ -40,7 +40,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->string('banner_url')->nullable();
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->nullable();
+            $table->boolean('is_verified')->nullable();
             $table->integer('review_count')->default(0);
             $table->integer('total_rating')->default(0);
             $table->decimal('average_rating', 6, 2)->default(0);
