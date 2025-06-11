@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\WithdrawController as AdminWithdrawController;
 use App\Http\Controllers\Customer\CartController as CustomerCartController;
 use App\Http\Controllers\Customer\HomeController as CustomerHomeController;
+use App\Http\Controllers\Customer\MartRegistrationController as CustomerMartRegistrationController;
 use App\Http\Controllers\Customer\MessageController as CustomerMessageController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
@@ -116,6 +117,8 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::get('home/job/list', [CustomerHomeController::class, 'indexJobVacancy'])->name('home.indexJobVacancy');
     Route::get('home/job/{job}', [CustomerHomeController::class, 'showJobVacancy'])->name('home.showJobVacancy');
     Route::resource( 'jobApply', CustomerJobApplicantController::class);
+
+    Route::resource('mart-registration', CustomerMartRegistrationController::class);
 });
 
 
