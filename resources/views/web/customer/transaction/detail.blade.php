@@ -5,6 +5,14 @@
             <div class="mb-5">
                 <div class="flex items-center justify-between">
                     <div>
+                        <a href="{{ route('customer.transaction.index') }}"
+                            class="inline-flex items-center mb-2 text-sm text-gray-500 hover:text-gray-700">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            Kembali ke Riwayat Transaksi
+                        </a>
                         <h1 class="text-3xl font-bold text-gray-900">Detail Transaksi</h1>
                         <p class="mt-1 text-gray-600">Kode Transaksi: <span
                                 class="font-semibold text-blue-600">{{ $transaction->transaction_code }}</span></p>
@@ -44,7 +52,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
                 <!-- Main Content -->
                 <div class="space-y-6 lg:col-span-2">
@@ -57,10 +64,20 @@
                                     <div class="flex items-center space-x-3">
                                         <div
                                             class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
-                                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-2m-2 0H7m5 0v-5a2 2 0 00-2-2H8a2 2 0 00-2 2v5m5 0V9a2 2 0 012-2h2a2 2 0 012 2v12M7 7h10" />
+                                            <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M22 22H2" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <path d="M20 22V11" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <path d="M4 22V11" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <path
+                                                    d="M16.5278 2H7.47214C6.26932 2 5.66791 2 5.18461 2.2987C4.7013 2.5974 4.43234 3.13531 3.89443 4.21114L2.49081 7.75929C2.16652 8.57905 1.88279 9.54525 2.42867 10.2375C2.79489 10.7019 3.36257 11 3.99991 11C5.10448 11 5.99991 10.1046 5.99991 9C5.99991 10.1046 6.89534 11 7.99991 11C9.10448 11 9.99991 10.1046 9.99991 9C9.99991 10.1046 10.8953 11 11.9999 11C13.1045 11 13.9999 10.1046 13.9999 9C13.9999 10.1046 14.8953 11 15.9999 11C17.1045 11 17.9999 10.1046 17.9999 9C17.9999 10.1046 18.8953 11 19.9999 11C20.6373 11 21.205 10.7019 21.5712 10.2375C22.1171 9.54525 21.8334 8.57905 21.5091 7.75929L20.1055 4.21114C19.5676 3.13531 19.2986 2.5974 18.8153 2.2987C18.332 2 17.7306 2 16.5278 2Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                                <path
+                                                    d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                             </svg>
                                         </div>
                                         <div>
@@ -94,6 +111,9 @@
                                             <div
                                                 class="flex items-center justify-center flex-shrink-0 w-16 h-16 bg-gray-200 rounded-lg">
                                                 @if ($order->type === 'Product')
+                                                    <img src="{{ asset('storage/' . $order->product->image_url) }}"
+                                                        alt="{{ $order->product->name }}"
+                                                        class="object-cover w-full h-full rounded-lg">
                                                     <svg class="w-8 h-8 text-gray-400" fill="none"
                                                         stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -101,6 +121,9 @@
                                                             d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                                                     </svg>
                                                 @else
+                                                    <img src="{{ asset('storage/' . $order->service->image_url) }}"
+                                                        alt="{{ $order->service->name }}"
+                                                        class="object-cover w-full h-full rounded-lg">
                                                     <svg class="w-8 h-8 text-gray-400" fill="none"
                                                         stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -112,7 +135,7 @@
 
                                             <!-- Product/Service Details -->
                                             <div class="flex-1 min-w-0">
-                                                <div class="flex items-start justify-between">
+                                                {{-- <div class="flex items-start justify-between">
                                                     <div>
                                                         <h4 class="font-medium text-gray-900 truncate">
                                                             {{ $order->product_name }}</h4>
@@ -124,7 +147,7 @@
                                                                 {{ $order->type === 'Product' ? 'Produk' : 'Layanan' }}
                                                             </span>
                                                             @if ($order->quantity)
-                                                                <span class="text-sm text-gray-600">Qty:
+                                                                <span class="text-sm text-gray-600">Kuantitas:
                                                                     {{ $order->quantity }}</span>
                                                             @endif
                                                         </div>
@@ -141,7 +164,43 @@
                                                         <p class="font-semibold text-gray-900">Rp
                                                             {{ number_format($order->total_price, 0, ',', '.') }}</p>
                                                     </div>
+                                                </div> --}}
+                                                <div
+                                                    class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                                    <div class="flex-1">
+                                                        <h4 class="font-medium text-gray-900 truncate">
+                                                            {{ $order->product_name }}
+                                                        </h4>
+                                                        <div class="mt-1">
+                                                            <div
+                                                                class="flex flex-col space-y-1 sm:flex-row sm:items-center sm:space-x-2 sm:space-y-0">
+                                                                <span
+                                                                    class="inline-flex max-w-max  items-center px-2 py-0.5 rounded text-xs font-medium
+                                                                    @if ($order->type === 'Product') bg-blue-100 text-blue-800
+                                                                    @else bg-green-100 text-green-800 @endif">
+                                                                    {{ $order->type === 'Product' ? 'Produk' : 'Layanan' }}
+                                                                </span>
+                                                                @if ($order->quantity)
+                                                                    <span class="text-sm text-gray-600">Kuantitas:
+                                                                        {{ $order->quantity }}</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        @if ($order->note)
+                                                            <p class="mt-2 text-sm text-gray-600">
+                                                                <span class="font-medium">Catatan:</span>
+                                                                {{ $order->note }}
+                                                            </p>
+                                                        @endif
+                                                    </div>
+                                                    <div class="text-right sm:text-right sm:ml-4">
+                                                        <p class="text-sm text-gray-600">Rp
+                                                            {{ number_format($order->product_price, 0, ',', '.') }}</p>
+                                                        <p class="font-semibold text-gray-900">Rp
+                                                            {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     @endforeach
@@ -179,14 +238,15 @@
                         </div>
                     @endforeach
                 </div>
-
                 <!-- Sidebar -->
-                <div class="lg:col-span-1">
-                    <div class="sticky bg-white border border-gray-200 rounded-lg shadow-sm top-8">
-                        <div class="p-6">
-                            <h3 class="mb-4 text-lg font-semibold text-gray-900">Ringkasan Pembayaran</h3>
-
-                            <div class="mb-6 space-y-3">
+                <div class="space-y-6">
+                    <!-- Order Summary -->
+                    <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Ringkasan Pembayaran</h3>
+                        </div>
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <div class="space-y-3">
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Total Pesanan</span>
                                     <span class="text-gray-900">Rp
@@ -197,110 +257,541 @@
                                     <span class="text-gray-900">Rp
                                         {{ number_format($transaction->groupOrders->sum('shipping_cost'), 0, ',', '.') }}</span>
                                 </div>
-                                <div class="pt-3 border-t border-gray-200">
-                                    <div class="flex justify-between">
-                                        <span class="text-base font-semibold text-gray-900">Total Pembayaran</span>
-                                        <span class="text-lg font-bold text-blue-600">Rp
-                                            {{ number_format($transaction->paid_amount, 0, ',', '.') }}</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between px-6 py-4 border-t border-gray-200">
+                            <span class="text-base font-semibold text-gray-900">Total Pembayaran</span>
+                            <span class="text-lg font-bold text-blue-600">Rp
+                                {{ number_format($transaction->paid_amount, 0, ',', '.') }}</span>
+                            <!-- Payment Method -->
+                        </div>
+                        @if ($transaction->payment_method)
+                            <div class="px-6 py-4 bg-gray-50">
+                                <h4 class="mb-2 font-medium text-gray-900">Metode Pembayaran</h4>
+                                <div class="flex items-center space-x-2">
+                                    <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded">
+                                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" />
+                                        </svg>
                                     </div>
+                                    <span
+                                        class="text-sm font-medium text-gray-900">{{ ucfirst($transaction->payment_method) }}</span>
                                 </div>
                             </div>
+                        @endif
+                    </div>
 
-                            <!-- Payment Method -->
-                            @if ($transaction->payment_method)
-                                <div class="p-4 mb-6 rounded-lg bg-gray-50">
-                                    <h4 class="mb-2 font-medium text-gray-900">Metode Pembayaran</h4>
-                                    <div class="flex items-center space-x-2">
-                                        <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded">
-                                            <svg class="w-4 h-4 text-blue-600" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" />
-                                            </svg>
-                                        </div>
-                                        <span
-                                            class="text-sm font-medium text-gray-900">{{ ucfirst($transaction->payment_method) }}</span>
-                                    </div>
-                                </div>
-                            @endif
+                    <!-- Actions -->
+                    <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Aksi</h3>
+                        </div>
 
-                            <!-- Action Buttons -->
-                            @if ($transaction->payment_status === 'Pending')
-                                <div class="space-y-3">
-                                    <!-- Pay Button -->
-                                    <form action="{{ route('customer.transaction.pay', $transaction) }}"
-                                        method="POST" class="w-full">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit"
-                                            class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                            </svg>
-                                            Bayar Sekarang
-                                        </button>
-                                    </form>
+                        @if ($transaction->payment_status === 'Pending')
+                            <div class="px-6 py-4 space-y-3">
+                                <!-- Pay Button -->
+                                <form action="{{ route('customer.transaction.pay', $transaction) }}" method="POST"
+                                    class="w-full">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                        class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                        </svg>
+                                        Bayar Sekarang
+                                    </button>
+                                </form>
 
-                                    <!-- Cancel Button -->
-                                    <form action="{{ route('customer.transaction.cancel', $transaction) }}"
-                                        method="POST" class="w-full">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="submit"
-                                            class="flex items-center justify-center w-full px-4 py-3 font-medium text-red-600 transition-colors bg-white border border-red-300 rounded-lg hover:bg-red-50 hover:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                            Batalkan Pesanan
-                                        </button>
-                                    </form>
-                                </div>
-                            @elseif($transaction->payment_status === 'paid')
-                                <div class="p-4 text-center rounded-lg bg-green-50">
-                                    <svg class="w-12 h-12 mx-auto mb-2 text-green-500" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="text-sm font-medium text-green-800">Pembayaran Berhasil</p>
-                                </div>
-                            @elseif($transaction->payment_status === 'cancelled')
-                                <div class="p-4 text-center rounded-lg bg-red-50">
-                                    <svg class="w-12 h-12 mx-auto mb-2 text-red-500" fill="currentColor"
-                                        viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="text-sm font-medium text-red-800">Transaksi Dibatalkan</p>
-                                </div>
-                            @else
+                                <!-- Cancel Button -->
+                                <form action="{{ route('customer.transaction.cancel', $transaction) }}"
+                                    method="POST" class="w-full">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                        class="flex items-center justify-center w-full px-4 py-3 font-medium text-red-600 transition-colors bg-white border border-red-300 rounded-lg hover:bg-red-50 hover:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        Batalkan Pesanan
+                                    </button>
+                                </form>
+                            </div>
+                        @elseif ($transaction->payment_status === 'Paid')
+                            <div class="px-6 py-4 m-6 text-center rounded-lg bg-green-50">
+                                <svg class="w-12 h-12 mx-auto mb-2 text-green-500" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-sm font-medium text-green-800">Pembayaran Berhasil</p>
+                            </div>
+                        @elseif ($transaction->payment_status === 'Cancelled')
+                            <div class="px-6 py-4 m-6 text-center rounded-lg bg-red-50">
+                                <svg class="w-12 h-12 mx-auto mb-2 text-red-500" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-sm font-medium text-red-800">Transaksi Dibatalkan</p>
+                            </div>
+                        @else
+                            <div class="p-6">
                                 <button
                                     class="w-full px-4 py-3 font-medium text-white bg-gray-400 rounded-lg cursor-not-allowed"
                                     disabled>
                                     Tidak Tersedia
                                 </button>
-                            @endif
-
-                            <!-- Transaction Info -->
-                            <div class="pt-6 mt-6 border-t border-gray-200">
-                                <div class="space-y-2 text-xs text-gray-500">
-                                    <div class="flex justify-between">
-                                        <span>Dibuat:</span>
-                                        <span>{{ $transaction->created_at->format('d M Y, H:i') }}</span>
-                                    </div>
-                                    @if ($transaction->updated_at != $transaction->created_at)
-                                        <div class="flex justify-between">
-                                            <span>Diperbarui:</span>
-                                            <span>{{ $transaction->updated_at->format('d M Y, H:i') }}</span>
+                            </div>
+                        @endif
+                    </div>
+                    <!-- Timeline -->
+                    <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Timeline Pesanan</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="flow-root">
+                                <ul class="-mb-8">
+                                    <!-- Created -->
+                                    <li>
+                                        <div class="relative pb-8">
+                                            <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"></div>
+                                            <div class="relative flex space-x-3">
+                                                <div>
+                                                    <span
+                                                        class="flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full ring-8 ring-white">
+                                                        <svg class="w-4 h-4 text-white" fill="none"
+                                                            stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                    <div>
+                                                        <p class="text-sm text-gray-500">Pesanan dibuat</p>
+                                                    </div>
+                                                    <div class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                        <time datetime="{{ $order->created_at->toIso8601String() }}">
+                                                            {{ $order->created_at->format('d M Y, H:i') }}
+                                                        </time>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </li>
+
+                                    @if ($order->type == 'Product')
+                                        @if ($order->order_status == 'Paid' || $order->order_status == 'Completed')
+                                            <!-- Payment Received -->
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200">
+                                                    </div>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span
+                                                                class="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full ring-8 ring-white">
+                                                                <svg class="w-4 h-4 text-white" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M5 13l4 4L19 7"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">Pembayaran diterima
+                                                                </p>
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                                @if ($order->paid_at)
+                                                                    {{ $order->paid_at ? \Carbon\Carbon::parse($order->completed_at)->format('d M Y, H:i') : '-' }}
+                                                                @else
+                                                                    <span class="text-yellow-600">Menunggu
+                                                                        konfirmasi</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($order->order_status == 'Cancelled')
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <!-- Garis vertikal diubah menjadi abu-abu lebih muda -->
+                                                    <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-100">
+                                                    </div>
+
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <!-- Ikon silang dengan latar abu-abu -->
+                                                            <span
+                                                                class="flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full ring-8 ring-white">
+                                                                <svg class="w-4 h-4 text-gray-600" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24"
+                                                                    stroke-width="2">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M6 18L18 6M6 6l12 12"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="flex justify-between flex-1 min-w-0 pt-1 space-x-4">
+                                                            <div>
+                                                                <!-- Teks status dengan warna abu-abu -->
+                                                                <p class="text-sm font-medium text-gray-500">Pesanan
+                                                                    Dibatalkan</p>
+                                                                <!-- Alasan pembatalan jika ada -->
+                                                                @if ($order->cancellation_reason)
+                                                                    <p class="mt-1 text-xs text-gray-400">
+                                                                        Alasan: {{ $order->cancellation_reason }}
+                                                                    </p>
+                                                                @endif
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                                @if ($order->cancelled_at)
+                                                                    <!-- Perbaikan: gunakan cancelled_at bukan completed_at -->
+                                                                    {{ \Carbon\Carbon::parse($order->cancelled_at)->format('d M Y, H:i') }}
+                                                                @else
+                                                                    <span class="text-gray-400">Tanpa tanggal</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($order->order_status === 'Completed')
+                                            <!-- Order Completed -->
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span
+                                                                class="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full ring-8 ring-white">
+                                                                <svg class="w-4 h-4 text-white" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                                    </path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">Pesanan selesai</p>
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                                @if ($order->completed_at)
+                                                                    {{ $order->completed_at ? \Carbon\Carbon::parse($order->completed_at)->format('d M Y, H:i') : '-' }}
+                                                                @else
+                                                                    {{ $order->updated_at->format('d M Y, H:i') }}
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
+                                    @else
+                                        @if ($order->order_status === 'On-Proses')
+                                            <!-- Order in Process -->
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200">
+                                                    </div>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span
+                                                                class="flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full ring-8 ring-white">
+                                                                <svg class="w-4 h-4 text-white" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M8 17l4 4 8-8"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">Pesanan sedang
+                                                                    diproses</p>
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                                {{ $order->updaton_processed_ated_at ? \Carbon\Carbon::parse($order->on_processed_at)->format('d M Y, H:i') : '-' }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($order->order_status == 'Cancelled')
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <!-- Garis vertikal diubah menjadi abu-abu lebih muda -->
+                                                    <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-100">
+                                                    </div>
+
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <!-- Ikon silang dengan latar abu-abu -->
+                                                            <span
+                                                                class="flex items-center justify-center w-8 h-8 bg-gray-300 rounded-full ring-8 ring-white">
+                                                                <svg class="w-4 h-4 text-gray-600" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24"
+                                                                    stroke-width="2">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M6 18L18 6M6 6l12 12"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="flex justify-between flex-1 min-w-0 pt-1 space-x-4">
+                                                            <div>
+                                                                <!-- Teks status dengan warna abu-abu -->
+                                                                <p class="text-sm font-medium text-gray-500">Pesanan
+                                                                    Dibatalkan</p>
+                                                                <!-- Alasan pembatalan jika ada -->
+                                                                @if ($order->cancellation_reason)
+                                                                    <p class="mt-1 text-xs text-gray-400">
+                                                                        Alasan: {{ $order->cancellation_reason }}
+                                                                    </p>
+                                                                @endif
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                                @if ($order->cancelled_at)
+                                                                    <!-- Perbaikan: gunakan cancelled_at bukan completed_at -->
+                                                                    {{ \Carbon\Carbon::parse($order->cancelled_at)->format('d M Y, H:i') }}
+                                                                @else
+                                                                    <span class="text-gray-400">Tanpa tanggal</span>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
+
+                                        @if ($order->order_status === 'Completed')
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <div class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200">
+                                                    </div>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span
+                                                                class="flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full ring-8 ring-white">
+                                                                <svg class="w-4 h-4 text-white" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M8 17l4 4 8-8"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">Pesanan diproses</p>
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                                {{ $order->on_processed_at ? \Carbon\Carbon::parse($order->on_processed_at)->format('d M Y, H:i') : '-' }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <!-- Order Completed -->
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span
+                                                                class="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full ring-8 ring-white">
+                                                                <svg class="w-4 h-4 text-white" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                                    </path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">Pesanan selesai</p>
+                                                            </div>
+                                                            <div
+                                                                class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                                @if ($order->completed_at)
+                                                                    {{ $order->completed_at ? \Carbon\Carbon::parse($order->completed_at)->format('d M Y, H:i') : '-' }}
+                                                                @else
+                                                                    {{ $order->updated_at->format('d M Y, H:i') }}
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @endif
                                     @endif
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <div class="lg:col-span-1">
+                    <div class="sticky bg-white border border-gray-200 rounded-lg shadow-sm top-8">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900">Ringkasan Pembayaran</h3>
+                        </div>
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Total Pesanan</span>
+                                    <span class="text-gray-900">Rp
+                                        {{ number_format($transaction->groupOrders->sum('sub_total'), 0, ',', '.') }}</span>
                                 </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Biaya Pengiriman</span>
+                                    <span class="text-gray-900">Rp
+                                        {{ number_format($transaction->groupOrders->sum('shipping_cost'), 0, ',', '.') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 border-t border-gray-200 p">
+                            <div class="flex justify-between">
+                                <span class="text-base font-semibold text-gray-900">Total Pembayaran</span>
+                                <span class="text-lg font-bold text-blue-600">Rp
+                                    {{ number_format($transaction->paid_amount, 0, ',', '.') }}</span>
+                            </div>
+                        </div>
+
+
+                        <!-- Payment Method -->
+                        @if ($transaction->payment_method)
+                            <div class="p-4 mb-6 rounded-lg bg-gray-50">
+                                <h4 class="mb-2 font-medium text-gray-900">Metode Pembayaran</h4>
+                                <div class="flex items-center space-x-2">
+                                    <div class="flex items-center justify-center w-8 h-8 bg-blue-100 rounded">
+                                        <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" />
+                                        </svg>
+                                    </div>
+                                    <span
+                                        class="text-sm font-medium text-gray-900">{{ ucfirst($transaction->payment_method) }}</span>
+                                </div>
+                            </div>
+                        @endif
+
+                        <!-- Action Buttons -->
+                        @if ($transaction->payment_status === 'Pending')
+                            <div class="px-6 space-y-3">
+                                <!-- Pay Button -->
+                                <form action="{{ route('customer.transaction.pay', $transaction) }}" method="POST"
+                                    class="w-full">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                        class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                        </svg>
+                                        Bayar Sekarang
+                                    </button>
+                                </form>
+
+                                <!-- Cancel Button -->
+                                <form action="{{ route('customer.transaction.cancel', $transaction) }}"
+                                    method="POST" class="w-full">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                        class="flex items-center justify-center w-full px-4 py-3 font-medium text-red-600 transition-colors bg-white border border-red-300 rounded-lg hover:bg-red-50 hover:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        Batalkan Pesanan
+                                    </button>
+                                </form>
+                            </div>
+                        @elseif($transaction->payment_status === 'paid')
+                            <div class="p-4 text-center rounded-lg bg-green-50">
+                                <svg class="w-12 h-12 mx-auto mb-2 text-green-500" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-sm font-medium text-green-800">Pembayaran Berhasil</p>
+                            </div>
+                        @elseif($transaction->payment_status === 'cancelled')
+                            <div class="p-4 text-center rounded-lg bg-red-50">
+                                <svg class="w-12 h-12 mx-auto mb-2 text-red-500" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-sm font-medium text-red-800">Transaksi Dibatalkan</p>
+                            </div>
+                        @else
+                            <button
+                                class="w-full px-4 py-3 font-medium text-white bg-gray-400 rounded-lg cursor-not-allowed"
+                                disabled>
+                                Tidak Tersedia
+                            </button>
+                        @endif
+                        <!-- Transaction Info -->
+                        <div class="px-6 py-4 mt-4 border-t border-gray-200">
+                            <div class="space-y-2 text-xs text-gray-500">
+                                <div class="flex justify-between">
+                                    <span>Dibuat:</span>
+                                    <span>{{ $transaction->created_at->format('d M Y, H:i') }}</span>
+                                </div>
+                                @if ($transaction->updated_at != $transaction->created_at)
+                                    <div class="flex justify-between">
+                                        <span>Diperbarui:</span>
+                                        <span>{{ $transaction->updated_at->format('d M Y, H:i') }}</span>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -316,7 +807,7 @@
                             Kembali ke Daftar Transaksi
                         </a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
