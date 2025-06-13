@@ -31,11 +31,31 @@ class JobApplicantService extends Service
     //     $jobVacancyCategory = JobVacancyCategory::all();
     //     return $jobVacancyCategory;
     // }
-    public function getAllJobApplicantByLoginUser()
+    // Di service
+    public function getAllMyJobApplicant()
     {
-        $job = JobApplication::where('user_id', Auth::user()->id)->get();
-        return $job;
+        $userId = Auth::id();
+        $jobApplications = JobApplication::with(['jobVacancy.jobCategory'])
+            ->where('user_id', $userId)
+            ->get();
+
+        return $jobApplications;
     }
+    public static function updateStatus($id, $status): void
+    {
+        $jobApp = JobApplication::findOrFail($id);
+        $jobApp->status = $status;
+        $jobApp->save();
+    }
+    public function getAllJobApplicantFromJobVacancy()
+    {
+        $jobApplications = JobApplication::with(['jobVacancy.jobCategory'])
+            ->where('user_id', '!=', Auth::id()) // exclude user yang login
+            ->get();
+
+        return $jobApplications;
+    }
+
     public function getJobApplicantBy($jobId)
     {
         $job = JobApplication::findOrFail($jobId);

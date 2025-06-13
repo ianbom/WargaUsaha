@@ -143,7 +143,7 @@ class HomeController extends Controller
     }
     public function showJobVacancy(JobVacancy $job)
     {
-
+        $job->load('jobApplications'); // ini penting agar tidak null
         return view('web.customer.home.job.detail', ['job' => $job]);
     }
     public function showSeller(User $seller)

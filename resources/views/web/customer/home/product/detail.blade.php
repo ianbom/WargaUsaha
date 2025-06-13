@@ -1,4 +1,7 @@
 <x-customer.app>
+    @php
+        $maxVisible = 5;
+    @endphp
     <div class="min-h-screen bg-gray-50">
         <!-- Breadcrumb -->
 
@@ -155,29 +158,31 @@
                                     @csrf
                                     <input type="number" name="quantity" x-model="quantity" value="x-model" hidden>
                                     <input type="number" name="product_id" value="{{ $product->id }}" hidden>
-                                <button
-                                    class="flex items-center justify-center flex-1 gap-2 px-6 py-3 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
-                                    :class="{ 'opacity-50 cursor-not-allowed': {{ $product->stock }} == 0 }"
-                                    :disabled="{{ $product->stock }} == 0">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4">
-                                        </path>
-                                    </svg>
-                                    <span x-text="{{ $product->stock }} == 0 ? 'Habis' : 'Tambah ke Keranjang'"></span>
-                                </button>
+                                    <button
+                                        class="flex items-center justify-center flex-1 gap-2 px-6 py-3 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
+                                        :class="{ 'opacity-50 cursor-not-allowed': {{ $product->stock }} == 0 }"
+                                        :disabled="{{ $product->stock }} == 0">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4">
+                                            </path>
+                                        </svg>
+                                        <span
+                                            x-text="{{ $product->stock }} == 0 ? 'Habis' : 'Tambah ke Keranjang'"></span>
+                                    </button>
                                 </form>
 
                                 <form action="{{ route('customer.checkout.product', $product) }}" method="POST">
                                     @csrf
-                                <input type="number" name="quantity" x-model="quantity" value="x-model" hidden>
-                                <input type="number" name="product_id" value="{{ $product->id }}" hidden>
-                                <button type="submit"
-                                    class="px-6 py-3 font-medium text-blue-600 transition-colors duration-200 border-2 border-blue-600 rounded-lg hover:bg-blue-50"
-                                    :class="{ 'opacity-50 cursor-not-allowed': {{ $product->stock }} == 0 }"
-                                    :disabled="{{ $product->stock }} == 0">
-                                    Beli Sekarang
-                                </button>
+                                    <input type="number" name="quantity" x-model="quantity" value="x-model" hidden>
+                                    <input type="number" name="product_id" value="{{ $product->id }}" hidden>
+                                    <button type="submit"
+                                        class="px-6 py-3 font-medium text-blue-600 transition-colors duration-200 border-2 border-blue-600 rounded-lg hover:bg-blue-50"
+                                        :class="{ 'opacity-50 cursor-not-allowed': {{ $product->stock }} == 0 }"
+                                        :disabled="{{ $product->stock }} == 0">
+                                        Beli Sekarang
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -207,135 +212,124 @@
             </div>
 
 
-<!-- Buy Now Modal -->
-<div
-    x-show="showModal"
-    x-transition:enter="transition ease-out duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition ease-in duration-200"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0"
-    class="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 bg-black/60 backdrop-blur-sm"
-    style="display: none;"
->
-    <div
-        @click.outside="showModal = false"
-        x-show="showModal"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-        x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-        class="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl"
-    >
-        <!-- Header dengan gradient -->
-        <div class="relative px-6 py-8 bg-gradient-to-r from-blue-600 to-blue-700">
-            <div class="absolute inset-0 bg-black/5"></div>
-            <div class="relative flex items-center justify-between">
-                <div>
-                    <h2 class="text-xl font-bold text-white">Konfirmasi Pembelian</h2>
-                    <p class="mt-1 text-sm text-blue-100">Periksa detail sebelum melanjutkan</p>
-                </div>
-                <button
-                    @click="showModal = false"
-                    type="button"
-                    class="flex items-center justify-center w-8 h-8 text-white transition-colors rounded-full bg-white/20 hover:bg-white/30"
-                >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Form Content -->
-        <form action="{{ route('customer.checkout.product', $product) }}" method="POST">
-            @csrf
-            <div class="p-6 space-y-6">
-                <!-- Product Summary Card -->
-                <div class="p-4 border border-gray-100 bg-gray-50 rounded-2xl">
-                    <div class="flex items-center gap-4">
-                        <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl">
-                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                            </svg>
+            <!-- Buy Now Modal -->
+            <div x-show="showModal" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 bg-black/60 backdrop-blur-sm"
+                style="display: none;">
+                <div @click.outside="showModal = false" x-show="showModal"
+                    x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+                    class="w-full max-w-md overflow-hidden bg-white shadow-2xl rounded-3xl">
+                    <!-- Header dengan gradient -->
+                    <div class="relative px-6 py-8 bg-gradient-to-r from-blue-600 to-blue-700">
+                        <div class="absolute inset-0 bg-black/5"></div>
+                        <div class="relative flex items-center justify-between">
+                            <div>
+                                <h2 class="text-xl font-bold text-white">Konfirmasi Pembelian</h2>
+                                <p class="mt-1 text-sm text-blue-100">Periksa detail sebelum melanjutkan</p>
+                            </div>
+                            <button @click="showModal = false" type="button"
+                                class="flex items-center justify-center w-8 h-8 text-white transition-colors rounded-full bg-white/20 hover:bg-white/30">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-gray-900 line-clamp-2">{{ $product->name }}</h3>
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-sm text-gray-500" x-text="quantity + ' unit'"></span>
-                                <span class="font-bold text-blue-600">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                    </div>
+
+                    <!-- Form Content -->
+                    <form action="{{ route('customer.checkout.product', $product) }}" method="POST">
+                        @csrf
+                        <div class="p-6 space-y-6">
+                            <!-- Product Summary Card -->
+                            <div class="p-4 border border-gray-100 bg-gray-50 rounded-2xl">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl">
+                                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-gray-900 line-clamp-2">{{ $product->name }}</h3>
+                                        <div class="flex items-center justify-between mt-2">
+                                            <span class="text-sm text-gray-500" x-text="quantity + ' unit'"></span>
+                                            <span class="font-bold text-blue-600">Rp
+                                                {{ number_format($product->price, 0, ',', '.') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Note Input Section -->
+                            <div class="space-y-3">
+                                <label for="note" class="block text-sm font-medium text-gray-700">
+                                    <svg class="inline w-4 h-4 mr-2 text-gray-500" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Catatan Tambahan
+                                </label>
+                                <textarea id="note" name="note" rows="3" maxlength="200"
+                                    class="w-full px-4 py-3 text-sm transition-colors border border-gray-200 resize-none rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
+                                    placeholder="Tulis catatan atau permintaan khusus untuk layanan ini..."></textarea>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-gray-500">Catatan ini akan dikirim kepada penyedia layanan</span>
+                                </div>
+                            </div>
+
+                            <!-- Total Section -->
+                            <div
+                                class="p-4 border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-sm text-gray-600">Total Pembayaran</p>
+                                        {{-- <p class="mt-1 text-xs text-gray-500">Sudah termasuk pajak</p> --}}
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-2xl font-bold text-gray-900"
+                                            x-text="'Rp ' + ({{ $product->price }} * quantity).toLocaleString('id-ID')">
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="p-6 pt-0">
+                            <div class="flex gap-3">
+                                <button @click="showModal = false" type="button"
+                                    class="flex-1 py-3 text-sm font-medium text-gray-700 transition-all duration-200 bg-gray-100 hover:bg-gray-200 rounded-xl">
+                                    Batal
+                                </button>
+
+                                <input type="hidden" name="quantity" x-model="quantity">
+                                <button type="submit"
+                                    class="flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-white transition-all duration-200 shadow-lg flex-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl hover:shadow-xl">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    Lanjut Bayar
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Note Input Section -->
-                <div class="space-y-3">
-                    <label for="note" class="block text-sm font-medium text-gray-700">
-                        <svg class="inline w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                        Catatan Tambahan
-                    </label>
-                    <textarea
-                        id="note"
-                        name="note"
-                        rows="3"
-                        maxlength="200"
-                        class="w-full px-4 py-3 text-sm transition-colors border border-gray-200 resize-none rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
-                        placeholder="Tulis catatan atau permintaan khusus untuk layanan ini..."
-
-                    ></textarea>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-gray-500">Catatan ini akan dikirim kepada penyedia layanan</span>
-                    </div>
-                </div>
-
-                <!-- Total Section -->
-                <div class="p-4 border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-600">Total Pembayaran</p>
-                            {{-- <p class="mt-1 text-xs text-gray-500">Sudah termasuk pajak</p> --}}
-                        </div>
-                        <div class="text-right">
-                            <p class="text-2xl font-bold text-gray-900" x-text="'Rp ' + ({{ $product->price }} * quantity).toLocaleString('id-ID')"></p>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="p-6 pt-0">
-                <div class="flex gap-3">
-                    <button
-                        @click="showModal = false"
-                        type="button"
-                        class="flex-1 py-3 text-sm font-medium text-gray-700 transition-all duration-200 bg-gray-100 hover:bg-gray-200 rounded-xl"
-                    >
-                        Batal
-                    </button>
-
-                    <input type="hidden" name="quantity" x-model="quantity">
-                    <button
-                        type="submit"
-                        class="flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-white transition-all duration-200 shadow-lg flex-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl hover:shadow-xl"
-                    >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        Lanjut Bayar
-                    </button>
+                    </form>
                 </div>
             </div>
-        </form>
-    </div>
-</div>
 
 
 
@@ -401,14 +395,17 @@
                     </div>
 
                     <!-- Individual Reviews -->
-                    <div class="space-y-6">
-                        @foreach ($review as $rev)
-                            <div class="pb-6 border-b border-gray-100 last:border-b-0">
+                    <div class="space-y-6" x-data="{ showAll: false }">
+                        @foreach ($review as $index => $rev)
+                            <div class="pb-6 border-b border-gray-100 last:border-b-0"
+                                x-show="showAll || {{ $index }} < {{ $maxVisible }}">
                                 <div class="flex items-start gap-4">
-                                    <div
-                                        class="flex items-center justify-center w-12 h-12 font-semibold text-white rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
-                                        {{ substr($rev->order->user->name ?? 'U', 0, 1) }}
+                                    <div class="w-12 h-12 overflow-hidden rounded-full">
+                                        <img class="object-cover w-full h-full saturate-50 group-hover:saturate-100"
+                                            src="{{ asset('storage/' . $rev->order->buyer->profile_pic) }}"
+                                            alt="Profile Picture" />
                                     </div>
+
                                     <div class="flex-1">
                                         <div class="flex items-center gap-2 mb-2">
                                             <h4 class="font-semibold text-gray-800">
@@ -435,6 +432,15 @@
                                 </div>
                             </div>
                         @endforeach
+
+                        @if (count($review) > $maxVisible)
+                            <div class="pt-4 text-center">
+                                <button @click="showAll = !showAll"
+                                    class="px-4 py-2 text-sm font-medium text-blue-600 transition-all duration-200 bg-white border border-blue-600 rounded hover:bg-blue-600 hover:text-white">
+                                    <span x-text="showAll ? 'Tampilkan Lebih Sedikit' : 'Tampilkan Semua'"></span>
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 @else
                     <!-- No Reviews -->

@@ -1,87 +1,64 @@
-<x-employer.app>
-    <script src="/assets/js/simple-datatables.js"></script>
-    <div class="flex items-center justify-between ">
-        <div class="text-xl font-semibold text-gray-800">
-            Job
-        </div>
-        <nav class="flex items-center space-x-2 text-sm text-gray-600">
-            <a href="#" class="transition-colors text-primary hover:underline">Dashboard</a>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-            <span class="text-gray-800">Job</span>
-        </nav>
-    </div>
-    <div class="mb-5">
-        @include('web.seller.alert.success')
-    </div>
-    <div x-data="jobsTable">
-        <div class="flex items-center justify-between p-3 overflow-x-auto panel whitespace-nowrap text-primary">
-            <div class="flex items-center">
-                <div class="rounded-full bg-primary p-1.5 text-white ring-2 ring-primary/30 ltr:mr-3 rtl:ml-3">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="h-3.5 w-3.5"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 7L4 7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
-                        <path d="M15 12L4 12" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
-                        <path d="M9 17H4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
-                    </svg>
-                </div>
-                <h5 class="text-lg font-semibold">Daftar Pekerjaan</h5>
+<x-customer.app>
+    <div class="min-h-screen py-8 bg-gray-50">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <!-- Header Section -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                    Riwayat Lowongan
+                </h2>
+                <p class="mt-1 text-sm text-gray-600">
+                    Pantau lowongan yang pernah anda apply di sini
+                </p>
             </div>
-            <a href="{{ route('employer.job.create') }}" class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-                Tambah Lowongan Pekerjaan Baru
-            </a>
-        </div>
+            <div x-data="jobsTable">
+                <div class="mt-6 panel">
+                    <table id="jobsTableElement" class="table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Lowongan</th>
+                                <th>Kategori</th>
+                                <th>Gaji Atas</th>
+                                <th>Gaji Bawah</th>
+                                <th>Gaji diinginkan</th>
+                                <th>Status</th>
+                                <th>Dibuat</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($job_vacancies as $key => $job)
+                                <tr>
+                                    <td>
+                                        {{ $key + 1 }}
+                                    </td>
+                                    <td>
+                                        <div class="font-semibold">{{ $job->jobVacancy?->job_title }}</div>
+                                        {{-- <div class="mt-1 text-xs text-gray-500 line-clamp-2">{{ $product->description }}</div> --}}
+                                    </td>
+                                    <td>
+                                        {{ $job->jobVacancy->jobCategory?->category_name ?? '-' }}
+                                    </td>
+                                    <td>Rp {{ number_format($job->jobVacancy?->salary_min, 0, ',', '.' ?? '-') }}</td>
+                                    <td>Rp {{ number_format($job->jobVacancy?->salary_max, 0, ',', '.' ?? '-') }}</td>
+                                    <td>Rp {{ number_format($job->proposed_salary, 0, ',', '.') }}</td>
+                                    <td>{{ $job->status }}</td>
+                                    <td>{{ $job->created_at->format('d M Y') }}</td>
+                                    <td>
+                                        <div class="flex items-center space-x-2">
+                                            <a href="{{ route('employer.job.show', $job) }}"
+                                                class="p-2 rounded-full btn btn-sm btn-outline-info detail-btn">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                            </a>
 
-        <div class="mt-6 panel">
-            <table id="jobsTable" class="table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Lowongan</th>
-                        <th>Kategori</th>
-                        <th>Gaji Atas</th>
-                        <th>Gaji Bawah</th>
-                        <th>Status</th>
-                        <th>Dibuat</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($job_vacancies as $key => $job)
-                        <tr>
-                            <td>
-                                {{ $key + 1 }}
-                            </td>
-                            <td>
-                                <div class="font-semibold">{{ $job->job_title }}</div>
-                                {{-- <div class="mt-1 text-xs text-gray-500 line-clamp-2">{{ $product->description }}</div> --}}
-                            </td>
-                            <td>
-                                {{ $job->jobCategory?->category_name ?? '-' }}
-                            </td>
-                            <td>Rp {{ number_format($job->salary_min, 0, ',', '.' ?? '-') }}</td>
-                            <td>Rp {{ number_format($job->salary_max, 0, ',', '.' ?? '-') }}</td>
-                            <td>{{ $job->job_status }}</td>
-                            <td>{{ $job->created_at->format('d M Y') }}</td>
-                            <td>
-                                <div class="flex items-center space-x-2">
-                                    <a href="{{ route('employer.job.show', $job) }}"
-                                        class="p-2 rounded-full btn btn-sm btn-outline-info detail-btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
-                                            fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                        </svg>
-                                    </a>
-
-                                    {{-- <a href="{{ route('employer.job.edit', $job->id) }}"
+                                            {{-- <a href="{{ route('employer.job.edit', $job->id) }}"
                                         class="p-2 rounded-full btn btn-sm btn-outline-primary">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2">
@@ -102,15 +79,16 @@
                                             </svg>
                                         </button>
                                     </form> --}}
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-
     <script>
         document.querySelectorAll('.delete-btn').forEach(button => {
             button.addEventListener('click', function(e) {
@@ -163,9 +141,8 @@
                             }
                         ]
                     };
+                    const jobsTable = new simpleDatatables.DataTable('#jobsTableElement', tableOptions);
 
-                    const jobsTable = new simpleDatatables.DataTable('#jobsTable',
-                        tableOptions);
 
                     // Konfirmasi hapus produk
                     document.querySelectorAll('.delete-btn').forEach(button => {
@@ -196,4 +173,4 @@
             }));
         });
     </script>
-</x-employer.app>
+</x-customer.app>

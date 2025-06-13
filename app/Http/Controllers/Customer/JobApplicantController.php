@@ -18,10 +18,11 @@ class JobApplicantController extends Controller
     {
         $this->jobApplicantService = $jobApplicantService;
     }
+    // Menampilkan riwayat lowongan yang saya apply
     public function index()
     {
-        $job_vacancies = $this->jobApplicantService->getAllJobApplicant();
-        return view('web.employer.job.index', ['job_vacancies' => $job_vacancies]);
+        $job_vacancies = $this->jobApplicantService->getAllMyJobApplicant();
+        return view('web.customer.job.index', ['job_vacancies' => $job_vacancies]);
     }
     public function show(JobApplication $job)
     {
