@@ -1,4 +1,8 @@
 <x-customer.app>
+    @php
+        $alreadyApplied = $job->jobApplications->contains('user_id', auth()->id());
+    @endphp
+
     <div class="min-h-screen bg-gray-50">
         <!-- Header Section -->
         <div class="bg-white border-b shadow-sm">
@@ -41,6 +45,8 @@
                                             {{ $job->jobCategory->category_name }}
                                         </span>
                                     </div>
+                                    <span class="mt-2 text-xs">Dibuat oleh: {{ $job->user->name }} Pada:
+                                        {{ \Carbon\Carbon::parse($job->created_at)->format('d F Y, H:i') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -67,15 +73,27 @@
                         </div> --}}
                         <div x-data="{ showApply: false }" class="relative">
                             <div class="flex items-center mt-6 space-x-3 lg:mt-0">
-                                <button @click="showApply = true"
-                                    class="flex items-center h-10 px-4 text-sm font-medium text-white transition-all duration-200 rounded-md bg-white/20 hover:bg-white/30 backdrop-blur-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none"
-                                        stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                    Apply Sekarang
-                                </button>
+                                @if ($alreadyApplied)
+                                    <button disabled
+                                        class="flex items-center h-10 px-4 text-sm font-medium text-black transition-all duration-200 bg-green-400 rounded-md">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M7 12.9L10.1429 16.5L18 7.5" stroke="#1C274C" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        Sudah Apply
+                                    </button>
+                                @else
+                                    <button @click="showApply = true"
+                                        class="flex items-center h-10 px-4 text-sm font-medium text-white transition-all duration-200 rounded-md bg-white/20 hover:bg-white/30 backdrop-blur-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none"
+                                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                        Apply Sekarang
+                                    </button>
+                                @endif
                                 <button
                                     class="flex items-center h-10 px-4 text-sm font-medium text-blue-600 transition-all duration-200 bg-white rounded-md hover:bg-gray-50">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -2,10 +2,10 @@
     <div class="min-h-screen py-8 bg-gray-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header -->
-            <div class="my-8">
+            <div class="mb-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <a href="/" class="inline-flex items-center mb-2 text-sm text-gray-500 hover:text-gray-700">
+                        <a href="/" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 19l-7-7 7-7"></path>
@@ -164,14 +164,14 @@
                                 <div class="p-6 border-b border-gray-100 last:border-b-0">
                                     <div class="flex items-start space-x-4">
                                         <!-- Product Image -->
-                                        <div class="flex-shrink-0">
+                                        {{-- <div class="flex-shrink-0">
                                             <div
                                                 class="flex items-center justify-center w-20 h-20 overflow-hidden bg-gray-200 rounded-lg">
                                                 <img src="{{ asset('storage/' . $order->product->image_url) }}"
                                                     alt="{{ $order->product->name }}"
                                                     class="object-cover w-full h-full">
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                         <!-- Product Details -->
                                         {{-- <div class="flex-1">
@@ -226,23 +226,21 @@
                                             <div
                                                 class="flex items-start justify-between p-6 transition-all duration-200 bg-white border border-gray-200 shadow-sm rounded-xl hover:shadow-md">
                                                 <!-- Product Information Section -->
-                                                 <div
-                                                class="flex items-center justify-center w-20 h-20 overflow-hidden bg-gray-200 rounded-lg">
-                                                <img src="{{ asset('storage/' . $order->product->image_url) }}"
-                                                    alt="{{ $order->product->name }}"
-                                                    class="object-cover w-full h-full">
-                                            </div>
-                                                <div class="flex-1 pr-6">
-
+                                                <div
+                                                    class="flex items-center justify-center w-20 h-20 overflow-hidden bg-gray-200 rounded-lg">
+                                                    <img src="{{ asset('storage/' . $order->product->image_url) }}"
+                                                        alt="{{ $order->product->name }}"
+                                                        class="object-cover w-full h-full border border-gray-200 rounded-lg">
+                                                </div>
+                                                <div class="flex-1 px-6">
                                                     <div class="mb-4">
-                                                        <h4 class="mb-2 text-xl font-semibold text-gray-900">
+                                                        <h4 class="mb-2 text-xl font-bold text-gray-900">
                                                             {{ $order->product->name }}
                                                         </h4>
                                                         <p class="text-sm leading-relaxed text-gray-600">
                                                             {{ $order->product->description ?? 'Tidak ada deskripsi' }}
                                                         </p>
                                                     </div>
-
                                                     <!-- Product Details Grid -->
                                                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                                         <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
@@ -288,7 +286,7 @@
                                                 <!-- Pricing Information Section -->
                                                 <div class="flex-shrink-0 text-right">
                                                     <div
-                                                        class="p-5 border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+                                                        class="p-5 border border-blue-200 bg-gradient-to-br from-gray-50 to-sky-50 rounded-xl">
                                                         <!-- Quantity -->
                                                         <div class="flex items-center justify-end gap-2 mb-4">
                                                             <div

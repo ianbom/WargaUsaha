@@ -77,7 +77,7 @@
                                             fill="#1C274C" />
                                     </svg>
                                     <span
-                                        class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Job</span>
+                                        class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Lowongan Pekerjaan</span>
                                 </div>
                             </a>
                         </li>
@@ -98,8 +98,8 @@
                                     </svg>
 
                                     <span
-                                        class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Job
-                                        Applicant</span>
+                                        class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">
+                                        Pelamar Kerja</span>
                                 </div>
                             </a>
                         </li>

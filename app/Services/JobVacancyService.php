@@ -25,7 +25,8 @@ class JobVacancyService extends Service
     }
     public function getAllJobVacancyByLoginUser()
     {
-        $job = JobVacancy::where('user_id', Auth::user()->id)->get();
+        $userId = Auth::id();
+        $job = JobVacancy::where('user_id', $userId)->get();
         return $job;
     }
     public function getAllJobVacancyCategory()
@@ -84,6 +85,7 @@ class JobVacancyService extends Service
 
         $query = JobVacancy::select($selectColumns)
             ->join('job_vacancy_categories', 'job_vacancies.job_category_id', '=', 'job_vacancy_categories.id')
+            ->where('user_id', '!=', Auth::id())
             ->orderBy('job_vacancies.id', 'desc');
 
         $query = $this->applyFilters($query, $filters, $allowedFilters);
