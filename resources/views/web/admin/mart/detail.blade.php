@@ -110,18 +110,17 @@
                                 <h2 class="text-xl font-semibold text-gray-800 flex items-center">
                                     <i class="fas fa-clipboard-check text-blue-500 mr-2"></i> Verifikasi Toko
                                 </h2>
-
-                                @if ($mart->is_verified === true)
-                                    <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                                        Terverifikasi
+                                @if ($mart->is_verified === false)
+                                   <span class="px-3 py-1 text-xs rounded-full bg-red-500 text-white">
+                                        Verifikasi Ditolak
                                     </span>
                                 @elseif (is_null($mart->is_verified))
                                     <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">
                                         Belum Diverifikasi
                                     </span>
                                 @else
-                                    <span class="px-3 py-1 text-xs rounded-full bg-red-500 text-white">
-                                        Verifikasi Ditolak
+                                      <span class="px-3 py-1 text-xs rounded-full bg-green-400 text-white">
+                                        Terverifikasi
                                     </span>
                                 @endif
                             </div>

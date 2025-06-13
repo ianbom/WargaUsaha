@@ -18,12 +18,12 @@
                 <h5 class="font-semibold text-lg">Daftar Toko</h5>
             </div>
 
-            <a href="{{ route('admin.mart.create') }}" class="btn btn-primary">
+            {{-- <a href="{{ route('admin.mart.create') }}" class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
                 Tambah Mart Baru
-            </a>
+            </a> --}}
         </div>
 
         <div class="panel mt-6">
@@ -75,11 +75,11 @@
                         </td>
 
                         <td>
-                            @if(is_null($item->is_active))
+                            @if(is_null($item->is_verfied))
                                 <span class="badge bg-warning">
                                     Pending
                                 </span>
-                            @elseif($item->is_active)
+                            @elseif($item->is_verfied)
                                 <span class="badge bg-success">
                                     Aktif
                                 </span>

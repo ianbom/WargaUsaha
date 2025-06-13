@@ -22,6 +22,14 @@ class MartService
             'is_verified' => $status,
             'is_active' => $isActive
         ]);
+
+        if ($status == true) {
+        $user = $mart->user;
+        $user->update([
+            'role' => 'Seller'
+        ]);
+        }
+
     }
 
 

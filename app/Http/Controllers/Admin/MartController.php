@@ -19,7 +19,7 @@ class MartController extends Controller
     }
 
     public function index(){
-        $marts = Mart::orderBy('name', 'asc')->where('is_active', true)->get();
+        $marts = Mart::orderBy('name', 'asc')->where('is_verified', true)->get();
         return view('web.admin.mart.index', ['marts' => $marts]);
     }
 

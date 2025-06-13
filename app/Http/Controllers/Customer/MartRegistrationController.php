@@ -14,8 +14,17 @@ use Illuminate\Support\Facades\DB;
 class MartRegistrationController extends Controller
 {
     public function create(){
+        $user = Auth::user();
+
+        if ($user->mart) {
+           $mart = $user->mart;
+        } else{
+            $mart = false;
+        }
+
+
         $categories = MartCategory::orderBy('name', 'asc')->get();
-        return view('web.customer.mart_registration.create', ['categories' => $categories]);
+        return view('web.customer.mart_registration.create', ['categories' => $categories, 'mart' => $mart]);
     }
 
     public function store(MartRegistrationRequest $request){
@@ -39,4 +48,20 @@ class MartRegistrationController extends Controller
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
+
+    public function destroy($id)
+{
+    $mart = Mart::findOrFail($id);
+    DB::beginTransaction();
+    try {
+        $mart->delete();
+        DB::commit();
+        return redirect()->route('customer.mart-registration.create')->with('success', 'Toko berhasil dihapus. Anda dapat mendaftar toko baru.');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return redirect()->route('customer.mart-registration.create')
+            ->with('error', 'Terjadi kesalahan saat menghapus toko. Silakan coba lagi.');
+    }
+}
 }
