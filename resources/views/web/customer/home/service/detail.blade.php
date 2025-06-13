@@ -194,11 +194,11 @@
                             </button>
                         </div>
                     </div>
-                
+
                     <!-- Form Content -->
                     <form action="{{ route('customer.checkout.service', $service) }}" method="POST" class="p-6 space-y-6">
                         @csrf
-                    
+
                         <!-- Service Summary Card -->
                         <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
                             <div class="flex items-center gap-4">
@@ -216,7 +216,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                         {{-- <!-- Provider Info -->
                         @if($service->user)
                         <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
@@ -231,7 +231,7 @@
                             </div>
                         </div>
                         @endif
-                    
+
                         <!-- Customer Info -->
                         <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
                             <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -244,7 +244,7 @@
                                 <p class="text-xs text-gray-500">Customer</p>
                             </div>
                         </div> --}}
-                    
+
                         <!-- Note Input Field -->
                         <div class="space-y-2">
                             <label for="note" class="block text-sm font-medium text-gray-700">
@@ -261,7 +261,7 @@
                                 Catatan ini akan dikirim kepada penyedia layanan untuk membantu mereka memahami kebutuhan Anda.
                             </p>
                         </div>
-                    
+
                         <!-- Contact Information -->
                         <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
                             <div class="flex items-start gap-3">
@@ -296,7 +296,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                         <!-- Action Buttons -->
                         <div class="flex flex-col sm:flex-row gap-3 pt-2">
                             <button

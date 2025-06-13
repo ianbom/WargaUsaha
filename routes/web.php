@@ -55,6 +55,8 @@ Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
 
 
     Route::get('registration/mart', [AdminMartController::class, 'registration'])->name('mart.registration');
+    Route::put('accept/registration/mart/{mart}', [AdminMartController::class, 'acceptMartRegistration'])->name('mart.registrationAccept');
+    Route::put('reject/registration/mart/{mart}', [AdminMartController::class, 'rejectMartRegistration'])->name('mart.registrationReject');
 });
 
 

@@ -1,5 +1,8 @@
-<x-customer.app>
+<x-seller.app>
     <div class="min-h-screen py-4 bg-gray-50">
+
+        @include('web.seller.alert.success')
+
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-5">
@@ -291,20 +294,16 @@
                         @if ($transaction->payment_status === 'Pending')
                             <div class="px-6 py-4 space-y-3">
                                 <!-- Pay Button -->
-                                <form action="{{ route('customer.transaction.pay', $transaction) }}" method="POST"
-                                    class="w-full">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit"
-                                        class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                        </svg>
-                                        Bayar Sekarang
-                                    </button>
-                                </form>
+
+                                    <button id="pay-button"
+                                             class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                   d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                         </svg>
+                                         <span id="button-text">Bayar Sekarang</span>
+                                     </button>
+
 
                                 <!-- Cancel Button -->
                                 <form action="{{ route('customer.transaction.cancel', $transaction) }}"
@@ -862,31 +861,91 @@
         </div>
     </div>
 
-    <script>
-        function showCancelModal() {
-            document.getElementById('cancelModal').classList.remove('hidden');
-            document.getElementById('cancelModal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
+            <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 
-        function hideCancelModal() {
-            document.getElementById('cancelModal').classList.add('hidden');
-            document.getElementById('cancelModal').classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        }
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var payButton = document.getElementById('pay-button');
+            var buttonText = document.getElementById('button-text');
 
-        // Close modal when clicking outside
-        document.getElementById('cancelModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideCancelModal();
+            // Cek apakah snap token tersedia
+            var snapToken = '{{ $snapToken ?? "" }}';
+
+            if (!snapToken) {
+                payButton.disabled = true;
+                buttonText.textContent = 'Token Pembayaran Tidak Tersedia';
+                console.error('Snap token tidak tersedia');
+                return;
             }
-        });
 
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideCancelModal();
+            // Function untuk cek apakah snap sudah ready
+            function waitForSnap(callback) {
+                if (typeof window.snap !== 'undefined' && window.snap.pay) {
+                    callback();
+                } else {
+                    console.log('Menunggu Midtrans Snap...');
+                    setTimeout(function() {
+                        waitForSnap(callback);
+                    }, 100);
+                }
             }
+
+            payButton.addEventListener('click', function () {
+                // Disable button sementara
+                // payButton.disabled = true;
+                // buttonText.textContent = 'Memproses...';
+
+                // Tunggu sampai snap ready
+                waitForSnap(function() {
+                    try {
+                        window.snap.pay(snapToken, {
+                        onSuccess: function (result) {
+                            console.log('Payment Success:', result);
+                            alert("Pembayaran berhasil!");
+
+                            // Redirect ke halaman sukses atau update status
+                             window.history.back();
+                        },
+                        onPending: function (result) {
+                            console.log('Payment Pending:', result);
+                            // alert("Menunggu pembayaran! Silakan selesaikan pembayaran Anda.");
+
+                            // Redirect ke halaman pending
+                             window.history.reload();
+                        },
+                        onError: function (result) {
+                            console.error('Payment Error:', result);
+                            alert("Pembayaran gagal! " + (result.status_message || 'Silakan coba lagi.'));
+
+                            // Re-enable button
+                            payButton.disabled = false;
+                            buttonText.textContent = 'Bayar Sekarang';
+                            window.history.reload();
+                        },
+                        onClose: function () {
+                            console.log('Payment popup closed');
+                            alert('Anda menutup halaman pembayaran. Pembayaran belum selesai.');
+
+                            // Re-enable button
+                            payButton.disabled = false;
+                            buttonText.textContent = 'Bayar Sekarang';
+                            window.history.reload();
+                        }
+                    });
+                    } catch (error) {
+                        console.error('Snap Error:', error);
+                        alert('Terjadi kesalahan saat memuat pembayaran. Silakan refresh halaman.');
+
+                        // Re-enable button
+                        payButton.disabled = false;
+                        buttonText.textContent = 'Bayar Sekarang';
+                    }
+                });
+            });
+
+            // Debug: Log status snap ketika halaman load
+            console.log('Window snap status:', typeof window.snap);
+            console.log('Client key dari meta:', document.querySelector('script[data-client-key]')?.getAttribute('data-client-key'));
         });
     </script>
-</x-customer.app>
+</x-seller.app>

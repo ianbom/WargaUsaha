@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class CartService
 {
@@ -19,7 +21,10 @@ class CartService
      */
     public function __construct()
     {
-        //
+          Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
     }
 
     public function getCartByUserLogin(){
@@ -202,7 +207,7 @@ class CartService
     public function createTransaction(string $transactionCode, float $grandTotal): int
     {
         $user = Auth::user();
-        return DB::table('transactions')->insertGetId([
+         $transaction = DB::table('transactions')->insertGetId([
             'transaction_code' => $transactionCode,
             'user_id' => $user->id,
             'payment_method' => null,
@@ -212,6 +217,27 @@ class CartService
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $transactionCode,
+                'gross_amount' =>  (int) $grandTotal
+            ],
+            'customer_details' => [
+                'first_name' => $user->name,
+                'email' =>$user->email,
+                'phone' => $user->phone
+            ]
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+        DB::table('transactions')
+            ->where('id', $transaction)
+            ->update([
+                'snap_token' => $snapToken,
+                'updated_at' => now()
+            ]);
+        return $transaction;
     }
 
 

@@ -45,13 +45,15 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'ward_id' => 1,
-            'role' => 'Seller',
+            'role' => 'Buyer',
 
             ]);
 
-            Mart::create([
-                'user_id' => $user->id,
-            ]);
+            // Mart::create([
+            //     'user_id' => $user->id,
+            //     'is_active' => true,
+            //     'is_verified' => true
+            // ]);
 
             SellerWallet::create([
                 'user_id' => $user->id,

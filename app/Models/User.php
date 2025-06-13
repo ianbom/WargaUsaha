@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->belongsTo(Ward::class);
     }
 
+     public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function mart()
     {
         return $this->hasOne(Mart::class);
