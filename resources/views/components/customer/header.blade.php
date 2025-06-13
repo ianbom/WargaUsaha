@@ -152,18 +152,18 @@
 
             <!-- Right Section: Search & User Menu -->
             <div class="flex items-center gap-3">
-                <a href="{{ route('customer.message.index') }}"
-                    class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M21 11.5C21 16.1944 16.9706 20 12 20C10.4174 20 8.92451 19.6204 7.63735 18.9623L3 20L4.37647 16.0941C3.51552 14.9546 3 13.5193 3 12C3 7.30558 7.02944 3.5 12 3.5C16.9706 3.5 21 7.30558 21 11.5Z"
-                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    Chat
+                 <div class="relative group">
+                     <a href="{{ route('customer.message.index') }}"
+                       class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">
+                       <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M21 11.5C21 16.1944 16.9706 20 12 20C10.4174 20 8.92451 19.6204 7.63735 18.9623L3 20L4.37647 16.0941C3.51552 14.9546 3 13.5193 3 12C3 7.30558 7.02944 3.5 12 3.5C16.9706 3.5 21 7.30558 21 11.5Z"
+                                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                       </svg>
+                       Chat
                 </a>
+                 </div>
 
                 <div class="relative group">
-
 
                     <a href="{{ route('customer.cart.index') }}"
                         class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 rounded-md dark:text-gray-200 hover:text-primary dark:hover:text-primary hover:bg-white dark:hover:bg-gray-700">

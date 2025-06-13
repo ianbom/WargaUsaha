@@ -15,4 +15,8 @@ class Transaction extends Model
     public function groupOrders(){
         return $this->hasMany(GroupOrder::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
