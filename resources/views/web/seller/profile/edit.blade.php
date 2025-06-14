@@ -431,98 +431,90 @@
                             </div>
 
                             <!-- Recent Transactions -->
-                            <div class="p-6 bg-white rounded-lg shadow-md panel dark:bg-gray-800">
+                           <div class="p-6 bg-white rounded-lg shadow-md panel dark:bg-gray-800">
                                 <div class="mb-5">
-                                    <h5 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Recent
-                                        Transactions</h5>
-                                    <p class="text-gray-600 dark:text-gray-300">Your latest <span
-                                            class="font-semibold text-primary">Wallet</span> transaction history.</p>
+                                    <h5 class="mb-4 text-lg font-semibold text-gray-800 dark:text-white">Recent Transactions</h5>
+                                    <p class="text-gray-600 dark:text-gray-300">Your latest <span class="font-semibold text-primary">Wallet</span> transaction history.</p>
                                 </div>
-                                <div class="mb-5 space-y-3">
-                                    <div class="pb-3 border-b border-gray-200 dark:border-gray-700">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center space-x-3">
-                                                <div
-                                                    class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full dark:bg-green-900">
-                                                    <svg class="w-5 h-5 text-green-600 dark:text-green-400"
-                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                    </svg>
-                                                </div>
-                                                <div>
-                                                    <h6 class="text-sm font-medium text-gray-700 dark:text-white">Sale
-                                                        Commission</h6>
-                                                    <span class="text-xs text-gray-500 dark:text-gray-400">Order
-                                                        #12345</span>
-                                                </div>
-                                            </div>
-                                            <div class="text-right">
-                                                <span class="font-semibold text-green-600 dark:text-green-400">+Rp
-                                                    150,000</span>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="pb-3 border-b border-gray-200 dark:border-gray-700">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center space-x-3">
-                                                <div
-                                                    class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full dark:bg-blue-900">
-                                                    <svg class="w-5 h-5 text-blue-600 dark:text-blue-400"
-                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10">
-                                                        </path>
-                                                    </svg>
+                                <!-- Scrollable transaction container -->
+                                <div class="mb-5 space-y-3 max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-700">
+                                   @forelse($logWalletTransaction as $transaction)
+                                        <div class="pb-3 border-b border-gray-200 dark:border-gray-700">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="flex items-center justify-center w-10 h-10
+                                                        @if($transaction->type == 'increament')
+                                                            bg-green-100 dark:bg-green-900
+                                                        @elseif($transaction->type == 'decreament')
+                                                            bg-red-100 dark:bg-red-900
+                                                        @else
+                                                            bg-blue-100 dark:bg-blue-900
+                                                        @endif
+                                                        rounded-full">
+                                                        @if($transaction->type == 'increament')
+                                                            <!-- Plus icon for increament -->
+                                                            <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                            </svg>
+                                                        @elseif($transaction->type == 'decreament')
+                                                            <!-- Minus icon for decreament -->
+                                                            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                                            </svg>
+                                                        @else
+                                                            <!-- Download icon for other transactions -->
+                                                            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                                                            </svg>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="text-sm font-medium text-gray-700 dark:text-white">
+                                                            {{ $transaction->title ?? 'Transaction' }}
+                                                        </h6>
+                                                        <span class="text-xs text-gray-500 dark:text-gray-400">
+                                                            {{ $transaction->status ? ucfirst($transaction->status) : 'Completed' }}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <h6 class="text-sm font-medium text-gray-700 dark:text-white">
-                                                        Withdrawal</h6>
-                                                    <span class="text-xs text-gray-500 dark:text-gray-400">To BCA
-                                                        Account</span>
+                                                <div class="text-right">
+                                                    <span class="font-semibold
+                                                        @if($transaction->type == 'increament')
+                                                            text-green-600 dark:text-green-400
+                                                        @elseif($transaction->type == 'decreament')
+                                                            text-red-600 dark:text-red-400
+                                                        @else
+                                                            text-gray-600 dark:text-gray-400
+                                                        @endif">
+                                                        @if($transaction->type == 'increament')
+                                                            +Rp {{ number_format($transaction->amount, 0, ',', '.') }}
+                                                        @elseif($transaction->type == 'decreament')
+                                                            -Rp {{ number_format($transaction->amount, 0, ',', '.') }}
+                                                        @else
+                                                            Rp {{ number_format($transaction->amount, 0, ',', '.') }}
+                                                        @endif
+                                                    </span>
+                                                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                        {{ $transaction->created_at->diffForHumans() }}
+                                                    </p>
                                                 </div>
-                                            </div>
-                                            <div class="text-right">
-                                                <span class="font-semibold text-red-600 dark:text-red-400">-Rp
-                                                    500,000</span>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div>
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center space-x-3">
-                                                <div
-                                                    class="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full dark:bg-green-900">
-                                                    <svg class="w-5 h-5 text-green-600 dark:text-green-400"
-                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                    </svg>
-                                                </div>
-                                                <div>
-                                                    <h6 class="text-sm font-medium text-gray-700 dark:text-white">Sale
-                                                        Commission</h6>
-                                                    <span class="text-xs text-gray-500 dark:text-gray-400">Order
-                                                        #12344</span>
-                                                </div>
+                                    @empty
+                                        <div class="py-8 text-center">
+                                            <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full dark:bg-gray-700">
+                                                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
                                             </div>
-                                            <div class="text-right">
-                                                <span class="font-semibold text-green-600 dark:text-green-400">+Rp
-                                                    75,000</span>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400">2 days ago</p>
-                                            </div>
+                                            <p class="text-gray-500 dark:text-gray-400">No transactions found</p>
+                                            <p class="text-sm text-gray-400 dark:text-gray-500">Your transaction history will appear here</p>
                                         </div>
-                                    </div>
+                                    @endforelse
                                 </div>
-                                <button
-                                    class="w-full px-4 py-2 text-white transition-colors rounded btn bg-primary hover:bg-blue-700">View
-                                    All Transactions</button>
                             </div>
+
                         </div>
 
                         <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">

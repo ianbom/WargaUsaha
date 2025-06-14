@@ -24,19 +24,17 @@
             <!-- Mode Toggle Buttons -->
             <div class="px-4 pb-4 py-4">
                 <div class="flex bg-gray-100 dark:bg-dark/20 rounded-lg p-1">
-                    <button @click="activeMode = 'customer'"
+                    <button @click="setActiveMode('customer')"
                             :class="activeMode === 'customer' ? 'bg-white dark:bg-[#0e1726] shadow-sm text-primary' : 'text-gray-500 dark:text-gray-400'"
                             class="flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200">
                         <div class="flex items-center justify-center">
-
                             Profil Saya
                         </div>
                     </button>
-                    <button @click="activeMode = 'seller'"
+                    <button @click="setActiveMode('seller')"
                             :class="activeMode === 'seller' ? 'bg-white dark:bg-[#0e1726] shadow-sm text-primary' : 'text-gray-500 dark:text-gray-400'"
                             class="flex-1 py-2 px-3 rounded-md text-sm font-medium transition-all duration-200">
                         <div class="flex items-center justify-center">
-
                             Toko Sewa
                         </div>
                     </button>
@@ -58,40 +56,34 @@
                 <div x-show="activeMode === 'customer'" x-transition>
                     <li class="nav-item">
                         <ul>
-
                             <li class="nav-item">
-                                <a href="/customer/profile" class="group">
+                                <a href="/customer/profile" class="group" :class="isActiveRoute('/customer/profile') ? 'active' : ''">
                                     <div class="flex items-center">
-
                                         <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Profile</span>
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/customer/orders" class="group">
+                                <a href="/customer/orders" class="group" :class="isActiveRoute('/customer/orders') ? 'active' : ''">
                                     <div class="flex items-center">
-
                                         <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Riwayat Transaksi</span>
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/customer/products" class="group">
+                                <a href="/customer/products" class="group" :class="isActiveRoute('/customer/products') ? 'active' : ''">
                                     <div class="flex items-center">
-
                                         <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Riwayat Produk</span>
                                     </div>
                                 </a>
                             </li>
-                                                 <li class="nav-item">
-                                <a href="/customer/products" class="group">
+                            <li class="nav-item">
+                                <a href="/customer/services" class="group" :class="isActiveRoute('/customer/services') ? 'active' : ''">
                                     <div class="flex items-center">
-
                                         <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Riwayat Layanan</span>
                                     </div>
                                 </a>
                             </li>
-
                         </ul>
                     </li>
                 </div>
@@ -101,95 +93,131 @@
                     <li class="nav-item">
                         @if (auth()->user()->role == 'Seller')
                         <ul>
-
                             <li class="nav-item">
-                                <a href="/seller/profile" class="group">
+                                <a href="/seller/profile" class="group" :class="isActiveRoute('/seller/profile') ? 'active' : ''">
                                     <div class="flex items-center">
-
                                         <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Profile</span>
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/seller/product" class="group">
+                                <a href="/seller/product" class="group" :class="isActiveRoute('/seller/product') ? 'active' : ''">
                                     <div class="flex items-center">
-                                                                            <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Produk Saya</span>
-                                </div>
-                            </a>
-                        </li>
-                             <li class="nav-item">
-                                <a href="/seller/service" class="group">
+                                        <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Produk Saya</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/seller/service" class="group" :class="isActiveRoute('/seller/service') ? 'active' : ''">
                                     <div class="flex items-center">
-                                                                            <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Layanan Saya</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/seller/order/product" class="group">
-                                <div class="flex items-center">
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Transaksi Product</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/seller/order/service" class="group">
-                                <div class="flex items-center">
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Transaksi Layanan</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/seller/withdraw" class="group">
-                                <div class="flex items-center">
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Transaksi Withdraw</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/seller/mart" class="group">
-                                <div class="flex items-center">
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Pengaturan Toko</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    @else
-                    <ul>
-                        <li class="nav-item">
-                            <a href="/customer/mart-registration/create" class="group">
-                                <div class="flex items-center">
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Registrasi Toko</span>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    @endif
-
-                </li>
-            </div>
-
-              <!-- Footer -->
-            {{-- <div class="p-4 mt-auto border-t dark:border-gray-700">
-                <div class="flex items-center justify-center p-3 bg-indigo-50 dark:bg-[#1a223f] rounded-lg">
-                    <div class="text-center">
-                        <p class="text-xs text-indigo-600 dark:text-indigo-400">WargaUsaha v1.0</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">© 2023 All rights reserved</p>
-                    </div>
+                                        <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Layanan Saya</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/seller/order/product" class="group" :class="isActiveRoute('/seller/order/product') ? 'active' : ''">
+                                    <div class="flex items-center">
+                                        <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Transaksi Product</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/seller/order/service" class="group" :class="isActiveRoute('/seller/order/service') ? 'active' : ''">
+                                    <div class="flex items-center">
+                                        <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Transaksi Layanan</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/seller/withdraw" class="group" :class="isActiveRoute('/seller/withdraw') ? 'active' : ''">
+                                    <div class="flex items-center">
+                                        <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Transaksi Withdraw</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/seller/mart" class="group" :class="isActiveRoute('/seller/mart') ? 'active' : ''">
+                                    <div class="flex items-center">
+                                        <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Pengaturan Toko</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        @else
+                        <ul>
+                            <li class="nav-item">
+                                <a href="/customer/mart-registration/create" class="group" :class="isActiveRoute('/customer/mart-registration/create') ? 'active' : ''">
+                                    <div class="flex items-center">
+                                        <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Registrasi Toko</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        @endif
+                    </li>
                 </div>
-            </div> --}}
-        </ul>
 
-    </div>
-</nav>
+                <!-- Footer -->
+                {{-- <div class="p-4 mt-auto border-t dark:border-gray-700">
+                    <div class="flex items-center justify-center p-3 bg-indigo-50 dark:bg-[#1a223f] rounded-lg">
+                        <div class="text-center">
+                            <p class="text-xs text-indigo-600 dark:text-indigo-400">WargaUsaha v1.0</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">© 2023 All rights reserved</p>
+                        </div>
+                    </div>
+                </div> --}}
+            </ul>
+        </div>
+    </nav>
 </div>
+
+<style>
+    .nav-item a.active {
+        @apply bg-primary/10 text-primary border-r-2 border-primary;
+    }
+
+    .nav-item a.active span {
+        @apply text-primary font-semibold;
+    }
+
+    .dark .nav-item a.active {
+        @apply bg-primary/20;
+    }
+</style>
 
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('sidebar', () => ({
             activeMode: 'customer', // default mode
+
+            init() {
+                // Set active mode based on current route
+                this.setActiveModeFromRoute();
+
+                // Listen for route changes (if using SPA routing)
+                window.addEventListener('popstate', () => {
+                    this.setActiveModeFromRoute();
+                });
+            },
+
+            setActiveModeFromRoute() {
+                const currentPath = window.location.pathname;
+
+                if (currentPath.startsWith('/seller/')) {
+                    this.activeMode = 'seller';
+                } else if (currentPath.startsWith('/customer/')) {
+                    this.activeMode = 'customer';
+                }
+            },
+
+            setActiveMode(mode) {
+                this.activeMode = mode;
+            },
+
+            isActiveRoute(route) {
+                return window.location.pathname === route ||
+                       window.location.pathname.startsWith(route + '/');
+            }
         }));
     });
 </script>
-
-
-
