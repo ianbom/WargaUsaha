@@ -200,4 +200,17 @@ class TransactionController extends Controller
     }
 }
 
+    public function payNoCallBack($id){
+
+        $transaction = Transaction::findOrFail($id);
+           if (!$transaction) {
+                return response()->json(['error' => 'Transaksi tidak ditemukan']);
+            }
+        try {
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
 }
