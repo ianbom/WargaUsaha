@@ -113,7 +113,7 @@ return new class extends Migration
 
         Schema::create('group_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('group_order_id')->nullable()->unique();
+            $table->string('code_group_order')->nullable()->unique();
             $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
@@ -198,16 +198,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('food_sharings', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('name');
-            $table->string('image_url')->nullable();
-            $table->string('description');
-            $table->string('status');
-            $table->timestamp('expired_time');
-            $table->timestamps();
-        });
         Schema::create('job_vacancy_categories', function (Blueprint $table) {
             $table->id();
             $table->string('category_name');
