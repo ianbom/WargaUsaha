@@ -98,7 +98,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('transaction_code')->unique();
-            $table->foreignId('group_order_id')->constrained('group_orders')->cascadeOnDelete()->cascadeOnUpdate();
+            // $table->foreignId('group_order_id')->constrained('group_orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('payment_method')->nullable();
             $table->string('payment_status')->nullable();
             $table->decimal('paid_amount', 12, 2);
