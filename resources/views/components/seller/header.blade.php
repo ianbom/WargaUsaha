@@ -6,6 +6,7 @@
     <div class="shadow-sm">
         <div class="relative bg-white flex w-full items-center px-5 py-2.5 dark:bg-[#0e1726]">
             <!-- Left Section: Logo -->
+            <!-- Left Section: Logo -->
             <div class="flex items-center justify-between horizontal-logo lg:hidden ltr:mr-2 rtl:ml-2">
                 <a href="/" class="flex items-center main-logo shrink-0">
                     {{-- <img class="inline w-8 ltr:-ml-1 rtl:-mr-1" src="/assets/images/logo.svg" alt="image" /> --}}
