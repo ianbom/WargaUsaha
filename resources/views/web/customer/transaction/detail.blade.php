@@ -295,7 +295,7 @@
                             <div class="px-6 py-4 space-y-3">
                                 <!-- Pay Button -->
 
-                                    <button id="pay-button"
+                                    <button data-code={{ $transaction->transaction_code }} id="pay-button"
                                              class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
                                          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -903,7 +903,7 @@
                             console.log('Payment Success:', result);
                             alert("Pembayaran berhasil!");
 
-                            // Redirect ke halaman sukses atau update status
+
                              window.history.back();
                         },
                         onPending: function (result) {
