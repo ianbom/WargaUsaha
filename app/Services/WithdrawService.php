@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\LogWallet;
 use App\Models\WalletTransaction;
 
 class WithdrawService
@@ -25,7 +26,6 @@ class WithdrawService
             $withdraw->update([
                 'status' => 'Accepted',
                 'withdraw_accepted_date' => now(),
-
             ]);
         }
 
