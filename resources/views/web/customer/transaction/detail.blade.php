@@ -135,22 +135,12 @@
                                                     <img src="{{ asset('storage/' . $order->product->image_url) }}"
                                                         alt="{{ $order->product->name }}"
                                                         class="object-cover w-full h-full rounded-lg">
-                                                    <svg class="w-8 h-8 text-gray-400" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                                    </svg>
+
                                                 @else
                                                     <img src="{{ asset('storage/' . $order->service->image_url) }}"
                                                         alt="{{ $order->service->name }}"
                                                         class="object-cover w-full h-full rounded-lg">
-                                                    <svg class="w-8 h-8 text-gray-400" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6M8 8v10l4 4 4-4V8" />
-                                                    </svg>
+
                                                 @endif
                                             </div>
 
