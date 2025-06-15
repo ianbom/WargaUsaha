@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\WhatsappJob;
 use App\Models\Transaction;
 use Exception;
 use Illuminate\Support\Facades\Http;
@@ -66,7 +67,7 @@ class PaymentService
                 $transaction->payment_method = $dataResponse['payment_type'] ?? null;
                 $transaction->acquirer = $dataResponse['acquirer'] ?? null;
                 $transaction->paid_at = now();
-
+                 
                 // Panggil service untuk memproses pembayaran
                 if (method_exists($this->transactionService, 'payTransaction')) {
                     $this->transactionService->payTransaction($transaction);

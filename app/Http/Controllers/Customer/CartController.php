@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CartRequest;
+use App\Jobs\WhatsappJob;
 use App\Models\Cart;
 use App\Services\CartService;
 use Exception;
@@ -121,12 +122,14 @@ class CartController extends Controller
         ]);
 
         $cartItems = $validatedData['selected_carts'];
-        $shippingMethod = $validatedData['shipping_method'] ?? 'Pick-Up';
-        $validatedData['shipping_cost'] = 2000;
+        $shippingMethod = $validatedData['shipping_method'] ?? 'Diantar';
+        $validatedData['shipping_cost'] = 5000;
         $defaultShippingCost = $validatedData['shipping_cost'] ?? 0;
 
         try {
             DB::beginTransaction();
+            $user = Auth::user();
+
 
             $cartIds = collect($cartItems)->pluck('cart_id')->toArray();
             $carts = $this->cartService->getCartData($cartIds); //join cart, product, mart
@@ -158,21 +161,15 @@ class CartController extends Controller
             );
 
             $this->cartService->clearCartItems($cartIds);
+           WhatsappJob::dispatch($user->phone, "🎉 Hai {$user->name}, terima kasih telah berbelanja di *WargaUsaha*!🛍️
+           \n\n📦 Transaksi kamu berhasil dibuat dengan *Kode Transaksi*: {$transactionCode}.
+           \n\nMohon segera selesaikan pembayaran dalam waktu *1 jam* agar pesananmu bisa segera kami proses. 🕒
+           \n\nSalam sukses,\nTim WargaUsaha 💼
+           \n\nhttps://wargausaha.ianianale.shop");
+
             DB::commit();
             return redirect()->route('customer.transaction.show', $transactionId);
-            // return response()->json([
-            //     'success' => true,
-            //     'message' => 'Checkout berhasil',
-            //     'data' => [
-            //         'transaction' => [
-            //             'id' => $transactionId,
-            //             'transaction_code' => $transactionCode,
-            //             'total_amount' => $calculationResult['grand_total'],
-            //             'payment_status' => 'pending'
-            //         ],
-            //         'group_orders' => $createdGroupOrders
-            //     ]
-            // ], 200);
+
 
         } catch (\Exception $e) {
             DB::rollback();

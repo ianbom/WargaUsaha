@@ -2,14 +2,14 @@
     <div class="bg-gray-50">
         <div class="flex items-center justify-between">
             <div class="text-xl font-semibold text-gray-800">
-                Detail Transaction
+                Detail Transaksi Product
             </div>
             <nav class="flex items-center space-x-2 text-sm text-gray-600">
                 <a href="#" class="transition-colors text-primary hover:underline">Dashboard</a>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
-                <span class="text-gray-800">Detail Transaction</span>
+                <span class="text-gray-800">Detail Transaksi Product</span>
             </nav>
         </div>
         <div class="mx-auto">
@@ -23,13 +23,13 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 19l-7-7 7-7"></path>
                             </svg>
-                            Kembali ke Daftar Transaksi
+                            Kembali ke Daftar Transaksi Product
                         </a>
 
                         <h1 class="text-3xl font-bold text-gray-900">Detail Pesanan</h1>
-                        <p class="mt-2 text-gray-600">Group Order #{{ $groupOrder->id }}</p>
+                        <p class="mt-2 text-gray-600">Group Order Code {{ $groupOrder->code_group_order }}</p>
                         @if($groupOrder->transaction)
-                            <p class="text-sm text-gray-500">Transaction ID: {{ $groupOrder->transaction->id }}</p>
+                            <p class="text-sm text-gray-500">Transaction Code : {{ $groupOrder->transaction->transaction_code }}</p>
                         @endif
                     </div>
 

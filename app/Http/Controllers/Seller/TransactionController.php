@@ -7,6 +7,7 @@ use App\Models\GroupOrder;
 use App\Models\Order;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -36,6 +37,21 @@ class TransactionController extends Controller
 
     public function show(GroupOrder $transaction){
         return view('web.seller.transaction.detail', ['groupOrder'=> $transaction]);
+    }
+
+    public function shipOrder(GroupOrder $groupOrder){
+        DB::beginTransaction();
+        try {
+            $groupOrder->update([
+                'order_status' => 'Shipped',
+                'shipped_at' => now()
+            ]);
+            DB::commit();
+            return redirect()->back()->with('success','Pesanan diantarkan');
+        } catch (\Exception $th) {
+            DB::rollBack();
+           return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     public function showService(Order $order){

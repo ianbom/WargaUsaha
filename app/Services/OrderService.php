@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\GroupOrder;
+use App\Models\LogWallet;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 
@@ -138,19 +139,25 @@ class OrderService
         // ]);
     }
 
-    public function completeOrder($order, $seller)
+    public function completeOrder($orderGroup, $seller)
     {
-        $order->update([
+
+        $orderGroup->update([
             'order_status' => 'Completed',
-            'completed_at' => now(),
+            'completed_at' => now()
         ]);
 
-        $transaction = $this->transactionService->getTransactionByOrderId($order->id);
-        $transaction->update([
-            'payment_status' => 'Completed',
-        ]);
 
-        $this->walletService->increamentWallet($order->total_price, $seller->id);
+
+        $this->walletService->increamentWallet($orderGroup->total_price, $seller->id);
+        LogWallet::create([
+            'user_id' => $seller->id,
+            'seller_walet_id' => $seller->sellerWallet->id,
+            'type' => 'increament',
+            'amount' => $orderGroup->total_price,
+            'status' => 'Success',
+           'title' => 'Pembayaran dari customer ' . ($orderGroup->user->name ?? 'Unknown')
+        ]);
     }
 
     public function updateOrderStatus($status, $order)
@@ -165,12 +172,14 @@ class OrderService
             case 'Cancelled':
                 $this->cancelOrder($order);
                 return 'Pesanan telah dibatalkan';
-            case 'Completed':
-                $seller = $order->seller;
-                $this->completeOrder($order, $seller);
-                return 'Pesanan telah diselesaikan';
+            // case 'Completed':
+            //     $seller = $order->seller;
+            //     $this->completeOrder($order, $seller);
+            //     return 'Pesanan telah diselesaikan';
             default:
                 throw new \Exception('Status tidak valid');
         }
     }
+
+
 }

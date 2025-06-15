@@ -140,7 +140,7 @@
                             },
                             {
                                 select: 3,
-                                sortable: false
+                              
                             },
                             {
                                 select: 4
@@ -150,18 +150,8 @@
                             },
                             {
                                 select: 6
-                            },
-                            {
-                                select: 7,
-                                sortable: false
-                            },
-                            {
-                                select: 8
-                            },
-                            {
-                                select: 9,
-                                sortable: false
                             }
+
                         ]
                     };
 

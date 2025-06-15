@@ -167,7 +167,7 @@
                                             <p class="text-sm text-gray-500">
                                                 {{ $item->payment_method ?? 'Transfer Bank' }}</p>
                                             <p class="text-lg font-bold text-black"> Rp
-                                                {{ number_format($item->amount ?? 0, 0, ',', '.') }}</p>
+                                                {{ number_format($item->paid_amount ?? 0, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </div>
