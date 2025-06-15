@@ -22,17 +22,20 @@
             </div>
 
             <!-- Mode Toggle Buttons -->
+
             <div class="px-4 py-4 pb-4">
                 <div class="flex p-1 bg-gray-100 rounded-lg dark:bg-dark/20">
                     <button @click="activeMode = 'customer'"
                         :class="activeMode === 'customer' ? 'bg-white dark:bg-[#0e1726] shadow-sm text-primary' :
                             'text-gray-500 dark:text-gray-400'"
                         class="flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md">
-                        <div class="flex items-center justify-center">
 
+
+                        <div class="flex items-center justify-center">
                             Profil Saya
                         </div>
                     </button>
+
                     <button @click="activeMode = 'seller'"
                         :class="activeMode === 'seller' ? 'bg-white dark:bg-[#0e1726] shadow-sm text-primary' :
                             'text-gray-500 dark:text-gray-400'"
@@ -40,6 +43,7 @@
                         <div class="flex items-center justify-center">
 
                             Toko Saya
+
                         </div>
                     </button>
                 </div>
@@ -61,10 +65,10 @@
                 <div x-show="activeMode === 'customer'" x-transition>
                     <li class="nav-item">
                         <ul>
-
                             <li class="nav-item">
-                                <a href="/customer/profile" class="group">
+                                <a href="/customer/profile" class="group" :class="isActiveRoute('/customer/profile') ? 'active' : ''">
                                     <div class="flex items-center">
+
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -73,10 +77,12 @@
                                             class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Profil
                                             Saya</span>
 
+
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
+
                                 <a href="/customer/products" class="group">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
@@ -91,12 +97,14 @@
                                         <span
                                             class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Riwayat
                                             Produk</span>
+
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/customer/products" class="group">
+                                <a href="/customer/products" class="group" :class="isActiveRoute('/customer/products') ? 'active' : ''">
                                     <div class="flex items-center">
+
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -109,10 +117,12 @@
                                         <span
                                             class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Riwayat
                                             Layanan Jasa</span>
+
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
+
                                 <a href="/customer/orders" class="group">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
@@ -140,6 +150,7 @@
                             </li>
 
 
+
                         </ul>
                     </li>
                 </div>
@@ -148,6 +159,7 @@
                 <div x-show="activeMode === 'seller'" x-transition>
                     <li class="nav-item">
                         @if (auth()->user()->role == 'Seller')
+
                             <ul>
 
                                 <li class="nav-item">
@@ -328,14 +340,58 @@
             </div> --}}
             </ul>
 
+
         </div>
     </nav>
 </div>
+
+<style>
+    .nav-item a.active {
+        @apply bg-primary/10 text-primary border-r-2 border-primary;
+    }
+
+    .nav-item a.active span {
+        @apply text-primary font-semibold;
+    }
+
+    .dark .nav-item a.active {
+        @apply bg-primary/20;
+    }
+</style>
 
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('sidebar', () => ({
             activeMode: 'customer', // default mode
+
+            init() {
+                // Set active mode based on current route
+                this.setActiveModeFromRoute();
+
+                // Listen for route changes (if using SPA routing)
+                window.addEventListener('popstate', () => {
+                    this.setActiveModeFromRoute();
+                });
+            },
+
+            setActiveModeFromRoute() {
+                const currentPath = window.location.pathname;
+
+                if (currentPath.startsWith('/seller/')) {
+                    this.activeMode = 'seller';
+                } else if (currentPath.startsWith('/customer/')) {
+                    this.activeMode = 'customer';
+                }
+            },
+
+            setActiveMode(mode) {
+                this.activeMode = mode;
+            },
+
+            isActiveRoute(route) {
+                return window.location.pathname === route ||
+                       window.location.pathname.startsWith(route + '/');
+            }
         }));
     });
 </script>

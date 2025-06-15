@@ -30,6 +30,7 @@ class ProfileRequest extends FormRequest
             'location_lat' => 'nullable',
             'location_long' => 'nullable',
             'profile_pic' => 'nullable',
+            'ward_id' => 'nullable'
         ];
     }
 }

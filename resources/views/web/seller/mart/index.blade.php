@@ -94,27 +94,45 @@
                                 Edit Profile
                             </a>
 
-                            <form action="" method="POST" class="inline">
-                                @csrf
-                                <button type="submit"
-                                    class="inline-flex items-center px-6 py-3 font-semibold text-white transition-colors duration-200 border rounded-lg bg-white/10 hover:bg-white/20 border-white/20 backdrop-blur-sm">
-                                    @if ($mart->is_active)
-                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                          <!-- Form untuk toggle status mart -->
+                            @if ($mart->is_active)
+                                <!-- Form untuk deactivate mart -->
+                                <form action="{{ route('seller.mart.deactive', $mart) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                            class="inline-flex items-center px-6 py-3 font-semibold text-white transition-all duration-300 border rounded-xl bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 border-red-400/30 backdrop-blur-sm shadow-lg hover:shadow-xl transform hover:scale-105 group"
+                                            onclick="return confirm('Are you sure you want to deactivate this mart?')">
+                                        <svg class="w-5 h-5 mr-2 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
+                                                  d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
                                         </svg>
-                                        Deactivate Mart
-                                    @else
-                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
+                                        <span class="relative">
+                                            NonAktifkan Toko
+                                            <span class="absolute inset-0 bg-white/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                        </span>
+                                    </button>
+                                </form>
+                            @else
+                                <!-- Form untuk activate mart -->
+                                <form action="{{ route('seller.mart.active', $mart) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit"
+                                            class="inline-flex items-center px-6 py-3 font-semibold text-white transition-all duration-300 border rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 border-green-400/30 backdrop-blur-sm shadow-lg hover:shadow-xl transform hover:scale-105 group"
+                                            onclick="return confirm('Are you sure you want to activate this mart?')">
+                                        <svg class="w-5 h-5 mr-2 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M5 13l4 4L19 7" />
+                                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                        Activate Mart
-                                    @endif
-                                </button>
-                            </form>
+                                        <span class="relative">
+                                            Aktifkan Toko
+                                            <span class="absolute inset-0 bg-white/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                                        </span>
+                                    </button>
+                                </form>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -144,7 +162,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="mb-1 text-sm text-gray-600 dark:text-gray-400">Total Services</p>
-                            <h3 class="text-2xl font-bold text-green-600">{{ $stats['total_services'] ?? 0 }}</h3>
+                            <h3 class="text-2xl font-bold text-green-600">{{ $services }}</h3>
                         </div>
                         <div
                             class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg dark:bg-green-900/30">
@@ -162,7 +180,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="mb-1 text-sm text-gray-600 dark:text-gray-400">Total Orders</p>
-                            <h3 class="text-2xl font-bold text-yellow-600">{{ $stats['total_orders'] ?? 0 }}</h3>
+                            <h3 class="text-2xl font-bold text-yellow-600">{{ $orders }}</h3>
                         </div>
                         <div
                             class="flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-lg dark:bg-yellow-900/30">
@@ -182,10 +200,10 @@
                             <p class="mb-1 text-sm text-gray-600 dark:text-gray-400">Average Rating</p>
                             <div class="flex items-center gap-2">
                                 <h3 class="text-2xl font-bold text-purple-600">
-                                    {{ number_format($stats['average_rating'] ?? 0, 1) }}</h3>
+                                   {{ $mart->average_rating }}</h3>
                                 <div class="flex">
                                     @for ($i = 1; $i <= 5; $i++)
-                                        <svg class="w-4 h-4 {{ $i <= ($stats['average_rating'] ?? 0) ? 'text-yellow-400' : 'text-gray-300' }}"
+                                        <svg class="w-4 h-4 {{ $i <= ($mart['average_rating'] ?? 0) ? 'text-yellow-400' : 'text-gray-300' }}"
                                             fill="currentColor" viewBox="0 0 20 20">
                                             <path
                                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -302,8 +320,8 @@
                     <div class="mb-6 text-center">
                         <div
                             class="w-20 h-20 mx-auto mb-4 overflow-hidden border-4 border-gray-200 rounded-full dark:border-gray-600">
-                            @if ($mart->user->avatar)
-                                <img src="{{ asset('storage/' . $mart->user->avatar) }}"
+                            @if ($mart->user->profile_pic)
+                                <img src="{{ asset('storage/' . $mart->user->profile_pic) }}"
                                     alt="{{ $mart->user->name }}" class="object-cover w-full h-full" />
                             @else
                                 <div

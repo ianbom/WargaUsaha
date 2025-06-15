@@ -70,6 +70,7 @@
                             <p class="font-medium text-gray-700 dark:text-gray-300">Telepon</p>
                             <p class="text-gray-600 dark:text-gray-400">{{ auth()->user()->phone ?: '-' }}</p>
                         </div>
+
                     </div>
 
                     <div class="flex items-start">
@@ -232,6 +233,24 @@
                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
+
+                     <div>
+                        <label for="ward_id" class="block mb-2 font-medium">Kelurahan</label>
+                        <select id="ward_id" name="ward_id"
+                            class="form-select w-full @error('ward_id') border-danger @enderror">
+                            <option value="">-- Pilih Kelurahan --</option>
+                            @foreach ($wards as $ward)
+                                <option value="{{ $ward->id }}"
+                                    {{ old('ward_id', auth()->user()->ward_id) == $ward->id ? 'selected' : '' }}>
+                                    {{ $ward->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('ward_id')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+
 
                         <!-- Password -->
                         <div>
