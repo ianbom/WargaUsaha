@@ -6,11 +6,7 @@
                 Detail Job
             </div>
             <nav class="flex items-center space-x-2 text-sm text-gray-600">
-                <a href="#" class="transition-colors text-primary hover:underline">Dashboard</a>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-                <a href="{{ route('seller.product.index') }}"
+                <a href="{{ route('employer.job.index') }}"
                     class="transition-colors text-primary hover:underline">Job</a>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -76,7 +72,7 @@
                             </svg>
                             Edit Job
                         </a>
-                        <button
+                        {{-- <button
                             class="flex items-center h-10 px-4 text-sm font-medium text-blue-600 transition-all duration-200 bg-white rounded-md hover:bg-gray-50">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -84,7 +80,7 @@
                                 </path>
                             </svg>
                             Share
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
             </div>

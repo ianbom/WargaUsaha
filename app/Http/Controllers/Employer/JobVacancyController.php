@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobVacancyRequest;
+use App\Http\Requests\UpdateJobVacancyStatusRequest;
 use App\Services\JobVacancyService;
 use Illuminate\Http\Request;
 use App\Models\JobVacancy;
@@ -78,6 +79,16 @@ class JobVacancyController extends Controller
             return redirect()->route('employer.job.index')->with('success', 'Lowongan Pekerjaan berhasil dihapus');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghapus pekerjaan: ' . $e->getMessage());
+        }
+    }
+    public function updateStatus(UpdateJobVacancyStatusRequest $request, $id)
+    {
+        $job_status = $request->input('job_status');
+        try {
+            JobVacancyService::updateStatus($id, $job_status);
+            return redirect()->back()->with('success', 'Status lowongan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal memperbarui status.');
         }
     }
 }

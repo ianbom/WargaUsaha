@@ -30,7 +30,11 @@
                             <option value="">Semua</option>
                             <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending
                             </option>
-                            <option value="Paid" {{ request('status') == 'Paid' ? 'selected' : '' }}>Dibayar</option>
+                            <option value="Paid" {{ request('status') == 'Paid' ? 'selected' : '' }}>Paid
+                            </option>
+                            <option value="Cancelled" {{ request('status') == 'Cancelled' ? 'selected' : '' }}>Cancelled
+                            </option>
+                            <option value="Expired" {{ request('status') == 'Paid' ? 'Expired' : '' }}>Expired</option>
                         </select>
                     </div>
 
@@ -80,6 +84,20 @@
                                                             stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                     </svg>
+                                                </div>
+                                            @elseif($item->payment_status == 'Expired')
+                                                <div
+                                                    class="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full">
+                                                    <svg class="w-6 h-6 text-gray-600" viewBox="0 0 24 24"
+                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <circle cx="12" cy="12" r="10"
+                                                            stroke="currentColor" stroke-width="1.5" />
+                                                        <path d="M12 17V11" stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round" />
+                                                        <circle cx="1" cy="1" r="1"
+                                                            transform="matrix(1 0 0 -1 11 9)" fill="currentColor" />
+                                                    </svg>
+
                                                 </div>
                                             @else
                                                 <div
@@ -137,9 +155,9 @@
                                         @endif --}}
                                         <span
                                             class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                                    @if ($item->payment_status == 'Completed') bg-green-100 text-green-800
-                                                    @elseif($item->payment_status == 'Paid') bg-blue-100 text-blue-800
+                                                    @if ($item->payment_status == 'Paid') bg-green-100 text-green-800
                                                     @elseif($item->payment_status == 'Pending') bg-yellow-100 text-yellow-800
+                                                    @elseif($item->payment_status == 'Expired') bg-gray-100 text-gray-800
                                                     @else bg-red-100 text-red-800 @endif">
                                             {{ ucfirst($item->payment_status) }}
                                         </span>

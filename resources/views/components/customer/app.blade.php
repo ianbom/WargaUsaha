@@ -94,7 +94,7 @@
 
     <div class="min-h-screen text-black main-container dark:text-white-dark" :class="[$store.app.navbar]">
 
-        <x-customer.sidebar />
+        <x-seller.sidebar />
 
         <div class="flex flex-col min-h-screen main-content">
             <x-customer.header />

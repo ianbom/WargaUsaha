@@ -4,9 +4,9 @@
         <div class="bg-white dark:bg-[#0e1726] h-full ">
             <div class="flex items-center justify-between px-4 py-3">
                 <a href="/" class="flex items-center main-logo shrink-0">
-                    <span class="hidden text-xl font-bold text-gray-800 dark:text-white sm:block">
-                        WargaUsaha
-                    </span>
+                    <img class="w-12 ml-[5px] flex-none" src="/logo.png" alt="image" />
+                    <span
+                        class="text-xl ltr:ml-1.5 rtl:mr-1.5  font-bold  align-middle lg:inline dark:text-white-light">WargaUsaha</span>
                 </a>
                 <a href="javascript:;"
                     class="flex items-center w-8 h-8 transition duration-300 rounded-full collapse-icon hover:bg-gray-500/10 dark:hover:bg-dark-light/10 dark:text-white-light rtl:rotate-180"
@@ -20,7 +20,6 @@
                     </svg>
                 </a>
             </div>
-
             <!-- Mode Toggle Buttons -->
 
             <div class="px-4 py-4 pb-4">
@@ -29,10 +28,8 @@
                         :class="activeMode === 'customer' ? 'bg-white dark:bg-[#0e1726] shadow-sm text-primary' :
                             'text-gray-500 dark:text-gray-400'"
                         class="flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md">
-
-
-                        <div class="flex items-center justify-center">
-                            Profil Saya
+                        <div class="flex items-center justify-center font-bold">
+                            CUSTOMER
                         </div>
                     </button>
 
@@ -40,10 +37,8 @@
                         :class="activeMode === 'seller' ? 'bg-white dark:bg-[#0e1726] shadow-sm text-primary' :
                             'text-gray-500 dark:text-gray-400'"
                         class="flex-1 px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md">
-                        <div class="flex items-center justify-center">
-
-                            Toko Saya
-
+                        <div class="flex items-center justify-center font-bold">
+                            SELLER
                         </div>
                     </button>
                 </div>
@@ -51,7 +46,6 @@
 
             <ul class="perfect-scrollbar relative font-semibold space-y-0.5 h-[calc(100vh-140px)] overflow-y-auto overflow-x-hidden p-4 py-0"
                 x-data="{ activeDropdown: null }">
-
                 <h2
                     class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                     <svg class="flex-none hidden w-4 h-5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"
@@ -66,10 +60,98 @@
                     <li class="nav-item">
                         <ul>
                             <li class="nav-item">
+                                <a href="/customer/home" class="group">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                            <path d="M15 18H9" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                        <span
+                                            class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Beranda
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('customer.home.indexProduct') }}" class="group">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M15.5777 3.38197L17.5777 4.43152C19.7294 5.56066 20.8052 6.12523 21.4026 7.13974C22 8.15425 22 9.41667 22 11.9415V12.0585C22 14.5833 22 15.8458 21.4026 16.8603C20.8052 17.8748 19.7294 18.4393 17.5777 19.5685L15.5777 20.618C13.8221 21.5393 12.9443 22 12 22C11.0557 22 10.1779 21.5393 8.42229 20.618L6.42229 19.5685C4.27063 18.4393 3.19479 17.8748 2.5974 16.8603C2 15.8458 2 14.5833 2 12.0585V11.9415C2 9.41667 2 8.15425 2.5974 7.13974C3.19479 6.12523 4.27063 5.56066 6.42229 4.43152L8.42229 3.38197C10.1779 2.46066 11.0557 2 12 2C12.9443 2 13.8221 2.46066 15.5777 3.38197Z"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                            <path
+                                                d="M21 7.5L17 9.5M12 12L3 7.5M12 12V21.5M12 12C12 12 14.7426 10.6287 16.5 9.75C16.6953 9.65237 17 9.5 17 9.5M17 9.5V13M17 9.5L7.5 4.5"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                        </svg>
+                                        <span
+                                            class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Produk
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('customer.home.indexJobVacancy') }}" class="group">
+                                    <div class="flex items-center">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                            class="w-4 h-4">
+                                            <path
+                                                d="M2 14C2 10.2288 2 8.34315 3.17157 7.17157C4.34315 6 6.22876 6 10 6H14C17.7712 6 19.6569 6 20.8284 7.17157C22 8.34315 22 10.2288 22 14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14Z"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                            <path
+                                                d="M16 6C16 4.11438 16 3.17157 15.4142 2.58579C14.8284 2 13.8856 2 12 2C10.1144 2 9.17157 2 8.58579 2.58579C8 3.17157 8 4.11438 8 6"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                            <path
+                                                d="M17 9C17 9.55228 16.5523 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44772 15.4477 8 16 8C16.5523 8 17 8.44772 17 9Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M9 9C9 9.55228 8.55228 10 8 10C7.44772 10 7 9.55228 7 9C7 8.44772 7.44772 8 8 8C8.55228 8 9 8.44772 9 9Z"
+                                                fill="currentColor" />
+                                        </svg>
+                                        <span
+                                            class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Lowongan
+                                            Pekerjaan
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('customer.home.indexService') }}" class="group">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10.1497 8.80219L9.70794 9.40825L10.1497 8.80219ZM12 3.10615L11.4925 3.65833C11.7794 3.9221 12.2206 3.9221 12.5075 3.65833L12 3.10615ZM13.8503 8.8022L14.2921 9.40826L13.8503 8.8022ZM12 9.67598L12 10.426H12L12 9.67598ZM10.5915 8.19612C9.90132 7.69298 9.16512 7.08112 8.60883 6.43627C8.03452 5.77053 7.75 5.18233 7.75 4.71476H6.25C6.25 5.73229 6.82845 6.66885 7.47305 7.41607C8.13569 8.18419 8.97435 8.87349 9.70794 9.40825L10.5915 8.19612ZM7.75 4.71476C7.75 3.65612 8.27002 3.05231 8.8955 2.84182C9.54754 2.62238 10.5199 2.76435 11.4925 3.65833L12.5075 2.55398C11.2302 1.37988 9.70254 0.987559 8.41707 1.42016C7.10502 1.8617 6.25 3.09623 6.25 4.71476H7.75ZM14.2921 9.40826C15.0257 8.8735 15.8643 8.18421 16.527 7.41608C17.1716 6.66886 17.75 5.73229 17.75 4.71475H16.25C16.25 5.18234 15.9655 5.77055 15.3912 6.43629C14.8349 7.08113 14.0987 7.69299 13.4085 8.19613L14.2921 9.40826ZM17.75 4.71475C17.75 3.09622 16.895 1.8617 15.5829 1.42016C14.2975 0.987559 12.7698 1.37988 11.4925 2.55398L12.5075 3.65833C13.4801 2.76435 14.4525 2.62238 15.1045 2.84181C15.73 3.0523 16.25 3.65612 16.25 4.71475H17.75ZM9.70794 9.40825C10.463 9.95869 11.0618 10.426 12 10.426L12 8.92598C11.635 8.92598 11.4347 8.81074 10.5915 8.19612L9.70794 9.40825ZM13.4085 8.19613C12.5653 8.81074 12.365 8.92598 12 8.92598L12 10.426C12.9382 10.426 13.537 9.9587 14.2921 9.40826L13.4085 8.19613Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M4 21.3884H6.25993C7.27079 21.3884 8.29253 21.4937 9.27633 21.6964C11.0166 22.0549 12.8488 22.0983 14.6069 21.8138C15.4738 21.6734 16.326 21.4589 17.0975 21.0865C17.7939 20.7504 18.6469 20.2766 19.2199 19.7459C19.7921 19.216 20.388 18.3487 20.8109 17.6707C21.1736 17.0894 20.9982 16.3762 20.4245 15.943C19.7873 15.4619 18.8417 15.462 18.2046 15.9433L16.3974 17.3084C15.697 17.8375 14.932 18.3245 14.0206 18.4699C13.911 18.4874 13.7962 18.5033 13.6764 18.5172M13.6764 18.5172C13.6403 18.5214 13.6038 18.5254 13.5668 18.5292M13.6764 18.5172C13.8222 18.486 13.9669 18.396 14.1028 18.2775C14.746 17.7161 14.7866 16.77 14.2285 16.1431C14.0991 15.9977 13.9475 15.8764 13.7791 15.7759C10.9817 14.1074 6.62942 15.3782 4 17.2429M13.6764 18.5172C13.6399 18.525 13.6033 18.5292 13.5668 18.5292M13.5668 18.5292C13.0434 18.5829 12.4312 18.5968 11.7518 18.5326"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                        </svg>
+                                        <span
+                                            class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Layanan
+                                            Jasa
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                            <h2
+                                class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
+                                <svg class="flex-none hidden w-4 h-5" viewBox="0 0 24 24" stroke="currentColor"
+                                    stroke-width="1.5" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>AKUN SAYA</span>
+                            </h2>
+                            <li class="nav-item">
                                 <a href="/customer/profile" class="group" :class="isActiveRoute('/customer/profile') ? 'active' : ''">
                                     <div class="flex items-center">
-
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
@@ -82,8 +164,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-
-                                <a href="/customer/products" class="group">
+                                <a href="/customer/order" class="group">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -102,7 +183,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/customer/products" class="group" :class="isActiveRoute('/customer/products') ? 'active' : ''">
+                                <a href="/customer/service" class="group">
                                     <div class="flex items-center">
 
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
@@ -122,8 +203,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-
-                                <a href="/customer/orders" class="group">
+                                <a href="/customer/transaction" class="group">
                                     <div class="flex items-center">
                                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
