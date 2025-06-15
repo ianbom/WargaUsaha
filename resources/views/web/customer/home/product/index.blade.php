@@ -155,7 +155,7 @@
                                         <!-- Category and Mart -->
                                         <div class="flex items-center justify-between mb-4">
                                             <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800">
                                                 {{ $product->category->name ?? ($product->category_name ?? 'Tanpa Kategori') }}
                                             </span>
                                             <span class="text-xs font-medium text-gray-500">
@@ -166,9 +166,9 @@
                                         <!-- Actions -->
                                         <div class="flex space-x-2">
                                             <a href="{{ route('customer.home.showProduct', $product) }}"
-                                                class=" bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 text-sm font-medium {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}"
+                                                class=" bg-primary text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 text-sm font-medium {{ $product->stock <= 0 ? 'opacity-50 cursor-not-allowed' : '' }}"
                                                 {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                                                {{ $product->stock <= 0 ? 'Stok Habis' : 'Lihat' }}
+                                                {{ $product->stock <= 0 ? 'Stok Habis' : 'Lihat Detail' }}
                                             </a>
                                             <form action="{{ route('customer.cart.store') }}" method="POST">
                                                 @csrf
@@ -176,7 +176,7 @@
                                                 <input type="number" name="product_id" value="{{ $product->id }}"
                                                     hidden>
                                                 <button type="submit"
-                                                    class="px-4 py-2 text-gray-700 transition duration-200 bg-gray-100 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                                    class="px-4 py-2 text-yellow-700 transition duration-200 bg-yellow-100 rounded-lg hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">
                                                         <path

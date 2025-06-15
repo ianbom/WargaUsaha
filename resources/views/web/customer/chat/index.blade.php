@@ -124,5 +124,4 @@
             }
         }
     </script>
-
 </x-customer.app>

@@ -149,7 +149,7 @@
                                         <!-- Category and Mart -->
                                         <div class="flex items-center justify-between mb-4">
                                             <span
-                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-100 text-sky-800">
                                                 {{ $service->category->name ?? ($service->category_name ?? 'Tanpa Kategori') }}
                                             </span>
                                             <span class="text-xs font-medium text-gray-500">
@@ -158,8 +158,8 @@
                                         </div>
                                         <div class="flex space-x-2">
                                             <a href="{{ route('customer.home.showService', $service) }}"
-                                                class=" bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 text-sm font-medium  }}">
-                                                Lihat
+                                                class=" bg-primary text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 text-sm font-medium  }}">
+                                                Lihat Detail
 
                                             </a>
                                         </div>

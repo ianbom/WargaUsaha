@@ -1,7 +1,5 @@
 <x-seller.app>
-
-
-    <div class="max-w-7xl mt-4 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="px-4 py-1 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8">
         <div class="flex items-center justify-between ">
             <div class="text-xl font-semibold text-gray-800">
                 @if($mart)
@@ -26,36 +24,33 @@
                 </span>
             </nav>
         </div>
-
         <div class="pt-5">
             <!-- Alert Section -->
             <div class="mb-0">
                 @include('web.seller.alert.success')
             </div>
-
             @if($mart)
                 <!-- Existing Mart Display -->
                 <div class="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]">
                     <div class="flex items-center justify-between mb-5">
                         <h6 class="text-lg font-bold">Informasi Toko Anda</h6>
-
                         <!-- Status Badge -->
                         @if($mart->is_verified === null)
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">
+                            <span class="inline-flex items-center px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 border border-yellow-200 rounded-full">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 Menunggu Verifikasi
                             </span>
                         @elseif($mart->is_verified === true)
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 border border-green-200">
+                            <span class="inline-flex items-center px-3 py-1 text-sm font-medium text-green-800 bg-green-100 border border-green-200 rounded-full">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 Terverifikasi
                             </span>
                         @else
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 border border-red-200">
+                            <span class="inline-flex items-center px-3 py-1 text-sm font-medium text-red-800 bg-red-100 border border-red-200 rounded-full">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
@@ -63,7 +58,6 @@
                             </span>
                         @endif
                     </div>
-
                     <!-- Banner Display -->
                     @if($mart->banner_url)
                         <div class="mb-5">
@@ -80,12 +74,12 @@
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                         <div>
                             <label class="block mb-1 font-medium text-gray-700">Nama Toko</label>
-                            <p class="text-gray-900 text-sm bg-gray-50 rounded-md px-3 py-2">{{ $mart->name ?? '-' }}</p>
+                            <p class="px-3 py-2 text-sm text-gray-900 rounded-md bg-gray-50">{{ $mart->name ?? '-' }}</p>
                         </div>
 
                         <div>
                             <label class="block mb-1 font-medium text-gray-700">Kategori Toko</label>
-                            <p class="text-gray-900 text-sm bg-gray-50 rounded-md px-3 py-2">
+                            <p class="px-3 py-2 text-sm text-gray-900 rounded-md bg-gray-50">
                                 {{ $mart->martCategory->name ?? '-' }}
                             </p>
                         </div>
@@ -106,7 +100,7 @@
 
                         @if($mart->is_verified === null)
                             <h6 class="mb-2 font-semibold text-yellow-800">Status: Menunggu Verifikasi</h6>
-                            <ul class="text-sm text-yellow-700 list-disc list-inside space-y-1">
+                            <ul class="space-y-1 text-sm text-yellow-700 list-disc list-inside">
                                 <li>Toko Anda sedang dalam proses review oleh admin</li>
                                 <li>Proses verifikasi biasanya memakan waktu 1-3 hari kerja</li>
                                 <li>Anda akan mendapat notifikasi melalui email setelah verifikasi selesai</li>
@@ -114,7 +108,7 @@
                             </ul>
                         @elseif($mart->is_verified === true)
                             <h6 class="mb-2 font-semibold text-green-800">Status: Toko Terverifikasi</h6>
-                            <ul class="text-sm text-green-700 list-disc list-inside space-y-1">
+                            <ul class="space-y-1 text-sm text-green-700 list-disc list-inside">
                                 <li>Selamat! Toko Anda telah diverifikasi dan aktif</li>
                                 <li>Anda dapat mulai mengelola produk dan menerima pesanan</li>
                                 <li>Akses panel seller untuk mengelola toko Anda</li>
@@ -122,7 +116,7 @@
                             </ul>
                         @else
                             <h6 class="mb-2 font-semibold text-red-800">Status: Toko Ditolak</h6>
-                            <ul class="text-sm text-red-700 list-disc list-inside space-y-1">
+                            <ul class="space-y-1 text-sm text-red-700 list-disc list-inside">
                                 <li>Maaf, toko Anda ditolak karena tidak memenuhi syarat</li>
                                 <li>Silakan hubungi admin untuk mengetahui alasan penolakan</li>
                                 <li>Anda dapat menghapus toko ini dan mendaftar ulang dengan informasi yang benar</li>
@@ -144,8 +138,8 @@
                                       onsubmit="return confirm('Apakah Anda yakin ingin menghapus toko ini? Tindakan ini tidak dapat dibatalkan.')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="px-6 py-2 text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors">
-                                        <svg class="w-4 h-4 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <button type="submit" class="px-6 py-2 text-white transition-colors bg-red-600 rounded-md hover:bg-red-700">
+                                        <svg class="inline w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                         </svg>
                                         Hapus Toko
@@ -247,9 +241,9 @@
                         </div>
 
                         <!-- Informasi Tambahan -->
-                        <div class="p-4 mt-6 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div class="p-4 mt-6 border border-blue-200 rounded-lg bg-blue-50">
                             <h6 class="mb-2 font-semibold text-blue-800">Informasi Penting</h6>
-                            <ul class="text-sm text-blue-700 list-disc list-inside space-y-1">
+                            <ul class="space-y-1 text-sm text-blue-700 list-disc list-inside">
                                 <li>Toko akan diaktifkan setelah verifikasi oleh admin</li>
                                 <li>Pastikan informasi yang dimasukkan sudah benar</li>
                                 <li>Banner toko akan ditampilkan di halaman utama setelah disetujui</li>

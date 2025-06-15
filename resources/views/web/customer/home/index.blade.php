@@ -82,7 +82,8 @@
                             Kabupaten Sidoarjo, Jawa Timur
                         </p>
                         <p class="max-w-xl mb-8 tex-black md:text-lg">
-                            Dukung usaha lokal dan temukan berbagai produk, layanan serta lowongan pekerjaan terbaik dari Sidoarjo
+                            Dukung usaha lokal dan temukan berbagai produk, layanan serta lowongan pekerjaan terbaik
+                            dari Sidoarjo
                             untuk kebutuhan Anda. </p>
 
                         <!-- Search -->
@@ -102,7 +103,7 @@
                         </div>
 
                         <!-- Stats -->
-                        <div class="grid max-w-xl grid-cols-2 gap-4 sm:grid-cols-4">
+                        <div class="grid max-w-xl grid-cols-2 gap-4 py-5 sm:grid-cols-4">
                             <div class="p-4 text-center bg-white/50 backdrop-blur-sm rounded-xl">
                                 <div class="text-2xl font-bold text-primary">500+</div>
                                 <div class="text-sm opacity-80 text-primary">Produk</div>
@@ -121,7 +122,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-center">
+                    <div class="flex justify-center hidden sm:flex">
                         <img src="{{ asset('assets/images/hero-section1.png') }}" alt="Hero Image"
                             class="h-auto max-w-full drop-shadow-xl rounded-3xl">
                     </div>
