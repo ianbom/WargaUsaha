@@ -1,5 +1,5 @@
 <x-seller.app>
-    <div class="min-h-screen py-4 bg-gray-50">
+    <div class="min-h-screen py-1 bg-gray-50">
 
         @include('web.seller.alert.success')
 

@@ -13,7 +13,6 @@
                     <li><a href="#" class="hover:underline">Produk</a></li>
                     <li><a href="#" class="hover:underline">Jasa</a></li>
                     <li><a href="#" class="hover:underline">Lowongan Pekerjaan</a></li>
-                    <li><a href="#" class="hover:underline">Forum</a></li>
                 </ul>
             </div>
             <div>

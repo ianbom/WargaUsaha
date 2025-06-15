@@ -1,5 +1,5 @@
 <x-seller.app>
-    <div class="min-h-screen py-8 bg-gray-50">
+    <div class="min-h-screen py-1 bg-gray-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header Section -->
             <div class="mb-8">
@@ -12,29 +12,15 @@
             </div>
             <!-- Filter Section -->
             <div class="p-6 mb-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-                <form method="GET" action="{{ route('customer.order.index') }}" class="flex flex-wrap gap-4">
+                <form method="GET" action="{{ route('customer.transaction.index') }}" class="flex flex-wrap gap-4">
                     <div class="flex-1 min-w-48">
                         <label for="search" class="block mb-2 text-sm font-medium text-gray-700">
-                            Cari Pesanan
+                            Cari Transaksi
                         </label>
                         <input type="text" name="search" id="search" value="{{ request('search') }}"
-                            placeholder="Nama produk, layanan, atau toko..."
+                            placeholder="Kode transaksi..."
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
-
-                    <div class="min-w-40">
-                        <label for="type" class="block mb-2 text-sm font-medium text-gray-700">
-                            Tipe
-                        </label>
-                        <select name="type" id="type"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Semua</option>
-                            <option value="Product" {{ request('type') == 'Product' ? 'selected' : '' }}>Produk</option>
-                            <option value="Service" {{ request('type') == 'Service' ? 'selected' : '' }}>Layanan
-                            </option>
-                        </select>
-                    </div>
-
                     <div class="min-w-40">
                         <label for="status" class="block mb-2 text-sm font-medium text-gray-700">
                             Status
@@ -45,14 +31,6 @@
                             <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending
                             </option>
                             <option value="Paid" {{ request('status') == 'Paid' ? 'selected' : '' }}>Dibayar</option>
-                            <option value="Shipped" {{ request('status') == 'Shipped' ? 'selected' : '' }}>Dikirim
-                            </option>
-                            <option value="Completed" {{ request('status') == 'Completed' ? 'selected' : '' }}>Selesai
-                            </option>
-                            <option value="Cancelled" {{ request('status') == 'Cancelled' ? 'selected' : '' }}>
-                                Dibatalkan</option>
-                            <option value="On-Proses" {{ request('status') == 'On-Proses' ? 'selected' : '' }}>Dalam
-                                Proses</option>
                         </select>
                     </div>
 
@@ -65,7 +43,7 @@
                             </svg>
                             Cari
                         </button>
-                        <a href="{{ route('customer.order.index') }}"
+                        <a href="{{ route('customer.transaction.index') }}"
                             class="px-4 py-2 text-gray-700 transition-colors bg-gray-300 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                             Reset
                         </a>
@@ -80,7 +58,6 @@
                         <div
                             class="overflow-hidden transition-shadow bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md">
                             <div class="p-6">
-                                <!-- Group Order Header -->
                                 <div
                                     class="flex flex-col pb-4 mb-4 border-b border-gray-100 sm:flex-row sm:items-center sm:justify-between">
                                     <div class="flex items-center gap-3 mb-2 sm:mb-0">
@@ -373,11 +350,6 @@
                     <div class="mt-6">
                         <a href="/"
                             class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                            <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
                             Mulai Belanja
                         </a>
                     </div>
@@ -385,4 +357,4 @@
             @endif
         </div>
     </div>
-</x-customer.app>
+    </x-customer.app>

@@ -1,11 +1,12 @@
 <x-seller.app>
-    <div class="min-h-screen py-8 bg-gray-50">
+    <div class="min-h-screen py-1 bg-gray-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <a href="{{ route('customer.order.index') }}" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700">
+                        <a href="{{ route('customer.order.index') }}"
+                            class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 19l-7-7 7-7"></path>
@@ -116,7 +117,7 @@
                                         <div
                                             class="flex items-center justify-center w-12 h-12 bg-gray-300 rounded-full">
                                             <span class="text-sm font-medium text-gray-700">
-                                                {{ strtoupper(substr($groupOrder->mart->user->name, 0, 2)) }}
+                                                {{ strtoupper(substr($groupOrder->mart->user->name, 0, 1)) }}
                                             </span>
                                         </div>
                                     @endif
@@ -128,6 +129,9 @@
                                     @if ($groupOrder->mart->user->phone)
                                         <p class="text-sm text-gray-600">{{ $groupOrder->mart->user->phone }}</p>
                                     @endif
+                                    <a href="{{ route('customer.home.showSeller', $groupOrder->mart->id) }}"
+                                        class="text-sm font-semibold text-blue-600 hover:text-blue-900">Lihat
+                                        Profil</a>
 
                                 </div>
                                 <div>
@@ -897,4 +901,4 @@
             }
         }
     </script> --}}
-</x-customer.app>
+    </x-customer.app>

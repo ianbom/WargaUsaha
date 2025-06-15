@@ -1,5 +1,5 @@
 <x-seller.app>
-    <div class="min-h-screen py-8 bg-gray-50">
+    <div class="min-h-screen py-1 bg-gray-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
