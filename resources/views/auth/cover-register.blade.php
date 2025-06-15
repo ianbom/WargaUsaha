@@ -77,33 +77,7 @@
                         <form class="space-y-5" method="POST" action="{{ route('register') }}">
                             @csrf
 
-                            <!-- Role Selection -->
-                            <div>
-                                <label for="role" class="block mb-2 text-sm font-medium">Daftar Sebagai</label>
-                                <div class="relative text-white-dark">
-                                    <select name="role" id="role"
-                                        class="form-input ps-10 placeholder:text-white-dark" required>
-                                        <option value="">Pilih Role</option>
-                                        <option value="Buyer" {{ old('role') == 'Buyer' ? 'selected' : '' }}>Buyer
-                                        </option>
-                                        <option value="Seller" {{ old('role') == 'Seller' ? 'selected' : '' }}>Seller
-                                        </option>
-                                    </select>
-                                    <span class="absolute -translate-y-1/2 start-4 top-1/2">
-                                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                            <path
-                                                d="M9 2.25C7.34315 2.25 6 3.59315 6 5.25C6 6.90685 7.34315 8.25 9 8.25C10.6569 8.25 12 6.90685 12 5.25C12 3.59315 10.6569 2.25 9 2.25Z"
-                                                fill="#888EA8" />
-                                            <path opacity="0.5"
-                                                d="M3 13.5C3 11.0147 5.01472 9 7.5 9H10.5C12.9853 9 15 11.0147 15 13.5V15.75H3V13.5Z"
-                                                fill="#888EA8" />
-                                        </svg>
-                                    </span>
-                                </div>
-                                @error('role')
-                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
+                        
 
                             <!-- Name Field -->
                             <div>
