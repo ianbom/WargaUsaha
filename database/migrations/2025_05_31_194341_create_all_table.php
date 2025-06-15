@@ -98,7 +98,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('transaction_code')->unique();
-            $table->foreignId('group_order_id')->constrained('group_orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('payment_method')->nullable();
             $table->string('payment_status')->nullable();
             $table->decimal('paid_amount', 12, 2);
@@ -108,12 +107,13 @@ return new class extends Migration
             $table->timestamp('expired_at')->nullable();
             $table->string('snap_token')->nullable()->unique();
             $table->string('acquirer')->nullable();
+            $table->string('fraud_status')->nullable();
             $table->timestamps();
         });
 
         Schema::create('group_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('group_order_id')->nullable()->unique();
+            $table->string('code_group_order')->nullable()->unique();
             $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
@@ -198,16 +198,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('food_sharings', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('name');
-            $table->string('image_url')->nullable();
-            $table->string('description');
-            $table->string('status');
-            $table->timestamp('expired_time');
-            $table->timestamps();
-        });
         Schema::create('job_vacancy_categories', function (Blueprint $table) {
             $table->id();
             $table->string('category_name');

@@ -26,6 +26,7 @@ use App\Http\Controllers\Seller\WithdrawController as SellerWithdrawController;
 use App\Http\Controllers\Employer\JobVacancyController as EmployerJobVacancyController;
 use App\Http\Controllers\Employer\JobApplicantController as EmployerJobApplicantController;
 use App\Livewire\IndexChat;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -42,8 +43,21 @@ use Illuminate\Support\Facades\Route;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-Route::view('/', 'index');
-Route::view('/prof', 'web.seller.profile.index');
+Route::get('/', function () {
+
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
+
+    if (Auth::user()->role == 'Seller' || Auth::user()->role == 'Buyer' ) {
+        return redirect()->route('customer.home.index');
+    } elseif (Auth::user()->is_admin == true) {
+        return redirect()->route('admin.user.index');
+    } else {
+        abort(403, 'Unauthorized');
+    }
+
+})->middleware('auth');
 
 Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
     Route::resource('mart', AdminMartController::class);
@@ -67,6 +81,8 @@ Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
     Route::put('profile/update', [SellerProfileController::class, 'update'])->name('profile.update');
 
     Route::get('mart', [SellerMartController::class, 'index'])->name('mart.index');
+    Route::put('active/mart/{mart}', [SellerMartController::class, 'activeMart'])->name('mart.active');
+    Route::put('deactive/mart/{mart}', [SellerMartController::class, 'deactiveMart'])->name('mart.deactive');
     Route::get('mart/setting', [SellerMartController::class, 'show'])->name('mart.show');
     Route::put('mart/update', [SellerMartController::class, 'update'])->name('mart.update');
     Route::resource('product', SellerProductController::class);
@@ -99,6 +115,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::get('seller/{seller}', [CustomerHomeController::class, 'showSeller'])->name('home.showSeller');
     Route::get('seller/{seller}/product', [CustomerHomeController::class, 'showSellerProduct'])->name('home.showSeller.product');
     Route::get('seller/{seller}/service', [CustomerHomeController::class, 'showSellerService'])->name('home.showSeller.service');
+    Route::get('seller/{seller}/job', [CustomerHomeController::class, 'showSellerJob'])->name('home.showSeller.job');
 
     Route::get('home/product/list', [CustomerHomeController::class, 'indexProduct'])->name('home.indexProduct');
     Route::get('home/product/{product}', [CustomerHomeController::class, 'showProduct'])->name('home.showProduct');

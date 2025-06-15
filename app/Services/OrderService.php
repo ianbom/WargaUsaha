@@ -17,58 +17,59 @@ class OrderService
     }
 
 
-   public function getAllOrderByLoginUser($request)
-{
-    $user = Auth::user();
-
-    $query = GroupOrder::with(['orders.product', 'orders.service', 'mart', 'transaction'])
-        ->where('user_id', $user->id)
-        ->orderBy('created_at', 'desc');
-
-    // Search functionality
-    if ($request->filled('search')) {
-        $search = $request->get('search');
-        $query->where(function ($q) use ($search) {
-            // Search by mart name
-            $q->whereHas('mart', function ($martQuery) use ($search) {
-                $martQuery->where('name', 'like', '%' . $search . '%');
-            })
-            // Search by product name
-            ->orWhereHas('orders.product', function ($productQuery) use ($search) {
-                $productQuery->where('name', 'like', '%' . $search . '%');
-            })
-            // Search by service title
-            ->orWhereHas('orders.service', function ($serviceQuery) use ($search) {
-                $serviceQuery->where('title', 'like', '%' . $search . '%');
-            })
-            // Search by order product_name (snapshot)
-            ->orWhereHas('orders', function ($orderQuery) use ($search) {
-                $orderQuery->where('product_name', 'like', '%' . $search . '%');
-            });
-        });
-    }
-
-    // Filter by type
-    if ($request->filled('type')) {
-        $type = $request->get('type');
-        $query->whereHas('orders', function ($orderQuery) use ($type) {
-            $orderQuery->where('type', $type);
-        });
-    }
-
-    // Filter by status
-    if ($request->filled('status')) {
-        $status = $request->get('status');
-        $query->where('order_status', $status);
-    }
-
-    $orders = $query->paginate(10);
-    return $orders;
-}
-
-       public function getAllServiceOrderByLoginUser($request){
+    public function getAllOrderByLoginUser($request)
+    {
         $user = Auth::user();
-         $query = Order::query()
+
+        $query = GroupOrder::with(['orders.product', 'orders.service', 'mart', 'transaction'])
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc');
+
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->get('search');
+            $query->where(function ($q) use ($search) {
+                // Search by mart name
+                $q->whereHas('mart', function ($martQuery) use ($search) {
+                    $martQuery->where('name', 'like', '%' . $search . '%');
+                })
+                    // Search by product name
+                    ->orWhereHas('orders.product', function ($productQuery) use ($search) {
+                        $productQuery->where('name', 'like', '%' . $search . '%');
+                    })
+                    // Search by service title
+                    ->orWhereHas('orders.service', function ($serviceQuery) use ($search) {
+                        $serviceQuery->where('title', 'like', '%' . $search . '%');
+                    })
+                    // Search by order product_name (snapshot)
+                    ->orWhereHas('orders', function ($orderQuery) use ($search) {
+                        $orderQuery->where('product_name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        // Filter by type
+        if ($request->filled('type')) {
+            $type = $request->get('type');
+            $query->whereHas('orders', function ($orderQuery) use ($type) {
+                $orderQuery->where('type', $type);
+            });
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $status = $request->get('status');
+            $query->where('order_status', $status);
+        }
+
+        $orders = $query->paginate(10);
+        return $orders;
+    }
+
+    public function getAllServiceOrderByLoginUser($request)
+    {
+        $user = Auth::user();
+        $query = Order::query()
             ->where('buyer_id', $user->id)
             ->where('type', 'Service')
             ->with(['product', 'service', 'seller'])
@@ -79,9 +80,9 @@ class OrderService
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('order_code', 'like', "%{$search}%")
-                  ->orWhereHas('service', function ($serviceQuery) use ($search) {
-                      $serviceQuery->where('title', 'like', "%{$search}%");
-                  });
+                    ->orWhereHas('service', function ($serviceQuery) use ($search) {
+                        $serviceQuery->where('title', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -92,9 +93,9 @@ class OrderService
 
         $orders = $query->paginate(10);
         return $orders;
-
     }
-    public function paidOrder($paymentMethod, $order){
+    public function paidOrder($paymentMethod, $order)
+    {
 
         $order->update([
             'order_status' => 'Paid',
@@ -111,7 +112,8 @@ class OrderService
         // $this->walletService->increamentWallet($order->total_price, $seller->id);
     }
 
-    public function cancelOrder($order){
+    public function cancelOrder($order)
+    {
         $order->update([
             'order_status' => 'Cancelled',
             'cancelled_at' => now(),
@@ -123,7 +125,8 @@ class OrderService
         ]);
     }
 
-    public function prosesOrder($order){
+    public function prosesOrder($order)
+    {
         $order->update([
             'order_status' => 'On-Proses',
             'on_processed_at' => now(),
@@ -135,7 +138,8 @@ class OrderService
         // ]);
     }
 
-    public function completeOrder($order, $seller){
+    public function completeOrder($order, $seller)
+    {
         $order->update([
             'order_status' => 'Completed',
             'completed_at' => now(),
@@ -149,7 +153,8 @@ class OrderService
         $this->walletService->increamentWallet($order->total_price, $seller->id);
     }
 
-    public function updateOrderStatus($status, $order){
+    public function updateOrderStatus($status, $order)
+    {
         switch ($status) {
             case 'Paid':
                 $this->paidOrder('Qris', $order);

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MartRequest;
+use App\Models\GroupOrder;
 use App\Models\Mart;
+use App\Models\Service;
 use App\Services\MartService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -21,12 +23,31 @@ class MartController extends Controller
     }
 
     public function index(){
+         $user = Auth::user();
         $mart = $this->martService->getMartByLoginUser();
         $products = $this->productService->getAllProductByMart($mart);
-        $user = Auth::user();
+        $services = Service::where('user_id', $user->id)->count();
+        $orders = GroupOrder::where('mart_id', $mart->id)->count();
+
         return view('web.seller.mart.index', ['mart' => $mart,
         'user' => $user,
-        'products' => $products]);
+        'products' => $products,
+        'services' => $services,
+        'orders' => $orders]);
+    }
+
+        public function activeMart(Mart $mart){
+         $mart->update([
+            'is_active' => true
+         ]);
+         return redirect()->back()->with('success','Toko diaktifkan');
+
+    }
+        public function deactiveMart(Mart $mart){
+         $mart->update([
+            'is_active' => false
+         ]);
+         return redirect()->back()->with('success','Toko dinonaktifkan');
 
     }
 

@@ -29,6 +29,10 @@ class JobVacancyService extends Service
         $job = JobVacancy::where('user_id', $userId)->get();
         return $job;
     }
+    public function getAllJobByEmployer($employer)
+    {
+        return JobVacancy::where('user_id', $employer->id)->get();
+    }
     public function getAllJobVacancyCategory()
     {
         $jobVacancyCategory = JobVacancyCategory::all();
@@ -116,15 +120,12 @@ class JobVacancyService extends Service
         if ($request->filled('job_category_id')) {
             $filters['job_vacancies.job_category_id'] = $request->input('job_category_id');
         }
-
         if ($request->filled('salary_min')) {
-            // cari pekerjaan dengan salary_max >= salary_min user
-            $filters['job_vacancies.salary_max'] = ['>=', $request->input('salary_min')];
+            $filters['job_vacancies.salary_min'] = $request->input('salary_min');
         }
 
         if ($request->filled('salary_max')) {
-            // cari pekerjaan dengan salary_min <= salary_max user
-            $filters['job_vacancies.salary_min'] = ['<=', $request->input('salary_max')];
+            $filters['job_vacancies.salary_max'] = $request->input('salary_max');
         }
         return $filters;
     }

@@ -59,7 +59,7 @@
                                 <h2 class="mb-2 text-3xl font-bold">{{ $job->job_title }}</h2>
                                 <div class="flex items-center space-x-4 text-blue-100">
                                     <span class="flex items-center">
-                                        {{ $job->jobCategory->category_name }}
+                                        {{ $job->jobCategory?->category_name }}
                                     </span>
                                 </div>
                             </div>
@@ -182,8 +182,7 @@
                             </div>
                         </div>
                         <!-- Salary Information -->
-                        <div
-                            class="p-6 border border-gray-200 to-emerald-50 rounded-xl">
+                        <div class="p-6 border border-gray-200 to-emerald-50 rounded-xl">
                             <h3 class="flex items-center mb-4 text-lg font-semibold text-gray-900">
                                 <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -277,20 +276,27 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="p-6 bg-white border border-gray-200 shadow-sm rounded-xl">
                             <h3 class="mb-4 text-lg font-semibold text-gray-900">Quick Stats</h3>
                             <div class="space-y-3">
                                 <div class="flex items-center justify-between">
                                     <span class="text-sm text-gray-600">Pelamar</span>
-                                    <span class="text-sm font-medium text-gray-900">24</span>
+                                    <span
+                                        class="text-sm font-medium text-gray-900">{{ $job->jobApplications->count() }}</span>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-sm text-gray-600">Status</span>
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        {{ $job->job_status }}
-                                    </span>
+                                    @if ($job->job_status == 'Open')
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            {{ $job->job_status }}
+                                        </span>
+                                    @else
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            {{ $job->job_status }}
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -10,7 +10,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
-                <a href="{{ route('seller.product.index') }}"
+                <a href="{{ route('employer.job-applicant.index') }}"
                     class="transition-colors text-primary hover:underline">Pelamar</a>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -47,17 +47,33 @@
             @endif
         </div>
         <div class="overflow-hidden bg-white shadow dark:bg-[#0e1726] rounded-2xl">
-            <div class="p-6 text-white gradient-bg">
+            <div class="p-6 text-white bg-primary">
                 <div class="flex items-center space-x-4">
                     <div
                         class="flex items-center justify-center w-16 h-16 overflow-hidden bg-white rounded-full bg-opacity-20">
-                        <img class="object-cover w-full h-full rounded-full saturate-50 group-hover:saturate-100"
-                            src="{{ asset('storage/' . $jobApplicant->user->profile_pic) }}" alt="image" />
+                        @if ($jobApplicant->user->profile_pic == null)
+                            <div
+                                class="flex items-center justify-center w-full h-full text-sm text-gray-500 bg-gray-200 rounded-full">
+                                No Photo
+                            </div>
+                        @else
+                            <img class="object-cover w-full h-full rounded-full saturate-50 group-hover:saturate-100"
+                                src="{{ asset('storage/' . $jobApplicant->user->profile_pic) }}" alt="image" />
+                        @endif
                     </div>
-
                     <div>
                         <h1 class="text-2xl font-bold">{{ $jobApplicant->user->name }}</h1>
                         <p class="text-blue-100">Pelamar Kerja</p>
+                        @if ($jobApplicant->status == 'Pending')
+                            <div class="px-2 py-1 text-center text-yellow-600 bg-yellow-100 rounded-lg">
+                                {{ $jobApplicant->status }}</div>
+                        @elseif ($jobApplicant->status == 'Accepted')
+                            <div class="px-2 py-1 text-center text-green-600 bg-green-100 rounded-lg">
+                                {{ $jobApplicant->status }}</div>
+                        @else
+                            <div class="px-2 py-1 text-center text-red-600 bg-red-100 rounded-lg">
+                                {{ $jobApplicant->status }}</div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -260,9 +276,6 @@
 
     </div>
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #7891ff 0%, #dcefff 100%);
-        }
     </style>
     <!-- Scripts -->
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/highlight.min.css') }}">

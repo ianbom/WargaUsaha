@@ -30,68 +30,88 @@ class TransactionService
         Config::$is3ds = true;
     }
 
-    public function getServiceOrderByLoginSeller(){
+    public function getServiceOrderByLoginSeller()
+    {
         $user = Auth::user();
         $order = Order::where('seller_id', $user->id)
-        ->where('type', 'Service')
-        ->orderBy('updated_at','desc')->get();
+            ->where('type', 'Service')
+            ->orderBy('updated_at', 'desc')->get();
         return $order;
     }
+    public function getAllTransactionByLoginUser($request)
+    {
+        $user = Auth::user();
 
-    public function getGroupOrderByLoginSeller(){
+        $query = Transaction::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc');
+        if ($request->filled('search')) {
+            $query->where('transaction_code', 'like', '%' . $request->get('search') . '%');
+        }
+        if ($request->filled('status')) {
+            $query->where('payment_status', $request->get('status'));
+        }
+
+        return $query->paginate(10);
+    }
+
+    public function getGroupOrderByLoginSeller()
+    {
         $user = Auth::user();
         $groupOrder = GroupOrder::where('mart_id', $user->mart->id)->get();
         return $groupOrder;
     }
 
-    public function getProductOrderByLoginSeller(){
+    public function getProductOrderByLoginSeller()
+    {
         $user = Auth::user();
         $order = Order::where('seller_id', $user->id)
-        ->where('type', 'Product')
-        ->orderBy('updated_at','desc')->get();
+            ->where('type', 'Product')
+            ->orderBy('updated_at', 'desc')->get();
         return $order;
     }
 
-    public function getAllOrderByLoginUser(){
+    public function getAllOrderByLoginUser()
+    {
         $user = Auth::user();
         return Order::where('seller_id', $user->id)->orderBy('updated_at', 'desc')->get();
     }
 
-    public function getTransactionByOrderId($orderId){
+    public function getTransactionByOrderId($orderId)
+    {
         return Transaction::where('order_id', $orderId)->first();
     }
 
-    private function generateUniqueOrderCode(){
-    $datePart = now()->format('Ymd'); // Format: TahunBulanTanggal (contoh: 20250601)
-    $unique = false;
-    $orderCode = '';
+    private function generateUniqueOrderCode()
+    {
+        $datePart = now()->format('Ymd'); // Format: TahunBulanTanggal (contoh: 20250601)
+        $unique = false;
+        $orderCode = '';
 
-    while (!$unique) {
-        // Generate random 6 digit number
-        $randomPart = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+        while (!$unique) {
+            // Generate random 6 digit number
+            $randomPart = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
-        // Format: ORD-YYYYMMDD-XXXXXX
-        $orderCode = 'WU-'  . $randomPart;
+            // Format: ORD-YYYYMMDD-XXXXXX
+            $orderCode = 'WU-'  . $randomPart;
 
-        // Check if code already exists in database
-        $exists = Order::where('order_code', $orderCode)->exists();
+            // Check if code already exists in database
+            $exists = Order::where('order_code', $orderCode)->exists();
 
-        if (!$exists) {
-            $unique = true;
+            if (!$exists) {
+                $unique = true;
+            }
         }
+
+        return $orderCode;
     }
 
-    return $orderCode;
-}
-
-    public function checkoutKeranjang(){
-
-    }
+    public function checkoutKeranjang() {}
 
 
 
 
-    public function checkoutProduct($data, $product, $seller){
+    public function checkoutProduct($data, $product, $seller)
+    {
 
         // Webhook tambahkan pengurangan stock dan penambahan saldo penjual
 
@@ -125,7 +145,8 @@ class TransactionService
         return $order;
     }
 
-    public function checkoutService($data, $service, $seller){
+    public function checkoutService($data, $service, $seller)
+    {
 
         // Webhook tambahkan pengurangan stock dan penambahan saldo penjual
 
@@ -135,7 +156,7 @@ class TransactionService
         $data['buyer_id'] = $user->id;
         $data['service_id'] = $service->id;
         $data['seller_id'] = $seller->id;
-        $data['total_price'] = $service->price ;
+        $data['total_price'] = $service->price;
         $data['type'] = 'Service';
         $data['order_status'] = 'Pending';
         $data['mart_id'] = $seller->mart->id;
@@ -153,19 +174,20 @@ class TransactionService
         return $order;
     }
 
-    public function payTransactionMidtrans($transaction){
+    public function payTransactionMidtrans($transaction)
+    {
 
         if ($transaction->payment_status !== 'Pending') {
-        throw new Exception('Transaction is not in pending status');
+            throw new Exception('Transaction is not in pending status');
         }
-         $params = [
+        $params = [
             'transaction_details' => [
                 'order_id' => $transaction->transaction_code,
                 'gross_amount' => $transaction->paid_amount
             ],
             'customer_details' => [
                 'first_name' => $transaction->user->name,
-                'email' =>$transaction->user->email,
+                'email' => $transaction->user->email,
                 'phone' => $transaction->user->phone
             ]
         ];
@@ -178,137 +200,142 @@ class TransactionService
         ];
     }
 
-    public function callBackAfterPayment(Request $request){
+    public function callBackAfterPayment(Request $request)
+    {
         Log::info('Webhook berjalan coy');
         // Mengambil konfigurasi Server Key
 
         try {
             $serverKey = config('midtrans.server_key');
 
-        // Validasi signature key dari Midtrans
-        $signatureKey = hash("sha512",
-            $request->order_id .
-            $request->status_code .
-            $request->gross_amount .
-            $serverKey
-        );
-
-        if ($signatureKey !== $request->signature_key) {
-            return response()->json(['message' => 'Invalid signature key'], 403);
-        }
-
-        // Cek status transaksi
-        $transaction = Transaction::where('transaction_code', $request->order_id)->first();
-        $user = User::findOrFail($transaction->user_id);
-
-
-        if (!$transaction) {
-            return response()->json(['message' => 'Transaction not found'], 404);
-        }
-        if ($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {
-            $transaction->payment_status = 'Paid'; // Status pembayaran berhasil
-            $this->payTransaction( $transaction);
-        } elseif ($request->transaction_status == 'cancel' || $request->transaction_status == 'expire') {
-            $transaction->payment_status = 'Failed'; // Status pembayaran gagal atau kadaluarsa
-        } elseif ($request->transaction_status == 'pending') {
-            $transaction->payment_status = 'Pending'; // Status menunggu pembayaran
-        }
-
-        $transaction->save();
-        Log::info($request);
-        return response()->json(['message' => 'Webhook processed successfully']);
-        } catch (\Throwable $th) {
-            return response()->json(['message'=> $th->getMessage()]);
-        }
-    }
-
-   public function payTransaction($transaction){
-    // Update transaction status
-    $transaction->update([
-        'payment_status' => 'Paid',
-        // 'payment_method' => 'Qris',
-        'updated_at' => now(),
-    ]);
-
-    // Get group order IDs and mart IDs
-    $groupOrderIds = $transaction->groupOrders->pluck('id');
-    $martIds = $transaction->groupOrders->pluck('mart_id');
-
-    // Update group orders status
-    GroupOrder::whereIn('id', $groupOrderIds)->update([
-        'order_status' => 'Paid',
-        'paid_at' => now(),
-        'updated_at' => now()
-    ]);
-
-    // Update orders status
-    $orderIds = Order::whereIn('group_order_id', $groupOrderIds)->pluck('id');
-    Order::whereIn('id', $orderIds)->update([
-        'order_status' => 'Paid',
-        'paid_at' => now(),
-        'updated_at' => now()
-    ]);
-
-    // Update seller wallets
-    $this->updateSellerWallets($groupOrderIds, $martIds);
-}
-
-private function updateSellerWallets($groupOrderIds, $martIds){
-    // Dapatkan semua order yang terkait dengan group orders
-    $orders = Order::whereIn('group_order_id', $groupOrderIds)->get();
-
-    // Group orders berdasarkan mart_id untuk menghitung total per seller
-    $sellerEarnings = [];
-
-    foreach ($orders as $order) {
-        $martId = $order->mart_id;
-
-        if (!isset($sellerEarnings[$martId])) {
-            $sellerEarnings[$martId] = 0;
-        }
-
-        $sellerEarnings[$martId] += $order->total_price;
-    }
-
-    // Update seller wallet untuk setiap mart/seller
-    foreach ($sellerEarnings as $martId => $totalEarning) {
-        // Dapatkan user_id dari mart
-        $mart = Mart::find($martId);
-
-        if ($mart) {
-            $sellerId = $mart->user_id;
-
-            // Cari atau buat seller wallet
-            $sellerWallet = SellerWallet::firstOrCreate(
-                ['user_id' => $sellerId],
-                [
-                    'amount' => 0,
-                    'bank_name' => null,
-                    'account_number' => null,
-                    'account_name' => null,
-                ]
+            // Validasi signature key dari Midtrans
+            $signatureKey = hash(
+                "sha512",
+                $request->order_id .
+                    $request->status_code .
+                    $request->gross_amount .
+                    $serverKey
             );
 
-            // Update amount wallet
-            $sellerWallet->increment('amount', $totalEarning);
+            if ($signatureKey !== $request->signature_key) {
+                return response()->json(['message' => 'Invalid signature key'], 403);
+            }
 
-            // Buat log wallet
-            LogWallet::create([
-                'user_id' => $sellerId,
-                'title' => 'Pembayaran product',
-                'seller_walet_id' => $sellerWallet->id, // Sesuai dengan nama kolom di schema
-                'type' => 'Credit',
-                'amount' => $totalEarning,
-                'status' => 'Success',
-            ]);
+            // Cek status transaksi
+            $transaction = Transaction::where('transaction_code', $request->order_id)->first();
+            $user = User::findOrFail($transaction->user_id);
+
+
+            if (!$transaction) {
+                return response()->json(['message' => 'Transaction not found'], 404);
+            }
+            if ($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {
+                $transaction->payment_status = 'Paid'; // Status pembayaran berhasil
+                $this->payTransaction($transaction);
+            } elseif ($request->transaction_status == 'cancel' || $request->transaction_status == 'expire') {
+                $transaction->payment_status = 'Failed'; // Status pembayaran gagal atau kadaluarsa
+            } elseif ($request->transaction_status == 'pending') {
+                $transaction->payment_status = 'Pending'; // Status menunggu pembayaran
+            }
+
+            $transaction->save();
+            Log::info($request);
+            return response()->json(['message' => 'Webhook processed successfully']);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()]);
         }
     }
-}
 
-    public function cancelTransaction($transaction, $reason = null){
-    if ($transaction->payment_status !== 'Pending') {
-        throw new \Exception('Cannot cancel transaction with status: ' . $transaction->payment_status);
+    public function payTransaction($transaction)
+    {
+        // Update transaction status
+        $transaction->update([
+            'payment_status' => 'Paid',
+            // 'payment_method' => 'Qris',
+            'updated_at' => now(),
+        ]);
+
+        // Get group order IDs and mart IDs
+        $groupOrderIds = $transaction->groupOrders->pluck('id');
+        $martIds = $transaction->groupOrders->pluck('mart_id');
+
+        // Update group orders status
+        GroupOrder::whereIn('id', $groupOrderIds)->update([
+            'order_status' => 'Paid',
+            'paid_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Update orders status
+        $orderIds = Order::whereIn('group_order_id', $groupOrderIds)->pluck('id');
+        Order::whereIn('id', $orderIds)->update([
+            'order_status' => 'Paid',
+            'paid_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Update seller wallets
+        $this->updateSellerWallets($groupOrderIds, $martIds);
     }
+
+    private function updateSellerWallets($groupOrderIds, $martIds)
+    {
+        // Dapatkan semua order yang terkait dengan group orders
+        $orders = Order::whereIn('group_order_id', $groupOrderIds)->get();
+
+        // Group orders berdasarkan mart_id untuk menghitung total per seller
+        $sellerEarnings = [];
+
+        foreach ($orders as $order) {
+            $martId = $order->mart_id;
+
+            if (!isset($sellerEarnings[$martId])) {
+                $sellerEarnings[$martId] = 0;
+            }
+
+            $sellerEarnings[$martId] += $order->total_price;
+        }
+
+        // Update seller wallet untuk setiap mart/seller
+        foreach ($sellerEarnings as $martId => $totalEarning) {
+            // Dapatkan user_id dari mart
+            $mart = Mart::find($martId);
+
+            if ($mart) {
+                $sellerId = $mart->user_id;
+
+                // Cari atau buat seller wallet
+                $sellerWallet = SellerWallet::firstOrCreate(
+                    ['user_id' => $sellerId],
+                    [
+                        'amount' => 0,
+                        'bank_name' => null,
+                        'account_number' => null,
+                        'account_name' => null,
+                    ]
+                );
+
+                // Update amount wallet
+                $sellerWallet->increment('amount', $totalEarning);
+
+                // Buat log wallet
+                LogWallet::create([
+                    'user_id' => $sellerId,
+                    'title' => 'Pembayaran product',
+                    'seller_walet_id' => $sellerWallet->id, // Sesuai dengan nama kolom di schema
+                    'type' => 'Credit',
+                    'amount' => $totalEarning,
+                    'status' => 'Success',
+                ]);
+            }
+        }
+    }
+
+    public function cancelTransaction($transaction, $reason = null)
+    {
+        if ($transaction->payment_status !== 'Pending') {
+            throw new \Exception('Cannot cancel transaction with status: ' . $transaction->payment_status);
+        }
 
         $transaction->update([
             'payment_status' => 'Cancelled',
@@ -324,7 +351,7 @@ private function updateSellerWallets($groupOrderIds, $martIds){
         ]);
 
 
-         // Get orders for stock return
+        // Get orders for stock return
         $orders = Order::whereIn('group_order_id', $groupOrderIds)
             ->where('type', 'Product') // Only products need stock return
             ->whereNotNull('product_id')
@@ -338,7 +365,7 @@ private function updateSellerWallets($groupOrderIds, $martIds){
             'updated_at' => now()
         ]);
 
-            foreach ($orders as $order) {
+        foreach ($orders as $order) {
             if ($order->product_id && $order->quantity > 0) {
                 // Increment stock back
                 Product::where('id', $order->product_id)
@@ -353,11 +380,5 @@ private function updateSellerWallets($groupOrderIds, $martIds){
                 ]);
             }
         }
-
-
-
-
-}
-
-
+    }
 }

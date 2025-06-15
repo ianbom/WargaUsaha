@@ -79,11 +79,11 @@
                                     stroke="currentColor" stroke-width="1.5" />
                                 <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.5" />
                             </svg>
-                            Kecamatan Srengat, Kelurahan Kauman, Blitar
+                            Kabupaten Sidoarjo, Jawa Timur
                         </p>
                         <p class="max-w-xl mb-8 tex-black md:text-lg">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. </p>
+                            Dukung usaha lokal dan temukan berbagai produk, layanan serta lowongan pekerjaan terbaik dari Sidoarjo
+                            untuk kebutuhan Anda. </p>
 
                         <!-- Search -->
                         <div class="relative max-w-xl mb-8">
@@ -398,7 +398,7 @@
                     Butuh Bantuan ❓
                 </div>
                 <h2 class="mb-6 text-4xl font-bold text-gray-900 lg:text-5xl">
-                    <span class="text-gradient">Pertanyaan</span>  yang Sering Diajukan
+                    <span class="text-gradient">Pertanyaan</span> yang Sering Diajukan
                 </h2>
                 <p class="max-w-3xl mx-auto text-lg leading-relaxed text-gray-600">
                     Temukan jawaban atas pertanyaan umum tentang layanan kami. Jika tidak menemukan jawaban yang dicari,
