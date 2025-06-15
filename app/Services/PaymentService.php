@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Transaction;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -11,63 +12,122 @@ class PaymentService
 {
     private $serverKey;
     private $isProduction;
+    protected $transactionService;
 
-    public function __construct()
+    public function __construct(TransactionService $transactionService)
     {
         $this->serverKey = config('midtrans.server_key');
         $this->isProduction = config('midtrans.is_production', false);
+        $this->transactionService = $transactionService;
     }
 
     /**
      * Cek status pembayaran dari Midtrans API
      */
-    public function checkPaymentStatus($transactionCode)
-    {
-        try {
-            $transaction = Transaction::where('transaction_code', $transactionCode)->first();
+   public function checkPaymentStatus($transactionCode)
+{
+        $transaction = Transaction::where('transaction_code', $transactionCode)->first();
 
-            if (!$transaction) {
-                return [
-                    'success' => false,
-                    'message' => 'Transaction not found',
-                    'data' => null
-                ];
-            }
-
-            // Jika sudah paid, tidak perlu cek lagi
-            if ($transaction->payment_status === 'paid') {
-                return [
-                    'success' => true,
-                    'message' => 'Payment already completed',
-                    'data' => $transaction
-                ];
-            }
-
-            // Panggil API Midtrans untuk cek status
-            $midtransResponse = $this->getMidtransStatus($transactionCode);
-
-            if (!$midtransResponse['success']) {
-                return $midtransResponse;
-            }
-
-            // Update status berdasarkan response Midtrans
-            $updatedTransaction = $this->updateTransactionStatus($transaction, $midtransResponse['data']);
-
-            return [
-                'success' => true,
-                'message' => 'Status checked successfully',
-                'data' => $updatedTransaction
-            ];
-
-        } catch (\Exception $e) {
-            Log::error('Error checking payment status: ' . $e->getMessage());
+        if (!$transaction) {
             return [
                 'success' => false,
-                'message' => 'Error checking payment status',
+                'message' => 'Transaction not found',
                 'data' => null
             ];
         }
+
+        // Jika sudah paid, tidak perlu cek lagi
+        if ($transaction->payment_status === 'paid') {
+            return [
+                'success' => true,
+                'message' => 'Payment already completed',
+                'data' => $transaction
+            ];
+        }
+
+        // Panggil API Midtrans untuk cek status
+        $midtransResponse = $this->getMidtransStatus($transactionCode);
+        // dd($midtransResponse);
+        if (!$midtransResponse['success']) {
+           throw new Exception('Transaksi tidak ditemukan');
+        }
+
+        $dataResponse = $midtransResponse['data'];
+
+        if ($dataResponse['status_code'] == 404) {
+            throw new Exception('Transaksi belum dimulai');
+        }
+
+        // Update transaction berdasarkan status dari Midtrans
+        switch ($dataResponse['transaction_status']) {
+            case 'settlement':
+            case 'capture':
+                $transaction->payment_status = 'Paid';
+                $transaction->payment_method = $dataResponse['payment_type'] ?? null;
+                $transaction->acquirer = $dataResponse['acquirer'] ?? null;
+                $transaction->paid_at = now();
+
+                // Panggil service untuk memproses pembayaran
+                if (method_exists($this->transactionService, 'payTransaction')) {
+                    $this->transactionService->payTransaction($transaction);
+                }
+
+                $transaction->save();
+
+                return [
+                    'success' => true,
+                    'message' => 'Payment completed successfully',
+                    'data' => $transaction
+                ];
+
+            case 'pending':
+                $transaction->payment_status = 'Pending';
+                $transaction->payment_method = $dataResponse['payment_type'] ?? null;
+                $transaction->save();
+
+                return [
+                    'success' => false,
+                    'message' => 'Payment is still pending',
+                    'data' => $transaction
+                ];
+
+            case 'expire':
+               $this->transactionService->cancelTransaction($transaction, 'Waktu habis');
+                $transaction->payment_status = 'Expired';
+                $transaction->payment_method = $dataResponse['payment_type'] ?? null;
+                $transaction->acquirer = $dataResponse['acquirer'] ?? null;
+                $transaction->expired_at = now();
+                $transaction->save();
+
+                return [
+                    'success' => false,
+                    'message' => 'Payment has expired',
+                    'data' => $transaction
+                ];
+
+            case 'cancel':
+            case 'deny':
+            case 'failure':
+                $transaction->payment_status = 'Failed';
+                $transaction->payment_method = $dataResponse['payment_type'] ?? null;
+                $transaction->save();
+
+                return [
+                    'success' => false,
+                    'message' => 'Payment failed or cancelled',
+                    'data' => $transaction
+                ];
+
+            default:
+                return [
+                    'success' => false,
+                    'message' => 'Unknown payment status: ' . $dataResponse['transaction_status'],
+                    'data' => $transaction
+                ];
+        }
     }
+
+
 
     /**
      * Panggil API Midtrans untuk mendapatkan status transaksi

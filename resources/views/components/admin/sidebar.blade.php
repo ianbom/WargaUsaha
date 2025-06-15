@@ -2,15 +2,14 @@
     <nav x-data="sidebar"
         class="sidebar fixed min-h-screen h-full top-0 bottom-0 w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] z-50 transition-all duration-300">
         <div class="bg-white dark:bg-[#0e1726] h-full">
-            <div class="flex justify-between items-center px-4 py-3">
-                <a href="/" class="main-logo flex items-center shrink-0">
-                    <img class="w-8 ml-[5px] flex-none" src="/assets/images/logo.svg"
-                        alt="image" />
-                    <span
-                        class="text-2xl ltr:ml-1.5 rtl:mr-1.5  font-semibold  align-middle lg:inline dark:text-white-light">VRISTO</span>
+           <div class="flex items-center justify-between px-4 py-3">
+                <a href="/" class="flex items-center main-logo shrink-0">
+                    <span class="hidden text-xl font-bold text-gray-800 dark:text-white sm:block">
+                        WargaUsaha
+                    </span>
                 </a>
                 <a href="javascript:;"
-                    class="collapse-icon w-8 h-8 rounded-full flex items-center hover:bg-gray-500/10 dark:hover:bg-dark-light/10 dark:text-white-light transition duration-300 rtl:rotate-180"
+                    class="flex items-center w-8 h-8 transition duration-300 rounded-full collapse-icon hover:bg-gray-500/10 dark:hover:bg-dark-light/10 dark:text-white-light rtl:rotate-180"
                     @click="$store.app.toggleSidebar()">
                     <svg class="w-5 h-5 m-auto" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -31,12 +30,12 @@
                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    <span>Apps</span>
+                    <span>Menu Admin</span>
                 </h2>
 
                 <li class="nav-item">
                     <ul>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="/seller/profile" class="group">
                                 <div class="flex items-center">
 
@@ -53,7 +52,7 @@
                                         class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Profile</span>
                                 </div>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="menu nav-item">
                             <button type="button" class="nav-link group"
                                 :class="{ 'active': activeDropdown === 'invoice' }"

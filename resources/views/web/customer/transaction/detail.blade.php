@@ -1,5 +1,5 @@
 <x-seller.app>
-    <div class="min-h-screen py-1 bg-gray-50">
+    <div class="min-h-screen py-4 bg-gray-50">
 
         @include('web.seller.alert.success')
 
@@ -21,37 +21,51 @@
                                 class="font-semibold text-blue-600">{{ $transaction->transaction_code }}</span></p>
                     </div>
                     <div class="text-right">
-                        <div
-                            class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-                            @if ($transaction->payment_status === 'Paid') bg-green-100 text-green-800
-                            @elseif($transaction->payment_status === 'Pending') bg-yellow-100 text-yellow-800
-                            @elseif($transaction->payment_status === 'Failed') bg-red-100 text-red-800
-                            @else bg-gray-100 text-gray-800 @endif">
-                            @if ($transaction->payment_status === 'Paid')
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Sudah Dibayar
-                            @elseif($transaction->payment_status === 'Pending')
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Menunggu Pembayaran
-                            @elseif($transaction->payment_status === 'Failed')
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                Pembayaran Gagal
-                            @else
-                                Belum Dibayar
-                            @endif
-                        </div>
+                      <div
+                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                        @if ($transaction->payment_status === 'paid') bg-green-100 text-green-800
+                        @elseif($transaction->payment_status === 'pending') bg-yellow-100 text-yellow-800
+                        @elseif($transaction->payment_status === 'failed') bg-red-100 text-red-800
+                        @elseif($transaction->payment_status === 'expired') bg-orange-100 text-orange-800
+                        @else bg-gray-100 text-gray-800 @endif">
+
+                        @if ($transaction->payment_status == 'Paid')
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Sudah Dibayar
+                        @elseif($transaction->payment_status == 'Pending')
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Menunggu Pembayaran
+                        @elseif($transaction->payment_status == 'Failed')
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Pembayaran Gagal
+                        @elseif($transaction->payment_status == 'Expired')
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 3.314-2.686 6-6 6s-6-2.686-6-6a5.99 5.99 0 01.332-1.973z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Waktu Habis
+                        @else
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Dibatalkan
+                        @endif
+                    </div>
                     </div>
                 </div>
             </div>
@@ -304,6 +318,19 @@
                                          <span id="button-text">Bayar Sekarang</span>
                                      </button>
 
+                                     <form action="{{ route('customer.transaction.checkStatus', $transaction->transaction_code) }}" method="POST">
+                                        @csrf
+
+
+                                     <button type="submit" data-code={{ $transaction->transaction_code }}
+                                             class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-yellow-600 rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                   d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                         </svg>
+                                         <span >Cek Status</span>
+                                     </button>
+                                     </form>
 
 
                                 <!-- Cancel Button -->
@@ -862,16 +889,15 @@
         </div>
     </div>
 
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
-    </script>
+            <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
             var payButton = document.getElementById('pay-button');
             var buttonText = document.getElementById('button-text');
 
             // Cek apakah snap token tersedia
-            var snapToken = '{{ $snapToken ?? '' }}';
+            var snapToken = '{{ $snapToken ?? "" }}';
 
             if (!snapToken) {
                 payButton.disabled = true;
@@ -892,7 +918,7 @@
                 }
             }
 
-            payButton.addEventListener('click', function() {
+            payButton.addEventListener('click', function () {
                 // Disable button sementara
                 // payButton.disabled = true;
                 // buttonText.textContent = 'Memproses...';
@@ -901,7 +927,6 @@
                 waitForSnap(function() {
                     try {
                         window.snap.pay(snapToken, {
-
                         onSuccess: function (result) {
                             console.log('Payment Success:', result);
                             alert("Pembayaran berhasil!");
@@ -923,19 +948,18 @@
                             // Re-enable button
                             payButton.disabled = false;
                             buttonText.textContent = 'Bayar Sekarang';
-                            window.history.reload();
+                            window.history.back();
                         },
                         onClose: function () {
                             console.log('Payment popup closed');
-                            alert('Anda menutup halaman pembayaran. Pembayaran belum selesai.');
+                            // alert('Anda menutup halaman pembayaran. Pembayaran belum selesai.');
 
                             // Re-enable button
                             payButton.disabled = false;
                             buttonText.textContent = 'Bayar Sekarang';
-                            window.history.reload();
+                            window.history.back();
                         }
                     });
-
                     } catch (error) {
                         console.error('Snap Error:', error);
                         alert('Terjadi kesalahan saat memuat pembayaran. Silakan refresh halaman.');
@@ -949,8 +973,7 @@
 
             // Debug: Log status snap ketika halaman load
             console.log('Window snap status:', typeof window.snap);
-            console.log('Client key dari meta:', document.querySelector('script[data-client-key]')?.getAttribute(
-                'data-client-key'));
+            console.log('Client key dari meta:', document.querySelector('script[data-client-key]')?.getAttribute('data-client-key'));
         });
     </script>
 </x-seller.app>

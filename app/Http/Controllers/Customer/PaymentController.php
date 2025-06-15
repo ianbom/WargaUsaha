@@ -22,9 +22,16 @@ class PaymentController extends Controller
      */
     public function checkStatus(Request $request, $transactionCode)
     {
-        $result = $this->paymentService->checkPaymentStatus($transactionCode);
+        try {
+             $result = $this->paymentService->checkPaymentStatus($transactionCode);
+             return redirect()->back()->with('success', 'Cek status berhasil');
+        } catch (\Exception $th) {
+            // return response()->json(['err' => $th->getMessage()]);
+            return redirect()->back()->with('error', $th->getMessage());
+        }
 
-        return response()->json($result);
+
+
     }
 
     /**

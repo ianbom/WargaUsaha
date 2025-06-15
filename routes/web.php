@@ -11,6 +11,7 @@ use App\Http\Controllers\Customer\HomeController as CustomerHomeController;
 use App\Http\Controllers\Customer\MartRegistrationController as CustomerMartRegistrationController;
 use App\Http\Controllers\Customer\MessageController as CustomerMessageController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
+use App\Http\Controllers\Customer\PaymentController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
 use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
@@ -138,6 +139,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource( 'jobApply', CustomerJobApplicantController::class);
 
     Route::resource('mart-registration', CustomerMartRegistrationController::class);
+    Route::post('checkPayment{transactionCode}', [PaymentController::class, 'checkStatus'])->name('transaction.checkStatus');
 });
 
 
