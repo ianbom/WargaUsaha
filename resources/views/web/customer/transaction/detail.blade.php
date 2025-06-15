@@ -1,5 +1,5 @@
 <x-seller.app>
-    <div class="min-h-screen py-4 bg-gray-50">
+    <div class="min-h-screen py-1 bg-gray-50">
 
         @include('web.seller.alert.success')
 
@@ -303,6 +303,7 @@
                                          </svg>
                                          <span id="button-text">Bayar Sekarang</span>
                                      </button>
+
 
 
                                 <!-- Cancel Button -->
@@ -861,15 +862,16 @@
         </div>
     </div>
 
-            <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
             var payButton = document.getElementById('pay-button');
             var buttonText = document.getElementById('button-text');
 
             // Cek apakah snap token tersedia
-            var snapToken = '{{ $snapToken ?? "" }}';
+            var snapToken = '{{ $snapToken ?? '' }}';
 
             if (!snapToken) {
                 payButton.disabled = true;
@@ -890,7 +892,7 @@
                 }
             }
 
-            payButton.addEventListener('click', function () {
+            payButton.addEventListener('click', function() {
                 // Disable button sementara
                 // payButton.disabled = true;
                 // buttonText.textContent = 'Memproses...';
@@ -899,6 +901,7 @@
                 waitForSnap(function() {
                     try {
                         window.snap.pay(snapToken, {
+
                         onSuccess: function (result) {
                             console.log('Payment Success:', result);
                             alert("Pembayaran berhasil!");
@@ -932,6 +935,7 @@
                             window.history.reload();
                         }
                     });
+
                     } catch (error) {
                         console.error('Snap Error:', error);
                         alert('Terjadi kesalahan saat memuat pembayaran. Silakan refresh halaman.');
@@ -945,7 +949,8 @@
 
             // Debug: Log status snap ketika halaman load
             console.log('Window snap status:', typeof window.snap);
-            console.log('Client key dari meta:', document.querySelector('script[data-client-key]')?.getAttribute('data-client-key'));
+            console.log('Client key dari meta:', document.querySelector('script[data-client-key]')?.getAttribute(
+                'data-client-key'));
         });
     </script>
 </x-seller.app>

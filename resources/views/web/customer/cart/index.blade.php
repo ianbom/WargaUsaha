@@ -22,13 +22,7 @@
                         <p class="mt-1 text-sm text-gray-500">Belum ada produk yang ditambahkan ke keranjang.</p>
                         <div class="mt-6">
                             <a href="{{ route('customer.home.indexProduct') }}"
-                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                    fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-primary hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Mulai Belanja
                             </a>
                         </div>
@@ -75,7 +69,7 @@
                                                         <div>
                                                             <label
                                                                 class="block mb-1 text-xs font-medium tracking-wide text-gray-500 uppercase">Harga
-                                                                </label>
+                                                            </label>
                                                             <p class="text-sm font-medium text-gray-900">Rp
                                                                 {{ number_format($cart->product->price, 0, ',', '.') }}
                                                             </p>

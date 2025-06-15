@@ -143,7 +143,7 @@ class HomeController extends Controller
     }
     public function showJobVacancy(JobVacancy $job)
     {
-        $job->load('jobApplications'); // ini penting agar tidak null
+        $job->load('jobApplications');
         return view('web.customer.home.job.detail', ['job' => $job]);
     }
     public function showSeller(User $seller)
@@ -152,8 +152,14 @@ class HomeController extends Controller
             $mart = $this->martService->getMartBySellerId($seller->id);
             $products = $this->productService->getAllProductByMart($mart);
             $services = $this->serviceService->getAllServiceBySeller($seller);
-
-            return view('web.customer.seller.detail', ['seller' => $seller, 'mart' => $mart, 'products' => $products, 'services' => $services]);
+            $jobs = $this->jobVacancyService->getAllJobByEmployer($seller);
+            return view('web.customer.seller.detail', [
+                'seller' => $seller,
+                'mart' => $mart,
+                'products' => $products,
+                'services' => $services,
+                'jobs' => $jobs
+            ]);
         } catch (\Throwable $th) {
             return response()->json(['err' => $th->getMessage()], 500);
         }
@@ -180,6 +186,22 @@ class HomeController extends Controller
             $services = $this->serviceService->getAllServiceBySeller($seller);
 
             return view('web.customer.seller.service', ['seller' => $seller, 'mart' => $mart, 'products' => $products, 'services' => $services]);
+        } catch (\Throwable $th) {
+            return response()->json(['err' => $th->getMessage()], 500);
+        }
+    }
+    public function showSellerJob(User $seller)
+    {
+        try {
+            $mart = $this->martService->getMartBySellerId($seller->id);
+            $products = $this->productService->getAllProductByMart($mart);
+            $jobs = $this->jobVacancyService->getAllJobByEmployer($seller);
+            return view('web.customer.seller.job', [
+                'seller' => $seller,
+                'mart' => $mart,
+                'products' => $products,
+                'jobs' => $jobs
+            ]);
         } catch (\Throwable $th) {
             return response()->json(['err' => $th->getMessage()], 500);
         }

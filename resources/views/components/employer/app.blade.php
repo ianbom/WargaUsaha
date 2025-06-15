@@ -4,10 +4,9 @@
 <head>
     <meta charset='utf-8' />
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <title>{{ $title ?? 'VRISTO - Multipurpose Tailwind Dashboard Template' }}</title>
-
+    <title>{{ $title ?? 'WargaUsaha' }}</title>
     <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <link rel="icon" type="image/svg" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/svg" href="/logo.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,7 +21,8 @@
 </head>
 
 <body x-data="main" class="relative overflow-x-hidden text-sm antialiased font-normal font-nunito"
-    :class="[$store.app.sidebar ? 'toggle-sidebar' : '', $store.app.theme === 'dark' || $store.app.isDarkMode ?  'dark' : '', $store.app.menu = 'vertical', $store.app.layout, $store.app
+    :class="[$store.app.sidebar ? 'toggle-sidebar' : '', $store.app.theme === 'dark' || $store.app.isDarkMode ? 'dark' : '',
+        $store.app.menu = 'vertical', $store.app.layout, $store.app
         .rtlClass
     ]">
 
@@ -99,7 +99,7 @@
         <x-employer.sidebar />
 
         <div class="flex flex-col min-h-screen main-content">
-            <x-employer.header />
+            <x-seller.header />
 
             <div class="p-6 dvanimation animate__animated" :class="[$store.app.animation]">
                 {{ $slot }}
@@ -115,4 +115,5 @@
     <script defer src="/assets/js/alpine.min.js"></script>
     <script src="/assets/js/custom.js"></script>
 </body>
+
 </html>

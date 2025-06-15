@@ -26,7 +26,8 @@ class TransactionController extends Controller
         $this->cartService = $cartService;
     }
 
-     public function checkoutProduct(CartRequest $request){
+    public function checkoutProduct(CartRequest $request)
+    {
         $data = $request->all();
         // dd($data);
         DB::beginTransaction();
@@ -35,12 +36,13 @@ class TransactionController extends Controller
             DB::commit();
             return redirect()->route('customer.cart.index');
         } catch (\Exception $th) {
-           DB::rollBack();
-           return redirect()->back()->with('error', $th->getMessage());
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
-    public function checkoutService(Service $service, OrderRequest $request){
+    public function checkoutService(Service $service, OrderRequest $request)
+    {
         $data = $request->all();
         DB::beginTransaction();
         $seller = $service->user;
@@ -55,60 +57,72 @@ class TransactionController extends Controller
         }
     }
 
-    public function index(){
+    // public function index(){
+    //     try {
+    //     $user = Auth::user();
+    //     $transaction = Transaction::where('user_id', $user->id)->get();
+
+    //     return view('web.customer.transaction.index', ['transaction' => $transaction]);
+    //     } catch (\Throwable $th) {
+    //       return response()->json(['err' => $th->getMessage()],404);
+    //     }
+
+    // }
+    public function index(Request $request)
+    {
         try {
-        $user = Auth::user();
-        $transaction = Transaction::where('user_id', $user->id)->get();
-
-        return view('web.customer.transaction.index', ['transaction' => $transaction]);
+            $transaction = $this->transactionService->getAllTransactionByLoginUser($request);
+            return view('web.customer.transaction.index', ['transaction' => $transaction]);
         } catch (\Throwable $th) {
-          return response()->json(['err' => $th->getMessage()],404);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
-
     }
-
-    public function show(Transaction $transaction){
+    public function show(Transaction $transaction)
+    {
         $snapToken = $transaction->snap_token;
         return view('web.customer.transaction.detail', ['transaction' => $transaction, 'snapToken' => $snapToken]);
     }
 
-    public function payTransaction(Request $request, Transaction $transaction){
+    public function payTransaction(Request $request, Transaction $transaction)
+    {
 
         DB::beginTransaction();
         try {
-       $this->transactionService->payTransaction($transaction);
-        // $snapToken = $result['snap_token'];
-        // $transaction = $result['transaction'];
+            $this->transactionService->payTransaction($transaction);
+            // $snapToken = $result['snap_token'];
+            // $transaction = $result['transaction'];
 
-        DB::commit();
-        // return view('web.customer.transaction.detail');
+            DB::commit();
+            // return view('web.customer.transaction.detail');
 
-        return redirect()->back()->with(['success', 'Pembayaran berhasil']);
+            return redirect()->back()->with(['success', 'Pembayaran berhasil']);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
-            'err' => $th->getMessage()
-        ]);
+                'err' => $th->getMessage()
+            ]);
         }
     }
 
     public function cancelTransaction(Transaction $transaction, Request $request)
-{
-    try {
-       $reason = $request->input('reason', 'Cancelled by customer');
-         $this->transactionService->cancelTransaction($transaction, $reason);
-        return redirect()->back()->with('success','Transaksi dibatalkan');
-    } catch (\Throwable $th) {
-        return response()->json([
-            'err' => $th->getMessage()
-        ]);
+    {
+        try {
+            $reason = $request->input('reason', 'Cancelled by customer');
+            $this->transactionService->cancelTransaction($transaction, $reason);
+            return redirect()->back()->with('success', 'Transaksi dibatalkan');
+        } catch (\Throwable $th) {
+            return response()->json([
+                'err' => $th->getMessage()
+            ]);
+        }
     }
 
-}
+
 
   public function callBackAfterPayment(Request $request)
 {
     Log::info('Webhook berjalan coy');
+
 
     // Ambil raw JSON body
     $rawBody = $request->getContent();
@@ -210,7 +224,7 @@ class TransactionController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
+
         }
     }
-
 }
