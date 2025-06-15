@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\LogWallet;
 use App\Models\SellerWallet;
 use App\Models\WalletTransaction;
 use Exception;
@@ -74,6 +75,15 @@ class WalletService
         $data['status'] = 'Pending';
 
         $walletTransaction = WalletTransaction::create($data);
+
+        LogWallet::create([
+            'user_id' => $user->id,
+            'seller_walet_id' => $wallet->id,
+            'amount' => $walletTransaction->amount,
+            'type' => 'decreament',
+            'status' => 'Success',
+            'title' => 'Penarikan Uang'
+        ]);
         return $walletTransaction;
     }
 

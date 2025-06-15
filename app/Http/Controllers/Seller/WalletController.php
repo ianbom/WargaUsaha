@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WalletRequest;
 use App\Http\Requests\WalletTransactionRequest;
+use App\Models\LogWallet;
 use App\Models\SellerWallet;
 use App\Services\WalletService;
 use Illuminate\Http\Request;
@@ -37,6 +38,8 @@ class WalletController extends Controller
         DB::beginTransaction();
         try {
           $walletTransaction = $this->walletService->createWithdrawTransaction($data);
+
+
           DB::commit();
           return redirect()->back()->with('success','Permintaan withdraw telah dibuat');
         } catch (\Exception $th) {
