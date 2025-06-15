@@ -161,8 +161,8 @@ class HomeController extends Controller
                 'jobs' => $jobs
             ]);
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
-            // return response()->json(['err' => $th->getMessage()], 500);
+            // return redirect()->back()->with('error', $th->getMessage());
+            return response()->json(['err' => $th->getMessage()], 500);
         }
     }
 

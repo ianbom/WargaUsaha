@@ -56,8 +56,9 @@ class MartService
     }
 
     public function getMartBySellerId($sellerId){
-
+        // dd($sellerId);
         $mart = Mart::where('user_id', $sellerId)->first();
+        // dd($mart);
         return $mart;
     }
 

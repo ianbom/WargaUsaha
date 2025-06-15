@@ -211,7 +211,7 @@
 
                                     <p class="font-medium text-gray-800">{{ $product->mart->name }}</p>
                                     <p class="text-sm text-gray-600">Pemilik : {{ $product->mart->user->name }}</p>
-                                    <a href="{{ route('customer.home.showSeller', $product->mart->id) }}"
+                                    <a href="{{ route('customer.home.showSeller', $product->mart->user->id) }}"
                                         class="text-sm font-semibold text-blue-600 hover:text-blue-900">Lihat
                                         Toko</a>
 
