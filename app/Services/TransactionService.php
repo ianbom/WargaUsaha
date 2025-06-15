@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\WhatsappJob;
 use App\Models\GroupOrder;
 use App\Models\LogWallet;
 use App\Models\Mart;
@@ -57,7 +58,7 @@ class TransactionService
     public function getGroupOrderByLoginSeller()
     {
         $user = Auth::user();
-        $groupOrder = GroupOrder::where('mart_id', $user->mart->id)->get();
+        $groupOrder = GroupOrder::where('mart_id', $user->mart->id)->orderBy('created_at','desc')->get();
         return $groupOrder;
     }
 
@@ -255,6 +256,22 @@ class TransactionService
             'updated_at' => now(),
         ]);
 
+       $totalPaid = number_format($transaction->paid_amount, 0, ',', '.');
+
+        WhatsappJob::dispatch($transaction->user->phone,
+            "✅ Halo {$transaction->user->name}, pembayaran kamu telah *berhasil* kami terima! 🎉
+
+        🧾 *Kode Transaksi*: {$transaction->transaction_code}
+        💰 *Total Dibayar*: Rp {$totalPaid}
+
+        Pesanan kamu sedang kami proses dan akan segera dikirim oleh penjual terkait. 📦
+
+        Terima kasih telah berbelanja di *WargaUsaha*! 🌟
+        Kunjungi kembali kami di: https://wargausaha.ianianale.shop
+
+        Salam hangat,
+        Tim WargaUsaha 💼"
+        );
         // Get group order IDs and mart IDs
         $groupOrderIds = $transaction->groupOrders->pluck('id');
         $martIds = $transaction->groupOrders->pluck('mart_id');
@@ -316,17 +333,17 @@ class TransactionService
                 );
 
                 // Update amount wallet
-                $sellerWallet->increment('amount', $totalEarning);
+                // $sellerWallet->increment('amount', $totalEarning);
 
                 // Buat log wallet
-                LogWallet::create([
-                    'user_id' => $sellerId,
-                    'title' => 'Pembayaran product',
-                    'seller_walet_id' => $sellerWallet->id, // Sesuai dengan nama kolom di schema
-                    'type' => 'Credit',
-                    'amount' => $totalEarning,
-                    'status' => 'Success',
-                ]);
+                // LogWallet::create([
+                //     'user_id' => $sellerId,
+                //     'title' => 'Pembayaran product',
+                //     'seller_walet_id' => $sellerWallet->id,
+                //     'type' => 'Increament',
+                //     'amount' => $totalEarning,
+                //     'status' => 'Success',
+                // ]);
             }
         }
     }

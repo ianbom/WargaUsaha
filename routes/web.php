@@ -59,7 +59,7 @@ Route::get('/', function () {
     }
 })->middleware('auth');
 
-Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(function () {
     Route::resource('mart', AdminMartController::class);
     Route::resource('user', AdminUserController::class);
     Route::resource('product', AdminProductController::class);
@@ -95,6 +95,7 @@ Route::middleware('auth')->prefix('seller')->as('seller.')->group(function () {
     Route::put('accept/transaction/service/{order}', [SellerServiceController::class, 'acceptServiceOrder'])->name('transaction.serviceAccept');
     Route::put('reject/transaction/service/{order}', [SellerServiceController::class, 'cancelServiceOrder'])->name('transaction.serviceReject');
     Route::get('/order/product', [SellerTransactionController::class, 'indexProduct'])->name('transaction.product');
+    Route::put('ship/order/{groupOrder}/product', [SellerTransactionController::class, 'shipOrder'])->name('order.ship');
     Route::get('/order/service', [SellerTransactionController::class, 'indexService'])->name('transaction.service');
 });
 
@@ -104,6 +105,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('profile', CustomerProfileController::class);
     Route::resource('home', CustomerHomeController::class);
     Route::resource('order', CustomerOrderController::class);
+    Route::put('complete/order/{groupOrder}', [CustomerOrderController::class, 'completingOrder'])->name('order.complete');
     Route::resource('review', CustomerReviewController::class);
     Route::resource('transaction', CustomerTransactionController::class);
     Route::resource('message', CustomerMessageController::class);

@@ -81,7 +81,8 @@
                                     <div class="flex items-center space-x-3">
                                         <div
                                             class="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full">
-                                            <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none"
+                                             <a href="{{ route('customer.home.showSeller', $groupOrder->mart->user) }}">
+                                                 <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M22 22H2" stroke="currentColor" stroke-width="1.5"
                                                     stroke-linecap="round" />
@@ -95,12 +96,15 @@
                                                 <path
                                                     d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5"
                                                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+
                                             </svg>
+                                             </a>
+
                                         </div>
                                         <div>
-                                            <h3 class="font-semibold text-gray-900">{{ $groupOrder->mart->name }}</h3>
+                                               <a href="{{ route('customer.home.showSeller', $groupOrder->mart->user) }}"> <h3 class="font-semibold text-gray-900">{{ $groupOrder->mart->name }} </a> </h3>
                                             <p class="text-sm text-gray-600">
-                                                {{ $groupOrder->mart->address ?? 'Alamat tidak tersedia' }}</p>
+                                                {{ $groupOrder->mart->user->address ?? 'Alamat tidak tersedia' }}</p>
                                         </div>
                                     </div>
                                     <div class="text-right">

@@ -1,5 +1,6 @@
 <x-seller.app>
     <div class="min-h-screen py-1 bg-gray-50">
+        @include('web.seller.alert.success')
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
@@ -18,7 +19,7 @@
                     </div>
                     <!-- Status Badge -->
                     <div class="text-right">
-                        @switch($groupOrder->status)
+                        @switch($groupOrder->order_status)
                             @case('Pending')
                                 <span
                                     class="inline-flex items-center px-3 py-1 text-sm font-medium text-yellow-800 bg-yellow-100 rounded-full">
@@ -42,6 +43,19 @@
                                     Sudah Dibayar
                                 </span>
                             @break
+
+                            @case('Shipped')
+                            <span class="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
+                                <!-- Heroicon: Truck -->
+                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 17h6M3 13V6a1 1 0 011-1h10a1 1 0 011 1v7h3.586a1 1 0 01.707.293l1.414 1.414a1 1 0 01.293.707V18a1 1 0 01-1 1h-1a2 2 0 11-4 0H9a2 2 0 11-4 0H4a1 1 0 01-1-1v-5z" />
+                                </svg>
+                                Dikirim
+                            </span>
+                        @break
+
 
                             @case('Processing')
                                 <span
@@ -472,7 +486,7 @@
                 </div>
 
                 <!-- Sidebar -->
-                <div class="space-y-6">
+               <div class="space-y-6 pb-8 mb-8">
                     <!-- Group Order Summary -->
                     <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
                         <div class="px-6 py-4 border-b border-gray-200">
@@ -490,7 +504,13 @@
                             <div class="flex justify-between text-sm">
                                 <span class="text-gray-600">Subtotal:</span>
                                 <span class="font-medium text-gray-900">
-                                    Rp {{ number_format($groupOrder->orders->sum('total_price'), 0, ',', '.') }}
+                                    Rp {{ number_format($groupOrder->sub_total, 0, ',', '.') }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Ongkos Kirim:</span>
+                                <span class="font-medium text-gray-900">
+                                    Rp {{ number_format($groupOrder->shipping_cost, 0, ',', '.') }}
                                 </span>
                             </div>
                             @if ($groupOrder->discount_amount > 0)
@@ -505,22 +525,23 @@
                             <div class="flex justify-between">
                                 <span class="text-base font-medium text-gray-900">Total Akhir:</span>
                                 <span class="text-xl font-bold text-green-600">
-                                    Rp {{ number_format($groupOrder->total_amount, 0, ',', '.') }}
+                                    Rp {{ number_format($groupOrder->total_price, 0, ',', '.') }}
                                 </span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Actions -->
-                    @if ($groupOrder->status != 'Cancelled')
+                  @if ($groupOrder->order_status != 'Completed' && $groupOrder->order_status != 'Cancelled')
+
                         <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
                             <div class="px-6 py-4 border-b border-gray-200">
                                 <h3 class="text-lg font-semibold text-gray-900">Aksi</h3>
                             </div>
                             <div class="p-6 space-y-3">
-                                @if ($groupOrder->status == 'Pending')
-                                    <form action="/" method="POST"
-                                        onsubmit="return confirm('Apakah Anda yakin ingin membayar semua pesanan dalam group ini?')">
+                                @if ($groupOrder->order_status == 'Paid' || $groupOrder->order_status == 'Processing')
+                                     <form action="{{ route('customer.order.complete', $groupOrder) }}" method="POST"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan pesanan ini?')">
                                         @csrf
                                         @method('PUT')
                                         <input type="text" name="status" value="Paid" hidden>
@@ -532,44 +553,12 @@
                                                     d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
                                                 </path>
                                             </svg>
-                                            Bayar Semua (Rp
-                                            {{ number_format($groupOrder->total_amount, 0, ',', '.') }})
-                                        </button>
-                                    </form>
-
-                                    <form action="/" method="POST"
-                                        onsubmit="return confirm('Apakah Anda yakin ingin membatalkan semua pesanan dalam group ini?')">
-                                        @csrf
-                                        @method('PUT')
-                                        <input type="text" name="status" value="Cancelled" hidden>
-                                        <button type="submit"
-                                            class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-red-700 transition-colors bg-red-100 border border-red-200 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                            Batalkan Group Order
+                                           Selesaikan Pesanan
                                         </button>
                                     </form>
                                 @endif
 
-                                @if ($groupOrder->status == 'Paid' || $groupOrder->status == 'Processing')
-                                    <a href="/"
-                                        class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-blue-700 transition-colors bg-blue-100 border border-blue-200 rounded-md hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M17.657 16.657L13.414 20.9a1.997 1.997 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                            </path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                        </svg>
-                                        Lacak Pesanan
-                                    </a>
-                                @endif
-
-                                <a href="/" target="_blank"
+                                {{-- <a href="" target="_blank"
                                     class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-gray-100 border border-gray-200 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -578,9 +567,9 @@
                                         </path>
                                     </svg>
                                     Download Invoice
-                                </a>
+                                </a> --}}
 
-                                <button onclick="shareGroupOrder()"
+                                {{-- <button onclick="shareGroupOrder()"
                                     class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-green-700 transition-colors bg-green-100 border border-green-200 rounded-md hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -589,31 +578,14 @@
                                         </path>
                                     </svg>
                                     Bagikan Group Order
-                                </button>
+                                </button> --}}
                             </div>
                         </div>
+                        @else
+
                     @endif
 
-                    <!-- Contact Support -->
-                    <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
-                        <div class="px-6 py-4 border-b border-gray-200">
-                            <h3 class="text-lg font-semibold text-gray-900">Bantuan</h3>
-                        </div>
-                        <div class="p-6">
-                            <p class="mb-4 text-sm text-gray-600">
-                                Butuh bantuan dengan group order ini? Hubungi tim support kami.
-                            </p>
-                            <a href="/"
-                                class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-indigo-700 transition-colors bg-indigo-100 border border-indigo-200 rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                                    </path>
-                                </svg>
-                                Chat dengan Support
-                            </a>
-                        </div>
-                    </div>
+
 
                     <!-- Order Timeline -->
                     <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -622,7 +594,7 @@
                         </div>
                         <div class="p-6">
                             <div class="flow-root">
-                                <ul class="-mb-8">
+                                <ul class="space-y-0">
                                     <li>
                                         <div class="relative pb-8">
                                             <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
@@ -641,7 +613,7 @@
                                                 </div>
                                                 <div class="flex justify-between flex-1 min-w-0 space-x-4 pt-1.5">
                                                     <div>
-                                                        <p class="text-sm text-gray-500">Group Order dibuat</p>
+                                                        <p class="text-sm text-gray-500"> Order dibuat</p>
                                                     </div>
                                                     <div class="text-sm text-right text-gray-500 whitespace-nowrap">
                                                         {{ $groupOrder->created_at->format('d M Y, H:i') }}
@@ -651,18 +623,18 @@
                                         </div>
                                     </li>
 
-                                    @if ($groupOrder->status != 'Pending')
+                                    @if ($groupOrder->order_status != 'Pending')
                                         <li>
                                             <div class="relative pb-8">
-                                                @if ($groupOrder->status != 'Cancelled')
+                                                @if ($groupOrder->order_status != 'Cancelled')
                                                     <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
                                                         aria-hidden="true"></span>
                                                 @endif
                                                 <div class="relative flex space-x-3">
                                                     <div>
                                                         <span
-                                                            class="flex items-center justify-center w-8 h-8 {{ $groupOrder->status == 'Cancelled' ? 'bg-red-500' : 'bg-blue-500' }} rounded-full ring-8 ring-white">
-                                                            @if ($groupOrder->status == 'Cancelled')
+                                                            class="flex items-center justify-center w-8 h-8 {{ $groupOrder->order_status == 'Cancelled' ? 'bg-red-500' : 'bg-blue-500' }} rounded-full ring-8 ring-white">
+                                                            @if ($groupOrder->order_status == 'Cancelled')
                                                                 <svg class="w-5 h-5 text-white" fill="none"
                                                                     stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round"
@@ -682,11 +654,10 @@
                                                     <div class="flex justify-between flex-1 min-w-0 space-x-4 pt-1.5">
                                                         <div>
                                                             <p class="text-sm text-gray-500">
-                                                                {{ $groupOrder->status == 'Cancelled' ? 'Group Order dibatalkan' : 'Pembayaran dikonfirmasi' }}
+                                                                {{ $groupOrder->order_status == 'Cancelled' ? 'Group Order dibatalkan' : 'Pembayaran dikonfirmasi' }}
                                                             </p>
                                                         </div>
-                                                        <div
-                                                            class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                        <div class="text-sm text-right text-gray-500 whitespace-nowrap">
                                                             {{ $groupOrder->updated_at->format('d M Y, H:i') }}
                                                         </div>
                                                     </div>
@@ -695,32 +666,35 @@
                                         </li>
                                     @endif
 
-                                    @if ($groupOrder->status == 'Processing')
+                                    @if (in_array($groupOrder->order_status, ['Shipped', 'Completed']))
                                         <li>
-                                            <div class="relative pb-8">
-                                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                                                    aria-hidden="true"></span>
+                                            <div class="relative {{ $groupOrder->order_status == 'Completed' ? 'pb-8' : '' }}">
+                                                @if ($groupOrder->order_status == 'Completed')
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                                                        aria-hidden="true"></span>
+                                                @endif
                                                 <div class="relative flex space-x-3">
                                                     <div>
                                                         <span
-                                                            class="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-full ring-8 ring-white">
-                                                            <svg class="w-5 h-5 text-white animate-spin"
-                                                                fill="none" viewBox="0 0 24 24"
-                                                                stroke="currentColor">
+                                                            class="flex items-center justify-center w-8 h-8 bg-purple-500 rounded-full ring-8 ring-white">
+                                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                                                viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M12 4v1m6.364 1.636l-.707.707M20 12h-1M18.364 18.364l-.707-.707M12 20v-1m-6.364-1.636l.707-.707M4 12h1m1.636-6.364l.707.707" />
+                                                                    d="M8 7l4-4m0 0l4 4m-4-4v18M3 17l3 3 3-3m0 0V7" />
                                                             </svg>
                                                         </span>
                                                     </div>
                                                     <div class="flex justify-between flex-1 min-w-0 space-x-4 pt-1.5">
                                                         <div>
-                                                            <p class="text-sm text-gray-500">Pesanan sedang diproses
-                                                            </p>
+                                                            <p class="text-sm text-gray-500">Pesanan dikirim</p>
+
                                                         </div>
-                                                        <div
-                                                            class="text-sm text-right text-gray-500 whitespace-nowrap">
-                                                            Sedang berlangsung
+                                                        <div class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                            @if ($groupOrder->shipped_at)
+                                                               {{ \Carbon\Carbon::parse($groupOrder->shipped_at)->translatedFormat('d F Y, H:i') }}
+                                                            @else
+                                                                {{ $groupOrder->updated_at->format('d M Y, H:i') }}
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -728,9 +702,9 @@
                                         </li>
                                     @endif
 
-                                    @if ($groupOrder->status == 'Completed')
+                                    @if ($groupOrder->order_status == 'Completed')
                                         <li>
-                                            <div class="relative">
+                                            <div class="relative pb-4">
                                                 <div class="relative flex space-x-3">
                                                     <div>
                                                         <span
@@ -745,11 +719,15 @@
                                                     </div>
                                                     <div class="flex justify-between flex-1 min-w-0 space-x-4 pt-1.5">
                                                         <div>
-                                                            <p class="text-sm text-gray-500">Group Order selesai</p>
+                                                            <p class="text-sm text-gray-500"> Order selesai</p>
+
                                                         </div>
-                                                        <div
-                                                            class="text-sm text-right text-gray-500 whitespace-nowrap">
-                                                            {{ $groupOrder->updated_at->format('d M Y, H:i') }}
+                                                        <div class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                            @if ($groupOrder->completed_at)
+                                                            {{ \Carbon\Carbon::parse($groupOrder->completed_at)->translatedFormat('d F Y, H:i') }}
+                                                            @else
+                                                                {{ $groupOrder->updated_at->format('d M Y, H:i') }}
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -760,6 +738,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Spacer untuk memastikan konten tidak terpotong -->
+                    <div class="h-4"></div>
                 </div>
             </div>
         </div>

@@ -43,8 +43,8 @@
                                                         <span class="text-gray-600">{{ $order->product->category->name ?? 'Tidak dikategorikan' }}</span>
                                                     </div>
                                                     <div>
-                                                        <span class="font-medium text-gray-700">SKU:</span>
-                                                        <span class="text-gray-600">{{ $order->product->sku ?? 'N/A' }}</span>
+                                                        <span class="font-medium text-gray-700">Order Code:</span>
+                                                        <span class="text-gray-600">{{ $order->order_code }}</span>
                                                     </div>
                                                     <div>
                                                         <span class="font-medium text-gray-700">Kuantitas:</span>
@@ -231,7 +231,7 @@
 
 
 
-               <div class="space-y-6">
+<div class="space-y-6">
     <!-- Order Summary -->
     <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
         <div class="px-6 py-4 border-b border-gray-200">
@@ -301,38 +301,23 @@
                 <h3 class="text-lg font-semibold text-gray-900">Aksi</h3>
             </div>
             <div class="p-6 space-y-3">
-                @if ($groupOrder->order_status == 'Pending')
-                    <form action="{{ route('customer.order.update', $groupOrder) }}" method="POST"
-                        onsubmit="return confirm('Apakah Anda yakin ingin menyetujui pesanan ini?')">
+                @if ($groupOrder->order_status == 'Paid')
+                   <form action="{{ route('seller.order.ship', $groupOrder) }}" method="POST"
+                          onsubmit="return confirm('Apakah Anda yakin ingin mengirim pesanan ini?')">
                         @csrf
                         @method('PUT')
-                        <input type="text" name="order_status" value="On-Proses" hidden>
+                        <input type="text" name="order_status" value="Shipped" hidden>
                         <button type="submit"
-                            class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-blue-700 transition-colors bg-white border border-blue-300 rounded-md shadow-sm hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white transition-colors bg-green-600 border border-green-600 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12l2 2l4 -4m5 2a9 9 0 11-18 0a9 9 0 0118 0z" />
+                                    d="M8 7l4-4m0 0l4 4m-4-4v18M3 17l3 3 3-3m0 0V7" />
                             </svg>
-                            Setujui Pesanan
+                            Antarkan Pesanan
                         </button>
                     </form>
 
-                    <form action="{{ route('customer.order.update', $groupOrder) }}" method="POST"
-                        onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">
-                        @csrf
-                        @method('PUT')
-                        <input type="text" name="order_status" value="Cancelled" hidden>
-                        <button type="submit"
-                            class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-red-700 transition-colors bg-white border border-red-300 rounded-md shadow-sm hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                </path>
-                            </svg>
-                            Batalkan Pesanan
-                        </button>
-                    </form>
                 @endif
 
                 <button
