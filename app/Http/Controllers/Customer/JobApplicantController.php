@@ -7,7 +7,7 @@ use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use App\Services\JobApplicantService;
 use App\Http\Requests\JobApplicationRequest;
-
+use App\Models\JobVacancyCategory;
 use Illuminate\Support\Facades\DB;
 
 class JobApplicantController extends Controller
@@ -24,9 +24,10 @@ class JobApplicantController extends Controller
         $job_vacancies = $this->jobApplicantService->getAllMyJobApplicant();
         return view('web.customer.job.index', ['job_vacancies' => $job_vacancies]);
     }
-    public function show(JobApplication $job)
+    public function show(JobApplication $jobApply)
     {
-        return view('web.employer.job.detail', ['job' => $job]);
+        $jobApply->load(['user', 'jobVacancy.jobCategory']);
+        return view('web.customer.job.detail', ['job' => $jobApply]);
     }
     public function create()
     {
@@ -40,7 +41,7 @@ class JobApplicantController extends Controller
         try {
             $this->jobApplicantService->createJobApplicant($data);
             DB::commit();
-            return redirect()->route('home.indexJobVacancy')->with('success', 'Berhasil Apply Pekerjaan');
+            return redirect()->back()->with('success', 'Berhasil Apply Pekerjaan');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()

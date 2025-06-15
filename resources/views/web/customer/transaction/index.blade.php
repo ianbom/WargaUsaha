@@ -94,7 +94,7 @@
                                                             stroke-width="2" d="M5 13l4 4L19 7"></path>
                                                     </svg>
                                                 </div>
-                                            @elseif($item->status == 'Pending')
+                                            @elseif($item->payment_status == 'Pending')
                                                 <div
                                                     class="flex items-center justify-center w-10 h-10 bg-yellow-100 rounded-full">
                                                     <svg class="w-6 h-6 text-yellow-600" fill="none"

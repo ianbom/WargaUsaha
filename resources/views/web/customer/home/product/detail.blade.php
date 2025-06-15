@@ -49,17 +49,6 @@
                                 </span>
                             </div>
                         @endif
-
-                        <!-- Wishlist Button -->
-                        <button
-                            class="absolute p-3 transition-all duration-200 rounded-full shadow-md top-4 right-4 bg-white/90 hover:bg-white">
-                            <svg class="w-6 h-6 text-gray-600 hover:text-red-500" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
-                                </path>
-                            </svg>
-                        </button>
                     </div>
                 </div>
 
@@ -162,11 +151,20 @@
                                         class="flex items-center justify-center flex-1 gap-2 px-6 py-3 font-medium text-white transition-colors duration-200 bg-blue-600 rounded-lg hover:bg-blue-700"
                                         :class="{ 'opacity-50 cursor-not-allowed': {{ $product->stock }} == 0 }"
                                         :disabled="{{ $product->stock }} == 0">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4">
-                                            </path>
+                                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2 3L2.26491 3.0883C3.58495 3.52832 4.24497 3.74832 4.62248 4.2721C5 4.79587 5 5.49159 5 6.88304V9.5C5 12.3284 5 13.7426 5.87868 14.6213C6.75736 15.5 8.17157 15.5 11 15.5H19"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                            <path
+                                                d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                            <path
+                                                d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                            <path
+                                                d="M5 6H16.4504C18.5054 6 19.5328 6 19.9775 6.67426C20.4221 7.34853 20.0173 8.29294 19.2078 10.1818L18.7792 11.1818C18.4013 12.0636 18.2123 12.5045 17.8366 12.7523C17.4609 13 16.9812 13 16.0218 13H5"
+                                                stroke="currentColor" stroke-width="1.5" />
                                         </svg>
                                         <span
                                             x-text="{{ $product->stock }} == 0 ? 'Habis' : 'Tambah ke Keranjang'"></span>
@@ -187,23 +185,36 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Store Info -->
                     @if ($product->mart)
                         <div class="p-6 bg-white shadow-md rounded-xl">
                             <h3 class="mb-3 font-semibold text-gray-800">Informasi Toko</h3>
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full">
-                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m11 0v-4a2 2 0 00-2-2h-2m-3-4V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4h4z">
-                                        </path>
+                                    <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M22 22H2" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M20 22V11" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M4 22V11" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M16.5278 2H7.47214C6.26932 2 5.66791 2 5.18461 2.2987C4.7013 2.5974 4.43234 3.13531 3.89443 4.21114L2.49081 7.75929C2.16652 8.57905 1.88279 9.54525 2.42867 10.2375C2.79489 10.7019 3.36257 11 3.99991 11C5.10448 11 5.99991 10.1046 5.99991 9C5.99991 10.1046 6.89534 11 7.99991 11C9.10448 11 9.99991 10.1046 9.99991 9C9.99991 10.1046 10.8953 11 11.9999 11C13.1045 11 13.9999 10.1046 13.9999 9C13.9999 10.1046 14.8953 11 15.9999 11C17.1045 11 17.9999 10.1046 17.9999 9C17.9999 10.1046 18.8953 11 19.9999 11C20.6373 11 21.205 10.7019 21.5712 10.2375C22.1171 9.54525 21.8334 8.57905 21.5091 7.75929L20.1055 4.21114C19.5676 3.13531 19.2986 2.5974 18.8153 2.2987C18.332 2 17.7306 2 16.5278 2Z"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                                        <path
+                                            d="M9.5 21.5V18.5C9.5 17.5654 9.5 17.0981 9.70096 16.75C9.83261 16.522 10.022 16.3326 10.25 16.201C10.5981 16 11.0654 16 12 16C12.9346 16 13.4019 16 13.75 16.201C13.978 16.3326 14.1674 16.522 14.299 16.75C14.5 17.0981 14.5 17.5654 14.5 18.5V21.5"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                     </svg>
                                 </div>
                                 <div>
+
                                     <p class="font-medium text-gray-800">{{ $product->mart->name }}</p>
                                     <p class="text-sm text-gray-600">Pemilik : {{ $product->mart->user->name }}</p>
+                                    <a href="{{ route('customer.home.showSeller', $product->mart->id) }}"
+                                        class="text-sm font-semibold text-blue-600 hover:text-blue-900">Lihat
+                                        Toko</a>
+
                                 </div>
                             </div>
                         </div>

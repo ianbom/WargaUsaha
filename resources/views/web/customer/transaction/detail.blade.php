@@ -295,14 +295,15 @@
                             <div class="px-6 py-4 space-y-3">
                                 <!-- Pay Button -->
 
-                                    <button id="pay-button"
-                                             class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                   d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                                         </svg>
-                                         <span id="button-text">Bayar Sekarang</span>
-                                     </button>
+                                <button id="pay-button"
+                                    class="flex items-center justify-center w-full px-4 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                    </svg>
+                                    <span id="button-text">Bayar Sekarang</span>
+                                </button>
 
 
                                 <!-- Cancel Button -->
@@ -861,15 +862,16 @@
         </div>
     </div>
 
-            <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() {
             var payButton = document.getElementById('pay-button');
             var buttonText = document.getElementById('button-text');
 
             // Cek apakah snap token tersedia
-            var snapToken = '{{ $snapToken ?? "" }}';
+            var snapToken = '{{ $snapToken ?? '' }}';
 
             if (!snapToken) {
                 payButton.disabled = true;
@@ -890,7 +892,7 @@
                 }
             }
 
-            payButton.addEventListener('click', function () {
+            payButton.addEventListener('click', function() {
                 // Disable button sementara
                 // payButton.disabled = true;
                 // buttonText.textContent = 'Memproses...';
@@ -899,39 +901,41 @@
                 waitForSnap(function() {
                     try {
                         window.snap.pay(snapToken, {
-                        onSuccess: function (result) {
-                            console.log('Payment Success:', result);
-                            alert("Pembayaran berhasil!");
+                            onSuccess: function(result) {
+                                console.log('Payment Success:', result);
+                                alert("Pembayaran berhasil!");
 
-                            // Redirect ke halaman sukses atau update status
-                             window.history.back();
-                        },
-                        onPending: function (result) {
-                            console.log('Payment Pending:', result);
-                            // alert("Menunggu pembayaran! Silakan selesaikan pembayaran Anda.");
+                                // Redirect ke halaman sukses atau update status
+                                window.history.back();
+                            },
+                            onPending: function(result) {
+                                console.log('Payment Pending:', result);
+                                // alert("Menunggu pembayaran! Silakan selesaikan pembayaran Anda.");
 
-                            // Redirect ke halaman pending
-                             window.history.reload();
-                        },
-                        onError: function (result) {
-                            console.error('Payment Error:', result);
-                            alert("Pembayaran gagal! " + (result.status_message || 'Silakan coba lagi.'));
+                                // Redirect ke halaman pending
+                                window.history.reload();
+                            },
+                            onError: function(result) {
+                                console.error('Payment Error:', result);
+                                alert("Pembayaran gagal! " + (result.status_message ||
+                                    'Silakan coba lagi.'));
 
-                            // Re-enable button
-                            payButton.disabled = false;
-                            buttonText.textContent = 'Bayar Sekarang';
-                            window.history.reload();
-                        },
-                        onClose: function () {
-                            console.log('Payment popup closed');
-                            alert('Anda menutup halaman pembayaran. Pembayaran belum selesai.');
+                                // Re-enable button
+                                payButton.disabled = false;
+                                buttonText.textContent = 'Bayar Sekarang';
+                                window.history.reload();
+                            },
+                            onClose: function() {
+                                console.log('Payment popup closed');
+                                alert(
+                                    'Anda menutup halaman pembayaran. Pembayaran belum selesai.');
 
-                            // Re-enable button
-                            payButton.disabled = false;
-                            buttonText.textContent = 'Bayar Sekarang';
-                            window.history.reload();
-                        }
-                    });
+                                // Re-enable button
+                                payButton.disabled = false;
+                                buttonText.textContent = 'Bayar Sekarang';
+                                window.history.reload();
+                            }
+                        });
                     } catch (error) {
                         console.error('Snap Error:', error);
                         alert('Terjadi kesalahan saat memuat pembayaran. Silakan refresh halaman.');
@@ -945,7 +949,8 @@
 
             // Debug: Log status snap ketika halaman load
             console.log('Window snap status:', typeof window.snap);
-            console.log('Client key dari meta:', document.querySelector('script[data-client-key]')?.getAttribute('data-client-key'));
+            console.log('Client key dari meta:', document.querySelector('script[data-client-key]')?.getAttribute(
+                'data-client-key'));
         });
     </script>
 </x-seller.app>

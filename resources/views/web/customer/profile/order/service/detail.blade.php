@@ -133,10 +133,10 @@
                                                 <span
                                                     class="text-gray-600">{{ $order->product->category->name ?? 'Tidak dikategorikan' }}</span>
                                             </div>
-                                            <div>
+                                            {{-- <div>
                                                 <span class="font-medium text-gray-700">SKU:</span>
                                                 <span class="text-gray-600">{{ $order->product->sku ?? 'N/A' }}</span>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 @elseif($order->type == 'Service' && $order->service)

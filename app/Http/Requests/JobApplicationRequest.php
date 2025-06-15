@@ -25,9 +25,9 @@ class JobApplicationRequest extends FormRequest
             'job_vacancy_id' => 'required',
             // 'user_id' => 'required',
             'proposed_salary' => 'required|numeric|min:0',
-            'cv_document' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-            'portfolio_document' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-            'supporting_document' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'cv_document' => 'nullable|file|mimes:pdf|max:2048',
+            'portfolio_document' => 'nullable|file|mimes:pdf|max:2048',
+            'supporting_document' => 'nullable|file|mimes:pdf|max:2048',
         ];
     }
 }

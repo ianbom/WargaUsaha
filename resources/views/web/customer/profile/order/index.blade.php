@@ -3,7 +3,7 @@
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">Riwayat Pesanan</h1>
+                <h1 class="text-3xl font-bold text-gray-900">Riwayat Pesanan Produk</h1>
                 <p class="mt-1 text-gray-600">Kelola dan pantau semua pesanan Anda</p>
             </div>
 
@@ -15,23 +15,9 @@
                             Cari Pesanan
                         </label>
                         <input type="text" name="search" id="search" value="{{ request('search') }}"
-                            placeholder="Nama produk, layanan, atau toko..."
+                            placeholder="Nama produk atau toko..."
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     </div>
-
-                    <div class="min-w-40">
-                        <label for="type" class="block mb-2 text-sm font-medium text-gray-700">
-                            Tipe
-                        </label>
-                        <select name="type" id="type"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Semua</option>
-                            <option value="Product" {{ request('type') == 'Product' ? 'selected' : '' }}>Produk</option>
-                            <option value="Service" {{ request('type') == 'Service' ? 'selected' : '' }}>Layanan
-                            </option>
-                        </select>
-                    </div>
-
                     <div class="min-w-40">
                         <label for="status" class="block mb-2 text-sm font-medium text-gray-700">
                             Status
@@ -331,23 +317,23 @@
             @else
                 <!-- Empty State -->
                 <div class="p-12 text-center bg-white border border-gray-200 rounded-lg shadow-sm">
-                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-400" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M15.5777 3.38197L17.5777 4.43152C19.7294 5.56066 20.8052 6.12523 21.4026 7.13974C22 8.15425 22 9.41667 22 11.9415V12.0585C22 14.5833 22 15.8458 21.4026 16.8603C20.8052 17.8748 19.7294 18.4393 17.5777 19.5685L15.5777 20.618C13.8221 21.5393 12.9443 22 12 22C11.0557 22 10.1779 21.5393 8.42229 20.618L6.42229 19.5685C4.27063 18.4393 3.19479 17.8748 2.5974 16.8603C2 15.8458 2 14.5833 2 12.0585V11.9415C2 9.41667 2 8.15425 2.5974 7.13974C3.19479 6.12523 4.27063 5.56066 6.42229 4.43152L8.42229 3.38197C10.1779 2.46066 11.0557 2 12 2C12.9443 2 13.8221 2.46066 15.5777 3.38197Z"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                        <path
+                            d="M21 7.5L17 9.5M12 12L3 7.5M12 12V21.5M12 12C12 12 14.7426 10.6287 16.5 9.75C16.6953 9.65237 17 9.5 17 9.5M17 9.5V13M17 9.5L7.5 4.5"
+                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
                     <h3 class="mb-2 text-lg font-medium text-gray-900">Belum Ada Pesanan</h3>
                     <p class="mb-6 text-gray-500">Anda belum memiliki riwayat pesanan apapun.</p>
                     <a href="{{ route('customer.home.index') }}"
                         class="inline-flex items-center px-4 py-2 text-sm font-medium text-white transition-colors bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
                         Mulai Berbelanja
                     </a>
                 </div>
             @endif
         </div>
     </div>
-</x-customer.app>
+    </x-customer.app>

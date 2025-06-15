@@ -99,6 +99,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::get('seller/{seller}', [CustomerHomeController::class, 'showSeller'])->name('home.showSeller');
     Route::get('seller/{seller}/product', [CustomerHomeController::class, 'showSellerProduct'])->name('home.showSeller.product');
     Route::get('seller/{seller}/service', [CustomerHomeController::class, 'showSellerService'])->name('home.showSeller.service');
+    Route::get('seller/{seller}/job', [CustomerHomeController::class, 'showSellerJob'])->name('home.showSeller.job');
 
     Route::get('home/product/list', [CustomerHomeController::class, 'indexProduct'])->name('home.indexProduct');
     Route::get('home/product/{product}', [CustomerHomeController::class, 'showProduct'])->name('home.showProduct');
