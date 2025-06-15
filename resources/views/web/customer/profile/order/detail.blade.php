@@ -143,7 +143,7 @@
                                     @if ($groupOrder->mart->user->phone)
                                         <p class="text-sm text-gray-600">{{ $groupOrder->mart->user->phone }}</p>
                                     @endif
-                                    <a href="{{ route('customer.home.showSeller', $groupOrder->mart->id) }}"
+                                    <a href="{{ route('customer.home.showSeller', $groupOrder->mart->user->id) }}"
                                         class="text-sm font-semibold text-blue-600 hover:text-blue-900">Lihat
                                         Profil</a>
 
