@@ -61,7 +61,7 @@
                                 </select>
                             </div>
 
-                            <!-- Salary Range -->
+                            {{-- <!-- Salary Range -->
                             <div class="mb-6">
                                 <label class="block mb-2 text-sm font-medium text-gray-700">
                                     Rentang Gaji yang Diinginkan
@@ -74,7 +74,7 @@
                                         placeholder="Gaji Maksimum"
                                         class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <!-- Action Buttons -->
                             <div class="space-y-3">

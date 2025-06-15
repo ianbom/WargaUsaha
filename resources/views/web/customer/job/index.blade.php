@@ -42,7 +42,15 @@
                                     <td>Rp {{ number_format($job->jobVacancy?->salary_min, 0, ',', '.' ?? '-') }}</td>
                                     <td>Rp {{ number_format($job->jobVacancy?->salary_max, 0, ',', '.' ?? '-') }}</td>
                                     <td>Rp {{ number_format($job->proposed_salary, 0, ',', '.') }}</td>
-                                    <td>{{ $job->status }}</td>
+                                    <td>
+                                        @if ($job->status == 'Accepted')
+                                            <span
+                                                class="px-2 py-1 text-sm text-green-600 bg-green-100 rounded-full">{{ $job->status }}</span>
+                                        @else
+                                            <span
+                                                class="px-2 py-1 text-sm text-red-600 bg-red-100 rounded-full">{{ $job->status }}</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $job->created_at->format('d M Y') }}</td>
                                     <td>
                                         <div class="flex items-center space-x-2">

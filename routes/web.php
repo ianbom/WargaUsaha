@@ -49,14 +49,13 @@ Route::get('/', function () {
         return redirect()->route('login');
     }
 
-    if (Auth::user()->role == 'Seller' || Auth::user()->role == 'Buyer' ) {
+    if (Auth::user()->role == 'Seller' || Auth::user()->role == 'Buyer') {
         return redirect()->route('customer.home.index');
     } elseif (Auth::user()->is_admin == true) {
         return redirect()->route('admin.user.index');
     } else {
         abort(403, 'Unauthorized');
     }
-
 })->middleware('auth');
 
 Route::middleware('auth')->prefix('admin')->as('admin.')->group(function () {
@@ -135,7 +134,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     // Route Lowongan Pekerjaan
     Route::get('home/job/list', [CustomerHomeController::class, 'indexJobVacancy'])->name('home.indexJobVacancy');
     Route::get('home/job/{job}', [CustomerHomeController::class, 'showJobVacancy'])->name('home.showJobVacancy');
-    Route::resource( 'jobApply', CustomerJobApplicantController::class);
+    Route::resource('jobApply', CustomerJobApplicantController::class);
 
     Route::resource('mart-registration', CustomerMartRegistrationController::class);
 });
@@ -143,8 +142,9 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
 
 Route::middleware('auth')->prefix('employer')->as('employer.')->group(function () {
     Route::resource('profile', CustomerProfileController::class);
-    Route::resource( 'job', EmployerJobVacancyController::class);
-    Route::resource( 'job-applicant', EmployerJobApplicantController::class);
+    Route::resource('job', EmployerJobVacancyController::class);
+    Route::put('job/{id}/status', [EmployerJobVacancyController::class, 'updateStatus'])->name('job.updateStatus');
+    Route::resource('job-applicant', EmployerJobApplicantController::class);
 });
 
 

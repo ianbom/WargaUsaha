@@ -51,6 +51,12 @@ class JobVacancyService extends Service
         }
         return $jobVacancy;
     }
+    public static function updateStatus($id, $job_status): void
+    {
+        $jobApp = JobVacancy::findOrFail($id);
+        $jobApp->job_status = $job_status;
+        $jobApp->save();
+    }
     public function createJobVacancy(array $data)
     {
         $documentPath = $data['job_document']->store('job_document', 'public');
@@ -90,6 +96,7 @@ class JobVacancyService extends Service
         $query = JobVacancy::select($selectColumns)
             ->join('job_vacancy_categories', 'job_vacancies.job_category_id', '=', 'job_vacancy_categories.id')
             ->where('user_id', '!=', Auth::id())
+            ->where('job_status', 'Open')
             ->orderBy('job_vacancies.id', 'desc');
 
         $query = $this->applyFilters($query, $filters, $allowedFilters);

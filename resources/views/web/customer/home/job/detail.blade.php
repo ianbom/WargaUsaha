@@ -100,7 +100,7 @@
                                         Apply Sekarang
                                     </button>
                                 @endif
-                                <button
+                                {{-- <button
                                     class="flex items-center h-10 px-4 text-sm font-medium text-blue-600 transition-all duration-200 bg-white rounded-md hover:bg-gray-50">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -108,7 +108,7 @@
                                         </path>
                                     </svg>
                                     Share
-                                </button>
+                                </button> --}}
                             </div>
                             <!-- Modal -->
                             <div x-show="showApply" x-transition:enter="transition ease-out duration-300"
