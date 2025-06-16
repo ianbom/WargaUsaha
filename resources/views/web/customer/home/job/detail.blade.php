@@ -100,15 +100,17 @@
                                         Apply Sekarang
                                     </button>
                                 @endif
-                                {{-- <button
+                                <a href="{{ route('customer.chat.detail', $job->user->id) }}"
                                     class="flex items-center h-10 px-4 text-sm font-medium text-blue-600 transition-all duration-200 bg-white rounded-md hover:bg-gray-50">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z">
-                                        </path>
+                                            d="M2.25 12c0 2.485 2.239 4.5 5 4.5h.664c.456 0 .898.154 1.256.437l3.189 2.55c.667.534 1.641-.07 1.529-.906l-.258-1.939a1.687 1.687 0 01.595-1.513l1.273-1.018a4.488 4.488 0 001.502-3.261V9c0-2.485-2.239-4.5-5-4.5h-7c-2.761 0-5 2.015-5 4.5z" />
                                     </svg>
-                                    Share
-                                </button> --}}
+
+                                    Hubungi
+                                </a>
+
                             </div>
                             <!-- Modal -->
                             <div x-show="showApply" x-transition:enter="transition ease-out duration-300"
