@@ -34,6 +34,10 @@ class AuthenticatedSessionController extends Controller
             return redirect(route('seller.profile.index', absolute: false));
         }
 
+        if ($user->is_admin == true) {
+            return redirect(route('admin.mart.index', absolute: false));
+        }
+
         return redirect(route('customer.home.index', absolute: false));
     }
 
