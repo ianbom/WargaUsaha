@@ -23,7 +23,7 @@ class JobApplicantController extends Controller
     }
     public function index()
     {
-        $job_applicant = $this->jobApplicantService->getAllJobApplicantFromJobVacancy();
+        $job_applicant = $this->jobApplicantService->getAllJobApplicantFromJobVacancies();
         return view('web.employer.job_applicant.index', ['job_applicant' => $job_applicant]);
     }
     public function show(JobApplication $jobApplicant)
