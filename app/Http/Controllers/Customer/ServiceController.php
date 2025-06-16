@@ -39,7 +39,6 @@ class ServiceController extends Controller
 
     public function completeServieOrder($orderId){
         DB::beginTransaction();
-        //  dd($serive);
         try {
             $order = Order::findOrFail($orderId);
             $order->update([
@@ -52,7 +51,6 @@ class ServiceController extends Controller
 
         } catch (\Throwable $th) {
             DB::rollBack();
-            // return response()->json(['err' => $th->getMessage()],500);
            return redirect()->back()->with('error',$th->getMessage());
         }
 
