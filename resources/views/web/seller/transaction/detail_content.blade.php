@@ -170,7 +170,7 @@
                     @endif
                 </div>
                 <div>
-                    <button
+                    <a href="{{ route('customer.chat.detail', $groupOrder->user->id) }}"
                         class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-700 transition-colors bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
@@ -179,7 +179,107 @@
                             </path>
                         </svg>
                         Hubungi
-                    </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Alamat Pembeli --}}
+    <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="flex items-center text-lg font-semibold text-gray-900">
+                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Alamat Pembeli
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="flex items-start space-x-4">
+
+                <div class="flex-1">
+
+                    <div class="space-y-2">
+                        @if ($groupOrder->user->address)
+                            <div class="flex items-start">
+                                <svg class="w-4 h-4 mr-2 mt-0.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <p class="text-sm text-gray-700">{{ $groupOrder->user->address }}</p>
+                            </div>
+                        @endif
+
+                        @if ($groupOrder->user->ward && $groupOrder->user->ward->name)
+                            <div class="flex items-start">
+                                <svg class="w-4 h-4 mr-2 mt-0.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <p class="text-sm text-gray-700">
+                                   Kelurahan {{ $groupOrder->user->ward->name }}
+                                    @if ($groupOrder->user->ward->subdistrict)
+                                        , Kecamatan {{ $groupOrder->user->ward->subdistrict->name }}
+                                    @endif
+                                    @if ($groupOrder->user->ward->district && $groupOrder->user->ward->district->city)
+                                        , {{ $groupOrder->user->ward->district->city->name }}
+                                    @endif
+                                    @if ($groupOrder->user->ward->district && $groupOrder->user->ward->district->city && $groupOrder->user->ward->district->city->province)
+                                        , {{ $groupOrder->user->ward->district->city->province->name }}
+                                    @endif
+                                </p>
+                            </div>
+                        @endif
+
+                        @if ($groupOrder->user->location_lat && $groupOrder->user->location_long)
+                            <div class="flex items-start">
+                                <svg class="w-4 h-4 mr-2 mt-0.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                                </svg>
+                                <p class="text-sm text-gray-600">
+                                    Koordinat: {{ number_format($groupOrder->user->location_lat, 6) }}, {{ number_format($groupOrder->user->location_long, 6) }}
+                                </p>
+                            </div>
+                        @endif
+                    </div>
+
+                    @if (!$groupOrder->user->address && !$groupOrder->user->ward)
+                        <div class="flex items-center p-3 mt-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                            <svg class="w-5 h-5 mr-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <p class="text-sm text-yellow-700">Alamat belum dilengkapi</p>
+                        </div>
+                    @endif
+                </div>
+                <div class="flex-shrink-0">
+                    @if ($groupOrder->user->location_lat && $groupOrder->user->location_long)
+                        <a href="https://maps.google.com/maps?q={{ $groupOrder->user->location_lat }},{{ $groupOrder->user->location_long }}"
+                           target="_blank"
+                           class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-white transition-colors bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Lihat Peta
+                        </a>
+                    @else
+                        <button
+                            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-700 transition-colors bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                                </path>
+                            </svg>
+                            Hubungi
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -320,7 +420,7 @@
 
                 @endif
 
-                <button
+                {{-- <button
                     class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -328,7 +428,7 @@
                         </path>
                     </svg>
                     Unduh Invoice
-                </button>
+                </button> --}}
             </div>
         </div>
     @endif
