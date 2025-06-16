@@ -119,8 +119,7 @@ class TransactionController extends Controller
 
 
 
-  public function callBackAfterPayment(Request $request)
-{
+  public function callBackAfterPayment(Request $request){
     Log::info('Webhook berjalan coy');
 
 
