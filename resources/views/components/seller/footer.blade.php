@@ -9,18 +9,21 @@
             <div>
                 <h3 class="mb-2 font-semibold">Navigasi</h3>
                 <ul class="space-y-1 text-sm">
-                    <li><a href="#" class="hover:underline">Beranda</a></li>
-                    <li><a href="#" class="hover:underline">Produk</a></li>
-                    <li><a href="#" class="hover:underline">Jasa</a></li>
-                    <li><a href="#" class="hover:underline">Lowongan Pekerjaan</a></li>
+                    <li><a href="/customer/home" class="hover:underline">Beranda</a></li>
+                    <li><a href="{{ route('customer.home.indexProduct') }}" class="hover:underline">Produk</a></li>
+                    <li><a href="{{ route('customer.home.indexJobVacancy') }}" class="hover:underline">Lowongan
+                            Pekerjaan</a></li>
+                    <li><a href="{{ route('customer.home.indexService') }}" class="hover:underline">Layanan Jasa</a>
+                    </li>
                 </ul>
             </div>
             <div>
                 <h3 class="mb-2 font-semibold">Bantuan</h3>
                 <ul class="space-y-1 text-sm">
-                    <li><a href="#" class="hover:underline">FAQ</a></li>
-                    <li><a href="#" class="hover:underline">Kontak Kami</a></li>
-                    <li><a href="#" class="hover:underline">Panduan Pengguna</a></li>
+                    <li><a href="https://wa.me/6285607543537?text=Halo%20Admin%2C%20saya%20ingin%20bertanya%20tentang%20layanan%20Anda."
+                            class="hover:underline">Kontak Kami</a></li>
+                    <li><a href="https://drive.google.com/drive/folders/1qSCtt9eavxfuOMYa0meUT_9qWHQI3DZk?usp=drive_link"
+                            target="_blank" rel="noopener noreferrer" class="hover:underline">Panduan Pengguna</a></li>
                 </ul>
             </div>
             <div>

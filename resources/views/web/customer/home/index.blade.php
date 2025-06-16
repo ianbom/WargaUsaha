@@ -287,8 +287,8 @@
                                 100% Barang Asli
                             </h3>
                             <p class="leading-relaxed text-center text-gray-600">
-                                Semua produk dijamin original dengan sertifikat keaslian. Tidak ada barang palsu atau
-                                tiruan.
+                                Seluruh produk dijamin 100% original dan autentik. Kami tidak menjual barang palsu.
+
                             </p>
                         </div>
                     </div>
@@ -352,18 +352,34 @@
                         <div class="relative p-8 bg-white shadow-lg rounded-2xl hover:shadow-xl">
                             <div
                                 class="flex items-center justify-center w-16 h-16 mx-auto mb-6 feature-icon rounded-2xl">
-                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor"
+                                {{-- <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
                                     </path>
+                                </svg> --}}
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    class="w-8 h-8 text-white">
+                                    <path
+                                        d="M2 14C2 10.2288 2 8.34315 3.17157 7.17157C4.34315 6 6.22876 6 10 6H14C17.7712 6 19.6569 6 20.8284 7.17157C22 8.34315 22 10.2288 22 14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14Z"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path
+                                        d="M16 6C16 4.11438 16 3.17157 15.4142 2.58579C14.8284 2 13.8856 2 12 2C10.1144 2 9.17157 2 8.58579 2.58579C8 3.17157 8 4.11438 8 6"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path
+                                        d="M17 9C17 9.55228 16.5523 10 16 10C15.4477 10 15 9.55228 15 9C15 8.44772 15.4477 8 16 8C16.5523 8 17 8.44772 17 9Z"
+                                        fill="currentColor" />
+                                    <path
+                                        d="M9 9C9 9.55228 8.55228 10 8 10C7.44772 10 7 9.55228 7 9C7 8.44772 7.44772 8 8 8C8.55228 8 9 8.44772 9 9Z"
+                                        fill="currentColor" />
                                 </svg>
                             </div>
                             <h3 class="mb-4 text-xl font-bold text-center text-gray-900 group-hover:text-purple-600">
-                                Garansi Uang Kembali
+                                Lowongan Pekerjaan
                             </h3>
                             <p class="leading-relaxed text-center text-gray-600">
-                                Jaminan 100% uang kembali jika tidak puas dengan produk atau layanan yang diterima.
+                                Kami membuka peluang kerja untuk Anda yang bersemangat, berdedikasi, dan ingin tumbuh
+                                bersama kami.
                             </p>
                         </div>
                     </div>
@@ -382,7 +398,7 @@
                                 Komunitas Lokal
                             </h3>
                             <p class="leading-relaxed text-center text-gray-600">
-                                Mendukung UMKM Lokal dan masyarakat di daerah Anda.
+                                Kami berkomitmen mendukung UMKM lokal dan memberdayakan masyarakat di wilayah Sidoarjo.
                             </p>
                         </div>
                     </div>
@@ -424,12 +440,10 @@
                             </div>
                         </button>
                         <div class="px-8 text-lg leading-relaxed text-gray-600 faq-content bg-blue-50">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                est laborum.</p>
+                            <p>Anda dapat menjadi penjual dengan mengisi formulir registrasi toko yang tersedia di
+                                platform kami.
+                                Setelah itu, tim admin akan memverifikasi data Anda sebelum akun penjual siap digunakan.
+                            </p>
                         </div>
                     </div>
                     <!-- FAQ 2 -->
@@ -447,15 +461,11 @@
                             </div>
                         </button>
                         <div class="px-8 text-lg leading-relaxed text-gray-600 faq-content bg-blue-50">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                est laborum.</p>
+                            <p>Untuk kemudahan dan keamanan transaksi, kami menggunakan layanan pembayaran Midtrans.
+                                Anda dapat membayar melalui berbagai metode seperti transfer bank, e-wallet, QRIS, dan
+                                kartu kredit.</p>
                         </div>
                     </div>
-
                     <!-- FAQ 3 -->
                     <div class="overflow-hidden bg-white shadow-lg faq-item floating rounded-2xl">
                         <button class="w-full px-8 py-6 text-left focus:outline-none" onclick="toggleFAQ(this)">
@@ -471,12 +481,8 @@
                             </div>
                         </button>
                         <div class="px-8 text-lg leading-relaxed text-gray-600 faq-content bg-blue-50">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                est laborum.</p>
+                            <p>Pengiriman disesuaikan dengan lokasi penerima. Estimasi waktu dan ongkos kirim akan
+                                muncul saat pemesanan.</p>
                         </div>
                     </div>
 
@@ -495,12 +501,11 @@
                             </div>
                         </button>
                         <div class="px-8 text-lg leading-relaxed text-gray-600 faq-content bg-blue-50">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                est laborum.</p>
+                            <p>Jika Anda merasa tidak puas dengan produk atau layanan yang diterima, Anda dapat
+                                memberikan ulasan berisi masukan atau saran perbaikan. Selain itu, Anda juga dapat
+                                langsung menghubungi penjual terkait untuk menyampaikan keluhan atau mencari solusi
+                                bersama.
+                            </p>
                         </div>
                     </div>
                     <!-- FAQ 5 -->
@@ -518,12 +523,8 @@
                             </div>
                         </button>
                         <div class="px-8 text-lg leading-relaxed text-gray-600 faq-content bg-blue-50">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                est laborum.</p>
+                            <p>Untuk saat ini, kami belum menyediakan harga khusus untuk pembelian grosir. Namun, Anda
+                                tetap bisa memesan dalam jumlah banyak dengan harga normal.</p>
                         </div>
                     </div>
 
@@ -561,7 +562,8 @@
                                 WA Admin
                             </a>
 
-                            <a href="#"
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ferdinandargya@gmail.com"
+                                target="_blank" rel="noopener noreferrer"
                                 class="inline-flex items-center gap-2 px-6 py-3 font-medium text-purple-700 transition-all duration-300 bg-white rounded-full hover:border hover:scale-105">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

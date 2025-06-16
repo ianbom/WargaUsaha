@@ -20,12 +20,6 @@
                     <div
                         class="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20">
                     </div>
-                    {{-- <div class="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
-
-                        <div class="mt-24 hidden w-full max-w-[430px] lg:block">
-                            <img src="/assets/images/auth/login.svg" alt="Cover Image" class="w-full" />
-                        </div>
-                    </div> --}}
                     <div class="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
                         <a href="/" class="flex items-center w-48 gap-3 lg:w-72 ms-10">
                             <p class="w-full text-5xl font-bold text-gradient">WargaUsaha</p>
@@ -34,8 +28,6 @@
                             <img src="/assets/images/auth/login.svg" alt="Cover Image" class="w-full" />
                         </div>
                     </div>
-
-
                 </div>
                 <div
                     class="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
@@ -85,7 +77,7 @@
                                 <label for="Email">Email</label>
                                 <div class="relative text-white-dark">
                                     <input id="Email" type="email" name="email"
-                                        placeholder="Masukkan email anda"
+                                        placeholder="Masukkan Email Anda"
                                         class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute -translate-y-1/2 start-4 top-1/2">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -106,7 +98,7 @@
                                 <label for="Password">Password</label>
                                 <div class="relative text-white-dark">
                                     <input id="Password" type="password" name="password"
-                                        placeholder="Masukkan Password anda"
+                                        placeholder="Masukkan Password Anda"
                                         class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute -translate-y-1/2 start-4 top-1/2">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">

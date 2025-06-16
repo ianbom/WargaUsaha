@@ -45,17 +45,17 @@
                             @break
 
                             @case('Shipped')
-                            <span class="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
-                                <!-- Heroicon: Truck -->
-                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 17h6M3 13V6a1 1 0 011-1h10a1 1 0 011 1v7h3.586a1 1 0 01.707.293l1.414 1.414a1 1 0 01.293.707V18a1 1 0 01-1 1h-1a2 2 0 11-4 0H9a2 2 0 11-4 0H4a1 1 0 01-1-1v-5z" />
-                                </svg>
-                                Dikirim
-                            </span>
-                        @break
-
+                                <span
+                                    class="inline-flex items-center px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full">
+                                    <!-- Heroicon: Truck -->
+                                    <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 17h6M3 13V6a1 1 0 011-1h10a1 1 0 011 1v7h3.586a1 1 0 01.707.293l1.414 1.414a1 1 0 01.293.707V18a1 1 0 01-1 1h-1a2 2 0 11-4 0H9a2 2 0 11-4 0H4a1 1 0 01-1-1v-5z" />
+                                    </svg>
+                                    Dikirim
+                                </span>
+                            @break
 
                             @case('Processing')
                                 <span
@@ -108,56 +108,59 @@
                 <div class="space-y-6 lg:col-span-2">
                     <!-- Group Order Summary -->
                     <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
-                        <div class="px-6 py-4 border-b border-gray-200">
-                            <h3 class="flex items-center text-lg font-semibold text-gray-900">
-                                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
+                        <div class="px-4 py-4 border-b border-gray-200 sm:px-6">
+                            <h3 class="flex items-center text-base font-semibold text-gray-900 sm:text-lg">
+                                <svg class="flex-shrink-0 w-4 h-4 mr-2 text-blue-600 sm:w-5 sm:h-5" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                    </path>
                                 </svg>
                                 Informasi Penjual
                             </h3>
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0">
-                                    @if ($groupOrder->mart->user->profile_pic)
-                                        <!-- Tampilkan gambar profil jika ada -->
-                                        <img class="object-cover w-12 h-12 border border-gray-200 rounded-full"
-                                            src="{{ asset('storage/' . $groupOrder->mart->user->profile_pic) }}"
-                                            alt="{{ $groupOrder->mart->user->name }}">
-                                    @else
-                                        <!-- Tampilkan inisial jika tidak ada gambar profil -->
-                                        <div
-                                            class="flex items-center justify-center w-12 h-12 bg-gray-300 rounded-full">
-                                            <span class="text-sm font-medium text-gray-700">
-                                                {{ strtoupper(substr($groupOrder->mart->user->name, 0, 1)) }}
-                                            </span>
-                                        </div>
-                                    @endif
+                        <div class="p-4 sm:p-6">
+                            <div class="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4">
+                                <div class="flex items-center space-x-4 sm:space-x-0">
+                                    <div class="flex-shrink-0">
+                                        @if ($groupOrder->mart->user->profile_pic)
+                                            <img class="object-cover w-12 h-12 border border-gray-200 rounded-full"
+                                                src="{{ asset('storage/' . $groupOrder->mart->user->profile_pic) }}"
+                                                alt="{{ $groupOrder->mart->user->name }}">
+                                        @else
+                                            <div
+                                                class="flex items-center justify-center w-12 h-12 bg-gray-300 rounded-full">
+                                                <span class="text-sm font-medium text-gray-700">
+                                                    {{ strtoupper(substr($groupOrder->mart->user->name, 0, 1)) }}
+                                                </span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="flex-1 sm:ml-4">
+                                        <h4 class="text-base font-medium text-gray-900 sm:text-lg">
+                                            {{ $groupOrder->mart->user->name }}</h4>
+                                        <p class="text-xs text-gray-600 break-all sm:text-sm">
+                                            {{ $groupOrder->mart->user->email }}</p>
+                                        @if ($groupOrder->mart->user->phone)
+                                            <p class="text-sm text-gray-600">{{ $groupOrder->mart->user->phone }}
+                                            </p>
+                                        @endif
+                                        <a href="{{ route('customer.home.showSeller', $groupOrder->mart->user->id) }}"
+                                            class="inline-block mt-1 text-xs font-semibold text-blue-600 sm:text-sm hover:text-blue-900">
+                                            Lihat Profil
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="flex-1">
-                                    <h4 class="text-lg font-medium text-gray-900">{{ $groupOrder->mart->user->name }}
-                                    </h4>
-                                    <p class="text-sm text-gray-600">{{ $groupOrder->mart->user->email }}</p>
-                                    @if ($groupOrder->mart->user->phone)
-                                        <p class="text-sm text-gray-600">{{ $groupOrder->mart->user->phone }}</p>
-                                    @endif
-                                    <a href="{{ route('customer.home.showSeller', $groupOrder->mart->user->id) }}"
-                                        class="text-sm font-semibold text-blue-600 hover:text-blue-900">Lihat
-                                        Profil</a>
-
-                                </div>
-                                <div>
+                                <div class="flex justify-end w-full sm:justify-start sm:flex-shrink-0 sm:w-auto">
                                     <a href="{{ route('customer.chat.detail', $groupOrder->mart->user->id) }}"
-                                        class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-700 transition-colors bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
+                                        class="inline-flex items-center justify-center w-full px-3 py-2 text-xs font-medium leading-4 text-gray-700 transition-colors bg-white border border-gray-300 rounded-md shadow-sm sm:text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto">
+                                        <svg class="flex-shrink-0 w-4 h-4 mr-2" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
                                             </path>
                                         </svg>
-                                        Hubungi
+                                        <span class="truncate">Hubungi</span>
                                     </a>
                                 </div>
                             </div>
@@ -180,66 +183,8 @@
 
                             @foreach ($groupOrder->orders as $order)
                                 <div class="p-6 border-b border-gray-100 last:border-b-0">
-                                    <div class="flex items-start space-x-4">
-                                        <!-- Product Image -->
-                                        {{-- <div class="flex-shrink-0">
-                                            <div
-                                                class="flex items-center justify-center w-20 h-20 overflow-hidden bg-gray-200 rounded-lg">
-                                                <img src="{{ asset('storage/' . $order->product->image_url) }}"
-                                                    alt="{{ $order->product->name }}"
-                                                    class="object-cover w-full h-full">
-                                            </div>
-                                        </div> --}}
-
-                                        <!-- Product Details -->
-                                        {{-- <div class="flex-1">
-                                            <div class="flex items-start justify-between">
-                                                <div class="flex-1 pr-4">
-                                                    <h4 class="text-lg font-medium text-gray-900">
-                                                        {{ $order->product->name }}</h4>
-                                                    <p class="mt-1 text-sm text-gray-600">
-                                                        {{ $order->product->description ?? 'Tidak ada deskripsi' }}</p>
-
-                                                    <div class="grid grid-cols-1 gap-4 mt-3 text-sm sm:grid-cols-2">
-                                                        <div>
-                                                            <span class="font-medium text-gray-700">Kategori:</span>
-                                                            <span
-                                                                class="text-gray-600">{{ $order->product->category->name ?? 'Tidak dikategorikan' }}</span>
-                                                        </div>
-                                                        <div>
-                                                            <span class="font-medium text-gray-700">SKU:</span>
-                                                            <span
-                                                                class="text-gray-600">{{ $order->product->sku ?? 'N/A' }}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Pricing Information -->
-                                                <div class="flex-shrink-0 text-right">
-                                                    <div class="space-y-2">
-                                                        <div class="text-sm text-gray-600">
-                                                            <span class="font-medium">Qty:</span>
-                                                            <span
-                                                                class="ml-1 font-semibold text-gray-900">{{ $order->quantity ?? 1 }}</span>
-                                                        </div>
-                                                        <div class="text-sm text-gray-600">
-                                                            <span class="font-medium">Harga Satuan:</span>
-                                                            <div class="font-semibold text-gray-900">
-                                                                Rp
-                                                                {{ number_format($order->unit_price ?? ($order->product->price ?? 0), 0, ',', '.') }}
-                                                            </div>
-                                                        </div>
-                                                        <div class="pt-2 border-t border-gray-200">
-                                                            <div class="text-sm font-medium text-gray-700">Total:</div>
-                                                            <div class="text-lg font-bold text-blue-600">
-                                                                Rp
-                                                                {{ number_format(($order->quantity ?? 1) * ($order->unit_price ?? ($order->product->price ?? 0)), 0, ',', '.') }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> --}}
+                                    {{-- <div class="flex items-start space-x-4"> --}}
+                                    <div class="flex max-w-full space-x-4 overflow-x-auto">
                                         <div class="flex-1">
                                             <div
                                                 class="flex items-start justify-between p-6 transition-all duration-200 bg-white border border-gray-200 shadow-sm rounded-xl hover:shadow-md">
@@ -260,7 +205,8 @@
                                                         </p>
                                                     </div>
                                                     <!-- Product Details Grid -->
-                                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                                    {{-- <div class="grid grid-cols-1 gap-4 sm:grid-cols-2"> --}}
+                                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 min-w-[200px]">
                                                         <div class="flex items-center gap-3 p-3 rounded-lg bg-gray-50">
                                                             <div class="flex-shrink-0">
                                                                 <svg class="w-4 h-4 text-gray-500" fill="none"
@@ -274,7 +220,7 @@
                                                             <div class="flex-1 min-w-0">
                                                                 <span
                                                                     class="text-xs font-medium tracking-wide text-gray-500 uppercase">Kategori</span>
-                                                                <p class="text-sm font-medium text-gray-900 truncate">
+                                                                <p class="text-sm font-medium text-gray-900 break-words">
                                                                     {{ $order->product->category->name ?? 'Tidak dikategorikan' }}
                                                                 </p>
                                                             </div>
@@ -327,7 +273,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             @endforeach
@@ -486,7 +431,7 @@
                 </div>
 
                 <!-- Sidebar -->
-               <div class="space-y-6 pb-8 mb-8">
+                <div class="pb-8 mb-8 space-y-6">
                     <!-- Group Order Summary -->
                     <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
                         <div class="px-6 py-4 border-b border-gray-200">
@@ -532,7 +477,7 @@
                     </div>
 
                     <!-- Actions -->
-                  @if ($groupOrder->order_status != 'Completed' && $groupOrder->order_status != 'Cancelled')
+                    @if ($groupOrder->order_status != 'Completed' && $groupOrder->order_status != 'Cancelled')
 
                         <div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
                             <div class="px-6 py-4 border-b border-gray-200">
@@ -540,7 +485,7 @@
                             </div>
                             <div class="p-6 space-y-3">
                                 @if ($groupOrder->order_status == 'Paid' || $groupOrder->order_status == 'Processing')
-                                     <form action="{{ route('customer.order.complete', $groupOrder) }}" method="POST"
+                                    <form action="{{ route('customer.order.complete', $groupOrder) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan pesanan ini?')">
                                         @csrf
                                         @method('PUT')
@@ -553,7 +498,7 @@
                                                     d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
                                                 </path>
                                             </svg>
-                                           Selesaikan Pesanan
+                                            Selesaikan Pesanan
                                         </button>
                                     </form>
                                 @endif
@@ -581,8 +526,7 @@
                                 </button> --}}
                             </div>
                         </div>
-                        @else
-
+                    @else
                     @endif
 
 
@@ -657,7 +601,8 @@
                                                                 {{ $groupOrder->order_status == 'Cancelled' ? 'Group Order dibatalkan' : 'Pembayaran dikonfirmasi' }}
                                                             </p>
                                                         </div>
-                                                        <div class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                        <div
+                                                            class="text-sm text-right text-gray-500 whitespace-nowrap">
                                                             {{ $groupOrder->updated_at->format('d M Y, H:i') }}
                                                         </div>
                                                     </div>
@@ -668,7 +613,8 @@
 
                                     @if (in_array($groupOrder->order_status, ['Shipped', 'Completed']))
                                         <li>
-                                            <div class="relative {{ $groupOrder->order_status == 'Completed' ? 'pb-8' : '' }}">
+                                            <div
+                                                class="relative {{ $groupOrder->order_status == 'Completed' ? 'pb-8' : '' }}">
                                                 @if ($groupOrder->order_status == 'Completed')
                                                     <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
                                                         aria-hidden="true"></span>
@@ -677,7 +623,8 @@
                                                     <div>
                                                         <span
                                                             class="flex items-center justify-center w-8 h-8 bg-purple-500 rounded-full ring-8 ring-white">
-                                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                                                            <svg class="w-5 h-5 text-white" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
                                                                 viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     d="M8 7l4-4m0 0l4 4m-4-4v18M3 17l3 3 3-3m0 0V7" />
@@ -689,9 +636,10 @@
                                                             <p class="text-sm text-gray-500">Pesanan dikirim</p>
 
                                                         </div>
-                                                        <div class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                        <div
+                                                            class="text-sm text-right text-gray-500 whitespace-nowrap">
                                                             @if ($groupOrder->shipped_at)
-                                                               {{ \Carbon\Carbon::parse($groupOrder->shipped_at)->translatedFormat('d F Y, H:i') }}
+                                                                {{ \Carbon\Carbon::parse($groupOrder->shipped_at)->translatedFormat('d F Y, H:i') }}
                                                             @else
                                                                 {{ $groupOrder->updated_at->format('d M Y, H:i') }}
                                                             @endif
@@ -722,9 +670,10 @@
                                                             <p class="text-sm text-gray-500"> Order selesai</p>
 
                                                         </div>
-                                                        <div class="text-sm text-right text-gray-500 whitespace-nowrap">
+                                                        <div
+                                                            class="text-sm text-right text-gray-500 whitespace-nowrap">
                                                             @if ($groupOrder->completed_at)
-                                                            {{ \Carbon\Carbon::parse($groupOrder->completed_at)->translatedFormat('d F Y, H:i') }}
+                                                                {{ \Carbon\Carbon::parse($groupOrder->completed_at)->translatedFormat('d F Y, H:i') }}
                                                             @else
                                                                 {{ $groupOrder->updated_at->format('d M Y, H:i') }}
                                                             @endif
