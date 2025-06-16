@@ -3,7 +3,7 @@
     <script src="/assets/js/simple-datatables.js"></script>
 
     <div class="mb-2">
-         @include('web.admin.alert.success')
+         @include('web.seller.alert.success')
     </div>
 
     <div x-data="productDetail">

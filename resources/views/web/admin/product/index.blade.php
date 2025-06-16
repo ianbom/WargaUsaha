@@ -19,12 +19,6 @@
                 <h5 class="font-semibold text-lg">Daftar Produk</h5>
             </div>
 
-            <a href="{{ route('admin.product.create') }}" class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-                Tambah Produk Baru
-            </a>
         </div>
 
         <div class="panel mt-6">
@@ -94,8 +88,8 @@
                             </div>
                         </td>
                         <td>
-                            <span class="px-2 py-1 text-xs rounded-full {{ ($item->stock ?? 0) > 10 ? 'bg-green-100 text-green-800' : (($item->stock ?? 0) > 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
-                                {{ $item->stock ?? 0 }} unit
+                            <span class="px-2 py-1 text-xs rounded-full ">
+                                {{ $item->stock ?? 0 }}
                             </span>
                         </td>
                         <td>
