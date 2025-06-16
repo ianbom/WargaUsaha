@@ -74,10 +74,7 @@
                                                     {{ $order->service->description ?? 'Tidak ada deskripsi' }}
                                                 </p>
                                                 <div class="grid grid-cols-1 gap-4 mt-3 text-sm sm:grid-cols-2">
-                                                    <div>
-                                                        <span class="font-medium text-gray-700">Durasi:</span>
-                                                        <span class="text-gray-600">{{ $order->service->duration ?? 'Tidak ditentukan' }}</span>
-                                                    </div>
+
                                                     <div>
                                                         <span class="font-medium text-gray-700">Kategori:</span>
                                                         <span class="text-gray-600">{{ $order->service->category->name ?? 'Tidak dikategorikan' }}</span>

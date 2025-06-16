@@ -55,6 +55,8 @@ class TransactionController extends Controller
     }
 
     public function showService(Order $order){
+
+        // dd($order->service);
         return view('web.seller.transaction.detail_service', ['order'=> $order]);
     }
 

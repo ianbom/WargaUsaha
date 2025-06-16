@@ -110,6 +110,7 @@ Route::middleware('auth')->prefix('customer')->as('customer.')->group(function (
     Route::resource('transaction', CustomerTransactionController::class);
     Route::resource('message', CustomerMessageController::class);
     Route::resource('service', CustomerServiceController::class);
+    Route::put('complete/service/{orderId}', [CustomerServiceController::class, 'completeServieOrder'])->name('service.complete');
     Route::get('chat/{user}', [CustomerMessageController::class, 'chat'])->name('chat.detail');
 
     // Route::get('chat', IndexChat::class)->name('chat');
