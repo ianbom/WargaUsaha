@@ -15,7 +15,8 @@
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center w-24 h-24 border-2 rounded-full shadow-lg border-gray-50">
-                                <img src="{{ asset('storage/' . $seller->profile_pic) }}">
+                                <img src="{{ asset('storage/' . $seller->profile_pic) }}"
+                                    class="object-cover w-full h-full rounded-full" />
                             </div>
                         </div>
 
