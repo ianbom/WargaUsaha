@@ -50,7 +50,17 @@ class JobApplicantService extends Service
     public function getAllJobApplicantFromJobVacancy()
     {
         $jobApplications = JobApplication::with(['jobVacancy.jobCategory'])
-            ->where('user_id', '!=', Auth::id()) // exclude user yang login
+            ->where('user_id', Auth::id())
+            ->get();
+
+        return $jobApplications;
+    }
+    public function getAllJobApplicantFromJobVacancies()
+    {
+        $jobApplications = JobApplication::with(['jobVacancy.jobCategory'])
+            ->whereHas('jobVacancy', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
             ->get();
 
         return $jobApplications;
