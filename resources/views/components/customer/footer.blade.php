@@ -4,7 +4,7 @@
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
             <div>
                 <h2 class="mb-2 text-xl font-semibold">WargaUsaha</h2>
-                <p class="text-sm">Platform kolaborasi warga dan UMKM Kota Blitar.</p>
+                <p class="text-sm">Platform kolaborasi warga dan UMKM Kabupaten Sidoarjo.</p>
             </div>
             <div>
                 <h3 class="mb-2 font-semibold">Navigasi</h3>

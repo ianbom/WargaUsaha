@@ -484,7 +484,7 @@
                                 <h3 class="text-lg font-semibold text-gray-900">Aksi</h3>
                             </div>
                             <div class="p-6 space-y-3">
-                                @if ($groupOrder->order_status == 'Paid' || $groupOrder->order_status == 'Processing')
+                                @if ($groupOrder->order_status == 'Paid' || $groupOrder->order_status == 'On-Proses' || $groupOrder->order_status == 'Shipped')
                                     <form action="{{ route('customer.order.complete', $groupOrder) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menyelesaikan pesanan ini?')">
                                         @csrf
