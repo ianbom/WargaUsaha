@@ -29,9 +29,6 @@ class PaymentController extends Controller
             // return response()->json(['err' => $th->getMessage()]);
             return redirect()->back()->with('error', $th->getMessage());
         }
-
-
-
     }
 
     /**
