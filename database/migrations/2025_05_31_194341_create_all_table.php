@@ -63,6 +63,7 @@ return new class extends Migration
             $table->integer('total_rating')->default(0);
             $table->decimal('average_rating', 6, 2)->default(0);
             $table->boolean('is_published')->default(true);
+            $table->integer('weight')->default(100);
             $table->timestamps();
         });
 
@@ -117,6 +118,8 @@ return new class extends Migration
             $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('quantity_total')->nullable();
+            $table->integer('weight_total')->nullable();
 
             $table->string('shipping_method')->nullable();
             $table->decimal('shipping_cost', 12,2)->nullable();

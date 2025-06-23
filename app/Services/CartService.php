@@ -16,15 +16,14 @@ use Midtrans\Snap;
 
 class CartService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
+    protected $cekOngkirService;
+    public function __construct(CekOngkirSerivce $cekOngkirSerivce)
     {
-          Config::$serverKey = config('midtrans.server_key');
+        Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = config('midtrans.is_production');
         Config::$isSanitized = true;
         Config::$is3ds = true;
+        $this->cekOngkirService = $cekOngkirSerivce;
     }
 
     public function getCartByUserLogin(){
@@ -70,6 +69,7 @@ class CartService
             ->join('products', 'carts.product_id', '=', 'products.id')
             ->join('marts', 'products.mart_id', '=', 'marts.id')
             ->join('users', 'marts.user_id', '=', 'users.id')
+            ->join('wards', 'users.ward_id', '=', 'wards.id')
             ->whereIn('carts.id', $cartIds)
             ->select(
                 'carts.*',
@@ -77,10 +77,14 @@ class CartService
                 'products.price as current_price',
                 'products.mart_id',
                 'products.stock',
+                'products.weight',
                 'marts.name as mart_name',
                 'users.name as seller_name',
-                'users.id as seller_id'
-
+                'users.id as seller_id',
+                'users.ward_id as seller_ward_id',
+                'wards.subdistrict_id as seller_subdistrict_id',
+                'users.location_lat as seller_latitude',
+                'users.location_long as seller_longitude',
             )
             ->get();
 
@@ -94,29 +98,61 @@ class CartService
     }
 
     public function calculateGroupOrders(Collection $groupedCarts, array $cartItems, float $defaultShippingCost): array
-    {
-        $grandTotal = 0;
-        $allGroupOrders = [];
+{
+    $user = Auth::user();
+    $grandTotal = 0;
+    $allGroupOrders = [];
 
-        foreach ($groupedCarts as $martId => $martCarts) {
-            $subTotal = $this->calculateMartSubTotal($martCarts, $cartItems);
-            $totalPrice = $subTotal + $defaultShippingCost;
-            $grandTotal += $totalPrice;
+    if (!$user->location_lat || !$user->location_long) {
+         throw new Exception("User location is not set.");
+    }
 
-            $allGroupOrders[] = [
-                'mart_id' => $martId,
-                'sub_total' => $subTotal,
-                'total_price' => $totalPrice,
-                'carts' => $martCarts,
-                'shipping_cost' => $defaultShippingCost
-            ];
+    foreach ($groupedCarts as $martId => $martCarts) {
+
+        $quantityTotal = 0;
+        $weightTotal = 0;
+
+        foreach ($martCarts as $cartItem) {
+
+            $quantityTotal += $cartItem->quantity;
+
+            if ( $cartItem->weight) {
+                $weightTotal += ($cartItem->weight * $cartItem->quantity);
+            }
         }
 
-        return [
-            'group_orders' => $allGroupOrders,
-            'grand_total' => $grandTotal
+        $firstItemCart = $martCarts->first();
+        $sellerLat = $firstItemCart->seller_latitude;
+        $sellerLong = $firstItemCart->seller_longitude;
+        $subTotal = $this->calculateMartSubTotal($martCarts, $cartItems);
+        $items = ['name' => $firstItemCart->seller_name,
+                    'value' => $subTotal,
+                    'quantity' => $quantityTotal,
+                    'weight' => $weightTotal];
+        // dd($items);
+
+        $defaultShippingCost = $this->cekOngkirService->getGojekRates($user->location_lat, $user->location_long, $sellerLat, $sellerLong, $items);
+        $defaultShippingCost = $defaultShippingCost['price'];
+
+        $totalPrice = $subTotal + $defaultShippingCost;
+        $grandTotal += $totalPrice;
+
+        $allGroupOrders[] = [
+            'mart_id' => $martId,
+            'quantity_total' => $quantityTotal,
+            'weight_total' => $weightTotal,
+            'sub_total' => $subTotal,
+            'total_price' => $totalPrice,
+            'carts' => $martCarts,
+            'shipping_cost' => $defaultShippingCost
         ];
     }
+
+    return [
+        'group_orders' => $allGroupOrders,
+        'grand_total' => $grandTotal
+    ];
+}
 
 
     private function calculateMartSubTotal(Collection $martCarts, array $cartItems): float

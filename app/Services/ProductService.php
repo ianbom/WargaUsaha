@@ -84,38 +84,38 @@ class ProductService extends Service
         return Product::create($data);
     }
 
-    public function queryListProduct(array $filters = [])
-    {
-        $allowedFilters = [
-            'products.name' => 'like',
-            'products.product_category_id' => 'value',
-            'products.price' => 'range',
-            'marts.is_active' => 'value',
+   public function queryListProduct(array $filters = [])
+{
+    $allowedFilters = [
+        'products.name' => 'like',
+        'products.product_category_id' => 'value',
+        'products.price' => 'range',
+        'marts.is_active' => 'value',
+        'users.ward_id' => 'value',
+    ];
 
-        ];
+    $selectColumns = [
+        'products.*',
+        'product_categories.name as category_name',
+        'marts.name as mart_name',
+        'users.name as user_name',
+        'ward_id'
+    ];
 
-        $selectColumns = [
-            'products.*',
-            'product_categories.name as category_name',
-            'marts.name as mart_name',
+    $query = Product::select($selectColumns)
+        ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+        ->join('marts', 'products.mart_id', '=', 'marts.id')
+        ->join('users', 'marts.user_id', '=', 'users.id') // Perbaikan di sini
+        ->orderBy('products.id', 'desc');
 
+    $query = $this->applyFilters($query, $filters, $allowedFilters);
 
-        ];
+    $query->with([
+        'category'
+    ]);
 
-        $query = Product::select($selectColumns)
-            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-            ->join('marts', 'products.mart_id', '=', 'marts.id')
-            ->orderBy('products.id', 'desc');
-
-
-        $query = $this->applyFilters($query, $filters, $allowedFilters);
-
-        $query->with([
-            'category'
-        ]);
-
-        return $query;
-    }
+    return $query;
+}
 
     public function getListProduct(array $filters = [], int $perPage = null, int $page = null)
     {
@@ -133,6 +133,10 @@ class ProductService extends Service
 
         if ($request->filled('name')) {
             $filters['products.name'] = $request->input('name');
+        }
+
+        if ($request->filled('ward_id')) {
+            $filters['users.ward_id'] = $request->input('ward_id');
         }
 
         if ($request->filled('product_category_id')) {
