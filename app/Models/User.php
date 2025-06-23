@@ -3,16 +3,18 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\JobApplication;
 use App\Models\JobVacancy;
+use App\Traits\HasCoordinates;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasCoordinates;
 
     /**
      * The attributes that are mass assignable.
@@ -90,5 +92,27 @@ class User extends Authenticatable
     public function jobVacancies()
     {
         return $this->hasMany(JobVacancy::class, 'user_id');
+    }
+
+    public function isProfileComplete(): bool
+    {
+        $requiredFields = [
+           'ward_id',
+            'name',
+            'email',
+            'password',
+            'phone',
+            'address',
+            'location_lat',
+            'location_long',
+        ];
+
+        foreach ($requiredFields as $field) {
+            if (empty($this->$field)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -11,6 +11,7 @@ use App\Models\ServiceCategory;
 use App\Models\User;
 use App\Models\JobVacancy;
 use App\Models\JobVacancyCategory;
+use App\Models\Ward;
 use App\Services\MartService;
 use App\Services\ProductService;
 use App\Services\ServiceService;
@@ -18,6 +19,7 @@ use App\Services\JobVacancyService;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as RequestPagination;
 
@@ -40,6 +42,12 @@ class HomeController extends Controller
     {
         $categories = ProductCategory::all();
         $products = $this->productService->getAllProduct();
+
+        $user = Auth::user();
+    
+
+
+
         return view('web.customer.home.index', ['products' => $products, 'categories' => $categories]);
     }
     public function indexProduct(Request $request)
@@ -52,6 +60,7 @@ class HomeController extends Controller
 
             $result = $this->productService->getListProduct($filters, $perPage, $page);
             $products = $result['data'];
+            // dd($products);
             $products = new LengthAwarePaginator(
                 $result['data'],
                 $result['meta']['total'],
@@ -60,8 +69,9 @@ class HomeController extends Controller
                 ['path' => RequestPagination::url()]
             );
             $categories = ProductCategory::orderBy('name', 'asc')->get();
-
-            return view('web.customer.home.product.index', ['products' => $products, 'categories' => $categories, 'filters' => $filters]);
+            $wards = Ward::orderBy('name', 'asc')->get();
+            return view('web.customer.home.product.index', [
+                'products' => $products, 'categories' => $categories, 'filters' => $filters, 'wards' => $wards]);
         } catch (\Throwable $th) {
             Log::error('Error fetching products: ' . $th->getMessage());
             return response()->json(['err' => $th->getMessage()], 500);
@@ -96,8 +106,8 @@ class HomeController extends Controller
                 ['path' => RequestPagination::url()]
             );
             $categories = ServiceCategory::orderBy('name', 'asc')->get();
-
-            return view('web.customer.home.service.index', ['services' => $services, 'categories' => $categories, 'filters' => $filters]);
+            $wards = Ward::orderBy('name', 'asc')->get();
+            return view('web.customer.home.service.index', ['services' => $services, 'categories' => $categories, 'filters' => $filters, 'wards' => $wards]);
         } catch (\Throwable $th) {
             Log::error('Error fetching products: ' . $th->getMessage());
             return response()->json(['err' => $th->getMessage()], 500);

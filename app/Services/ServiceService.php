@@ -72,18 +72,22 @@ class ServiceService extends Service
            'services.title' => 'like',
            'services.service_category_id' => 'value',
            'services.price' => 'range',
+           'users.ward_id' => 'value',
 
         ];
 
         $selectColumns = [
            'services.*',
            'service_categories.name as category_name',
+           'users.name as user_name',
+           'users.ward_id'
 
 
         ];
 
         $query = ServiceModel::select($selectColumns)
         ->join('service_categories', 'services.service_category_id', '=', 'service_categories.id')
+        ->join('users', 'services.user_id', '=', 'users.id')
         ->orderBy('services.id', 'desc');
 
 
@@ -110,6 +114,10 @@ class ServiceService extends Service
 
         if ($request->filled('title')) {
             $filters['services.title'] = $request->input('title');
+        }
+
+        if ($request->filled('ward_id')) {
+            $filters['users.ward_id'] = $request->input('ward_id');
         }
 
         if ($request->filled('service_category_id')) {

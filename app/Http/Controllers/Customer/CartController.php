@@ -7,6 +7,7 @@ use App\Http\Requests\CartRequest;
 use App\Jobs\WhatsappJob;
 use App\Models\Cart;
 use App\Services\CartService;
+use App\Services\CekOngkirSerivce;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,11 @@ use Str;
 class CartController extends Controller
 {
     protected $cartService;
+    protected $cekOngkirService;
 
-    public function __construct(CartService $cartService){
+    public function __construct(CartService $cartService, CekOngkirSerivce $cekOngkirService){
         $this->cartService = $cartService;
+        $this->cekOngkirService = $cekOngkirService;
     }
 
 
@@ -294,6 +297,25 @@ class CartController extends Controller
         }
 
         return $summary;
+    }
+
+    public function checkOngkir(){
+        $oriLat = -7.330202;
+        $oriLong = 112.744858;
+        $desLat = -7.326925;
+        $desLong = 112.741581;
+        $items = ['name' => 'Bomm xxx',
+                    'value' => 50000,
+                    'quantity' => 1,
+                    'weight' => 100];
+
+        try {
+        $harga = $this->cekOngkirService->getGojekRates($oriLat, $oriLong, $desLat, $desLong, $items);
+        return response()->json(['harga' => $harga['price']]);
+        } catch (Exception $th) {
+        return response()->json(['err' => $th->getMessage()]);
+        }
+
     }
 
 }

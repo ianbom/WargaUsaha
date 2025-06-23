@@ -56,7 +56,9 @@ class Service
                             $query = $query->where($field, 'LIKE', "%{$value}%");
                         }
                         break;
-
+                    case 'not_value': // <-- Tambahkan kasus ini
+                        $query->where($field, '!=', $value);
+                        break;
                     case '>=':
                         $this->applyOperatorFilter($query, $field, $value, '>=');
                         break;

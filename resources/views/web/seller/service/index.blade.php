@@ -112,6 +112,7 @@
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("servicesTable", () => ({
+        
                 init() {
                     const tableOptions = {
                         searchable: true,
@@ -155,31 +156,8 @@
                     const servicesTable = new simpleDatatables.DataTable('#servicesTable',
                         tableOptions);
 
-                    // Konfirmasi hapus layanan
-                    document.querySelectorAll('.delete-btn').forEach(button => {
-                        button.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const form = this.closest('form');
 
-                            Swal.fire({
-                                title: 'Hapus Layanan?',
-                                text: "Anda tidak akan dapat mengembalikan ini!",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Ya, Hapus!',
-                                cancelButtonText: 'Batal',
-                                customClass: {
-                                    confirmButton: 'btn btn-danger',
-                                    cancelButton: 'btn btn-outline-secondary ml-2'
-                                },
-                                buttonsStyling: false
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    form.submit();
-                                }
-                            });
-                        });
-                    });
+
                 }
             }));
         });

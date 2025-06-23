@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\PaymentController;
 use App\Http\Controllers\Customer\TransactionController;
 use Illuminate\Http\Request;
@@ -12,3 +13,5 @@ Route::get('/user', function (Request $request) {
 
 Route::post('callback', [TransactionController::class, 'callBackAfterPayment']);
 Route::post('checkPayment', [PaymentController::class, 'checkStatus']);
+
+Route::post('cekOngkir', [CartController::class, 'checkOngkir']);
