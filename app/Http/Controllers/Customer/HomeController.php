@@ -19,6 +19,7 @@ use App\Services\JobVacancyService;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request as RequestPagination;
 
@@ -41,6 +42,12 @@ class HomeController extends Controller
     {
         $categories = ProductCategory::all();
         $products = $this->productService->getAllProduct();
+
+        $user = Auth::user();
+    
+
+
+
         return view('web.customer.home.index', ['products' => $products, 'categories' => $categories]);
     }
     public function indexProduct(Request $request)

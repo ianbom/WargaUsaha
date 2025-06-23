@@ -92,6 +92,7 @@ class ProductService extends Service
         'products.price' => 'range',
         'marts.is_active' => 'value',
         'users.ward_id' => 'value',
+        'users.id' => 'not_value',
     ];
 
     $selectColumns = [
@@ -99,6 +100,7 @@ class ProductService extends Service
         'product_categories.name as category_name',
         'marts.name as mart_name',
         'users.name as user_name',
+        'users.id as user_id',
         'ward_id'
     ];
 
@@ -128,12 +130,17 @@ class ProductService extends Service
     public function buildFilters($request)
     {
         $filters = [];
+        $user = Auth::user();
 
-
+        if ($user && $user->id) {
+        $filters['users.id'] = $user->id; // <-- Perubahan di sini
+    }
 
         if ($request->filled('name')) {
             $filters['products.name'] = $request->input('name');
         }
+
+
 
         if ($request->filled('ward_id')) {
             $filters['users.ward_id'] = $request->input('ward_id');

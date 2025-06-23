@@ -93,4 +93,26 @@ class User extends Authenticatable
     {
         return $this->hasMany(JobVacancy::class, 'user_id');
     }
+
+    public function isProfileComplete(): bool
+    {
+        $requiredFields = [
+           'ward_id',
+            'name',
+            'email',
+            'password',
+            'phone',
+            'address',
+            'location_lat',
+            'location_long',
+        ];
+
+        foreach ($requiredFields as $field) {
+            if (empty($this->$field)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

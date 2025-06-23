@@ -118,6 +118,7 @@
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("ordersTable", () => ({
+            selectedTransaction: null,
                 init() {
                     const tableOptions = {
                         searchable: true,
@@ -140,7 +141,7 @@
                             },
                             {
                                 select: 3,
-                              
+
                             },
                             {
                                 select: 4
@@ -156,6 +157,14 @@
                     };
 
                     const ordersTable = new simpleDatatables.DataTable('#ordersTable', tableOptions);
+                     document.getElementById('statusFilter').addEventListener('change', (e) => {
+                        const status = e.target.value;
+                        if (status) {
+                            withdrawTable.search(status);
+                        } else {
+                            withdrawTable.search('');
+                        }
+                    });
 
                 }
             }));
