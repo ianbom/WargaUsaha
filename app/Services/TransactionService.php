@@ -272,6 +272,10 @@ class TransactionService
         Salam hangat,
         Tim WargaUsaha 💼"
         );
+
+
+
+
         // Get group order IDs and mart IDs
         $groupOrderIds = $transaction->groupOrders->pluck('id');
         $martIds = $transaction->groupOrders->pluck('mart_id');
@@ -283,6 +287,28 @@ class TransactionService
             'updated_at' => now()
         ]);
 
+        $groupOrders = GroupOrder::whereIn('id', $groupOrderIds)->get();
+        foreach($groupOrders as $groupOrder){
+
+        WhatsappJob::dispatch($groupOrder->mart->user->phone,
+        "🔔 *Pemberitahuan Pesanan Baru!* 🔔
+
+        Halo *{$groupOrder->mart->user->name}*, ada pesanan baru untuk produk di Mart kamu! 🎉
+        🛍️ *Detail Pesanan:*
+        Kode Order: *{$groupOrder->code_group_order}*
+        Pembeli: *{$groupOrder->user->name}*
+        Total Pembayaran: *Rp " . number_format($groupOrder->total_price, 0, ',', '.') . "*
+        Kunjungi dashboard kamu untuk detail lebih lanjut: https://wargausaha.ianianale.shop
+
+        Salam hangat,
+        Tim WargaUsaha 💼"
+        );
+        
+        }
+
+
+
+
         // Update orders status
         $orderIds = Order::whereIn('group_order_id', $groupOrderIds)->pluck('id');
         Order::whereIn('id', $orderIds)->update([
@@ -291,8 +317,10 @@ class TransactionService
             'updated_at' => now()
         ]);
 
+
+
         // Update seller wallets
-        $this->updateSellerWallets($groupOrderIds, $martIds);
+        // $this->updateSellerWallets($groupOrderIds, $martIds);
     }
 
     private function updateSellerWallets($groupOrderIds, $martIds)

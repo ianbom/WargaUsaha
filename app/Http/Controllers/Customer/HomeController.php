@@ -44,7 +44,7 @@ class HomeController extends Controller
         $products = $this->productService->getAllProduct();
 
         $user = Auth::user();
-    
+
 
 
 
@@ -52,11 +52,14 @@ class HomeController extends Controller
     }
     public function indexProduct(Request $request)
     {
-
+        $user = Auth::user();
         try {
             $filters = $this->productService->buildFilters($request);
             $perPage = 12;
             $page = $request->input('page', 1);
+
+            $userLat = $user->location_lat;
+            $userLong = $user->location_long;
 
             $result = $this->productService->getListProduct($filters, $perPage, $page);
             $products = $result['data'];

@@ -9,4 +9,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 
-Schedule::command('transactions:check-expired')->everyFiveSeconds();
+Schedule::command('transactions:check-expired')->everyMinute();
+Schedule::command('jobs:check-expired')->daily();

@@ -85,39 +85,65 @@ class ProductService extends Service
     }
 
    public function queryListProduct(array $filters = [])
-{
-    $allowedFilters = [
-        'products.name' => 'like',
-        'products.product_category_id' => 'value',
-        'products.price' => 'range',
-        'marts.is_active' => 'value',
-        'users.ward_id' => 'value',
-        'users.id' => 'not_value',
-    ];
+    {
+        $allowedFilters = [
+            'products.name' => 'like',
+            'products.product_category_id' => 'value',
+            'products.price' => 'range',
+            'marts.is_active' => 'value',
+            'users.ward_id' => 'value',
+            'users.id' => 'not_value',
+        ];
 
-    $selectColumns = [
-        'products.*',
-        'product_categories.name as category_name',
-        'marts.name as mart_name',
-        'users.name as user_name',
-        'users.id as user_id',
-        'ward_id'
-    ];
+        $selectColumns = [
+            'products.*',
+            'product_categories.name as category_name',
+            'marts.name as mart_name',
+            'users.name as user_name',
+            'users.id as user_id',
+            'users.ward_id',
+            'users.location_lat as seller_lat', // Alias untuk seller latitude
+            'users.location_long as seller_long', // Alias untuk seller longitude
+        ];
 
-    $query = Product::select($selectColumns)
-        ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
-        ->join('marts', 'products.mart_id', '=', 'marts.id')
-        ->join('users', 'marts.user_id', '=', 'users.id') // Perbaikan di sini
-        ->orderBy('products.id', 'desc');
+        $query = Product::select($selectColumns)
+            ->join('product_categories', 'products.product_category_id', '=', 'product_categories.id')
+            ->join('marts', 'products.mart_id', '=', 'marts.id')
+            ->join('users', 'marts.user_id', '=', 'users.id');
 
-    $query = $this->applyFilters($query, $filters, $allowedFilters);
+        $user = Auth::user();
 
-    $query->with([
-        'category'
-    ]);
+        // Pastikan user login dan memiliki lokasi
+        // User model Anda harus menggunakan trait HasCoordinates
+        // Contoh: class User extends Authenticatable { use HasCoordinates; ... }
+        if ($user && $user->getLatitude() && $user->getLongitude()) {
+            $userLat = $user->getLatitude();
+            $userLong = $user->getLongitude();
 
-    return $query;
-}
+            $earthRadiusForSql = 6378;
+
+            $query->selectRaw("
+                {$earthRadiusForSql} * ACOS(
+                    COS(RADIANS(?)) * COS(RADIANS(users.location_lat)) * COS(RADIANS(users.location_long) - RADIANS(?)) +
+                    SIN(RADIANS(?)) * SIN(RADIANS(users.location_lat))
+                ) AS distance
+            ", [$userLat, $userLong, $userLat]);
+
+            $query->orderBy('distance', 'asc');
+
+        } else {
+            $query->orderBy('products.id', 'desc');
+        }
+
+        $query = $this->applyFilters($query, $filters, $allowedFilters);
+
+        $query->with([
+            'category' // Menggunakan 'productCategory' karena relasi di model Product adalah productCategory()
+        ]);
+
+        return $query;
+    }
+
 
     public function getListProduct(array $filters = [], int $perPage = null, int $page = null)
     {
