@@ -125,14 +125,29 @@ class CartService
         $sellerLat = $firstItemCart->seller_latitude;
         $sellerLong = $firstItemCart->seller_longitude;
         $subTotal = $this->calculateMartSubTotal($martCarts, $cartItems);
-        $items = ['name' => $firstItemCart->seller_name,
-                    'value' => $subTotal,
-                    'quantity' => $quantityTotal,
-                    'weight' => $weightTotal];
-        // dd($items);
 
-        $defaultShippingCost = $this->cekOngkirService->getGojekRates($user->location_lat, $user->location_long, $sellerLat, $sellerLong, $items);
-        $defaultShippingCost = $defaultShippingCost['price'];
+        $distance = $user->calculateDistance($user->location_lat, $user->location_long, $sellerLat, $sellerLong);
+
+
+        if ($distance <= 2) {
+            // Zona Gratis: 0 - 2 km
+            $defaultShippingCost = 0;
+        } elseif ($distance > 2 && $distance <= 4) {
+            // Zona Dekat: > 2 - 4 km
+            $shippingdefaultShippingCostCost = 5000;
+        } elseif ($distance > 4 && $distance <= 6) {
+            // Zona Sedang: > 4 - 6 km
+            $defaultShippingCost = 12000;
+        } elseif ($distance > 6 && $distance <= 10) {
+            // Zona Jauh: > 6 - 10 km
+            $defaultShippingCost = 18000;
+        } else {
+            // Zona Sangat Jauh: > 10 km
+            $defaultShippingCost = 25000;
+        }
+
+
+
 
         $totalPrice = $subTotal + $defaultShippingCost;
         $grandTotal += $totalPrice;

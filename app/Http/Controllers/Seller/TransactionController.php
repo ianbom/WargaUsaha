@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\WhatsappJob;
 use App\Models\GroupOrder;
 use App\Models\Order;
 use App\Services\TransactionService;
@@ -46,6 +47,26 @@ class TransactionController extends Controller
                 'order_status' => 'Shipped',
                 'shipped_at' => now()
             ]);
+
+        WhatsappJob::dispatch(
+    $groupOrder->user->phone, // Nomor telepon pembeli
+    "🚚 *Pesanan Kamu Sedang Dikirim!* 🎉
+
+    Halo *{$groupOrder->user->name}*, ada kabar gembira! Pesanan kamu dengan kode *{$groupOrder->code_group_order}* sedang dalam perjalanan.
+
+    🛍️ *Detail Pesanan:*
+       Kode Order: *{$groupOrder->code_group_order}*
+       Total Pembayaran: *Rp " . number_format($groupOrder->total_price, 0, ',', '.') . "*
+       Mart: *{$groupOrder->mart->name }*
+
+    Kami akan segera memberikan pembaruan jika pesanan sudah mendekati lokasi kamu. Mohon bersabar ya!
+
+    Terima kasih telah berbelanja di *WargaUsaha*! 🌟
+    Lacak pesanan kamu atau cek riwayat pembelian di: https://wargausaha.ianianale.shop/my-orders
+
+    Salam hangat,
+    Tim WargaUsaha 💼"
+    );
             DB::commit();
             return redirect()->back()->with('success','Pesanan diantarkan');
         } catch (\Exception $th) {

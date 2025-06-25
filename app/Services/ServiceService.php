@@ -73,6 +73,7 @@ class ServiceService extends Service
            'services.service_category_id' => 'value',
            'services.price' => 'range',
            'users.ward_id' => 'value',
+           'users.id' => 'not_value'
 
         ];
 
@@ -80,7 +81,8 @@ class ServiceService extends Service
            'services.*',
            'service_categories.name as category_name',
            'users.name as user_name',
-           'users.ward_id'
+           'users.ward_id',
+           'users.id as user_id',
 
 
         ];
@@ -110,7 +112,12 @@ class ServiceService extends Service
 
     public function buildFilters($request)
     {
+        $user = Auth::user();
         $filters = [];
+
+        if ($user && $user->id) {
+        $filters['users.id'] = $user->id;
+    }
 
         if ($request->filled('title')) {
             $filters['services.title'] = $request->input('title');
