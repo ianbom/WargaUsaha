@@ -120,7 +120,7 @@ return new class extends Migration
             $table->foreignId('mart_id')->constrained('marts')->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('quantity_total')->nullable();
             $table->integer('weight_total')->nullable();
-
+            $table->integer('admin_fee')->nullable();
             $table->string('shipping_method')->nullable();
             $table->decimal('shipping_cost', 12,2)->nullable();
 

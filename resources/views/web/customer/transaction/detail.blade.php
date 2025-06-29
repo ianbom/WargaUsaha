@@ -225,6 +225,11 @@
                                             <span class="text-gray-900">Rp
                                                 {{ number_format($groupOrder->sub_total, 0, ',', '.') }}</span>
                                         </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Biaya Admin</span>
+                                            <span class="text-gray-900">Rp
+                                                {{ number_format($groupOrder->admin_fee, 0, ',', '.') }}</span>
+                                        </div>
                                         @if ($groupOrder->shipping_cost)
                                             <div class="flex justify-between text-sm">
                                                 <span class="text-gray-600">
@@ -262,6 +267,11 @@
                                     <span class="text-gray-600">Total Pesanan</span>
                                     <span class="text-gray-900">Rp
                                         {{ number_format($transaction->groupOrders->sum('sub_total'), 0, ',', '.') }}</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-600">Biaya Admin</span>
+                                    <span class="text-gray-900">Rp
+                                        {{ number_format($transaction->groupOrders->sum('admin_fee'), 0, ',', '.') }}</span>
                                 </div>
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-600">Biaya Pengiriman</span>

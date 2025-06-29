@@ -44,8 +44,10 @@ class WalletService
 
     public function increamentWallet($amount, $user_id)
     {
+        $adminFee = 2000;
         $wallet = $this->getWalletByUser($user_id);
         $wallet->increment('amount', $amount);
+        $wallet->decrement('amount', $adminFee);
         return $wallet;
     }
 

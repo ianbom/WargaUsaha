@@ -52,7 +52,7 @@ class OrderController extends Controller
             return redirect()->back()->with('success', 'Pesanan berhasil diselesaikan');
         } catch (\Exception $th) {
             DB::rollBack();
-            return response()->json(['error'=> $th->getMessage()]);
+            // return response()->json(['error'=> $th->getMessage()]);
             return redirect()->back()->with('error', $th->getMessage());
         }
     }

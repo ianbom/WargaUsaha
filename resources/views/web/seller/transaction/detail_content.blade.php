@@ -376,6 +376,12 @@
                 </span>
             </div>
             <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Biaya Admin:</span>
+                <span class="font-medium text-gray-900">
+                    Rp {{ number_format($groupOrder->admin_fee ?? 0, 0, ',', '.') }}
+                </span>
+            </div>
+            <div class="flex justify-between text-sm">
                 <span class="text-gray-600">Biaya Pengiriman:</span>
                 <span class="font-medium text-gray-900">
                     Rp {{ number_format($groupOrder->shipping_cost ?? 0, 0, ',', '.') }}

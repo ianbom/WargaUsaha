@@ -154,7 +154,7 @@ class OrderService
             'user_id' => $seller->id,
             'seller_walet_id' => $seller->sellerWallet->id,
             'type' => 'increament',
-            'amount' => $orderGroup->total_price,
+            'amount' => $orderGroup->total_price - 2000,
             'status' => 'Success',
            'title' => 'Pembayaran dari customer ' . ($orderGroup->user->name ?? 'Unknown')
         ]);

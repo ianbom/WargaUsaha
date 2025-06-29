@@ -334,35 +334,37 @@
 
                         <!-- Lokasi -->
                         <div class="md:col-span-2">
-                            <label class="block mb-2 font-medium">Lokasi (Latitude/Longitude)</label>
-                            <div class="flex">
-                                <input id="location-display" type="text"
-                                    value="{{ auth()->user()->location_lat && auth()->user()->location_long ? auth()->user()->location_lat . ', ' . auth()->user()->location_long : 'Lokasi belum diatur' }}"
+                        <label class="block mb-2 font-medium text-gray-700">Lokasi (Latitude/Longitude)</label>
+                        <div class="flex gap-2">
+                            <input id="location-display" type="text"
+                                value="{{ auth()->user()->location_lat && auth()->user()->location_long ? auth()->user()->location_lat . ', ' . auth()->user()->location_long : 'Lokasi belum diatur' }}"
                                     class="flex-1 form-input" readonly>
-                                <button type="button" id="get-location-btn"
-                                    class="flex items-center ml-2 btn btn-primary">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                    <span id="location-btn-text">Dapatkan Lokasi</span>
-                                </button>
-                            </div>
-                            <div id="location-status" class="hidden mt-2 text-sm"></div>
-                            <input type="hidden" id="location_lat" name="location_lat"
-                                value="{{ old('location_lat', auth()->user()->location_lat ?? '') }}">
-                            <input type="hidden" id="location_long" name="location_long"
-                                value="{{ old('location_long', auth()->user()->location_long ?? '') }}">
-                            @error('location_lat')
-                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                            @enderror
-                            @error('location_long')
-                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                            @enderror
+                            <button type="button" id="get-location-btn"
+                                class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <svg id="location-icon" class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <svg id="loading-icon" class="w-4 h-4 mr-2 animate-spin hidden" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span id="location-btn-text">Dapatkan Lokasi</span>
+                            </button>
                         </div>
+                    </div>
+
+                     <!-- Status Message -->
+                    <div id="location-status" class="hidden mt-3 p-3 rounded-md"></div>
+
+                    <!-- Hidden inputs for form submission -->
+                    <input type="hidden" id="location_lat" name="location_lat" value="{{ old('location_lat', $user->location_lat ?? '') }}">
+                    <input type="hidden" id="location_long" name="location_long" value="{{ old('location_long', $user->location_long ?? '') }}">
+
+                    <!-- Error display (Laravel validation) -->
+                    <div id="validation-errors" class="mt-2">
                     </div>
 
                     <div class="flex justify-end pt-4 mt-6 border-t border-gray-200 dark:border-gray-700">
@@ -716,78 +718,156 @@
             });
         }, 500); // cukup de
         // Get current location
-        document.getElementById('get-location-btn').addEventListener('click', function() {
-            const button = this;
-            const buttonText = document.getElementById('location-btn-text');
-            const statusDiv = document.getElementById('location-status');
 
-            // Disable button and show loading
-            button.disabled = true;
-            buttonText.textContent = 'Getting Location...';
-            statusDiv.className = 'mt-2 text-sm text-blue-600';
-            statusDiv.textContent = 'Requesting location access...';
-            statusDiv.classList.remove('hidden');
+         class LocationManager {
+            constructor() {
+                this.btn = document.getElementById('get-location-btn');
+                this.btnText = document.getElementById('location-btn-text');
+                this.status = document.getElementById('location-status');
+                this.display = document.getElementById('location-display');
+                this.latInput = document.getElementById('location_lat');
+                this.lngInput = document.getElementById('location_long');
+                this.locationIcon = document.getElementById('location-icon');
+                this.loadingIcon = document.getElementById('loading-icon');
 
-            if (!navigator.geolocation) {
-                showLocationError('Geolocation is not supported by your browser');
-                return;
+                this.init();
             }
 
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 60000
-            };
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-
-                    // Update hidden inputs
-                    document.getElementById('location_lat').value = lat;
-                    document.getElementById('location_long').value = lng;
-
-                    // Update display
-                    document.getElementById('location-display').value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-
-                    // Show success status
-                    statusDiv.className = 'mt-2 text-sm text-green-600';
-                    statusDiv.textContent =
-                        `Location obtained successfully! Accuracy: ±${Math.round(position.coords.accuracy)}m`;
-
-                    // Reset button
-                    button.disabled = false;
-                    buttonText.textContent = 'Update Location';
-                },
-                (error) => {
-                    let errorMessage = '';
-                    switch (error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMessage =
-                                'Location access denied by user. Please enable location permissions.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMessage = 'Location information is unavailable.';
-                            break;
-                        case error.TIMEOUT:
-                            errorMessage = 'Location request timed out. Please try again.';
-                            break;
-                        default:
-                            errorMessage = 'An unknown error occurred while retrieving location.';
-                            break;
-                    }
-                    showLocationError(errorMessage);
-                },
-                options
-            );
-
-            function showLocationError(message) {
-                statusDiv.className = 'mt-2 text-sm text-red-600';
-                statusDiv.textContent = message;
-                button.disabled = false;
-                buttonText.textContent = 'Get Current Location';
+            init() {
+                this.btn.addEventListener('click', () => this.getLocation());
+                this.checkGeolocationSupport();
             }
+
+            checkGeolocationSupport() {
+                if (!navigator.geolocation) {
+                    this.btn.disabled = true;
+                    this.btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    this.btnText.textContent = 'Tidak Didukung';
+                    this.showStatus('Geolocation tidak didukung oleh browser Anda', 'error');
+                }
+            }
+
+            async getLocation() {
+                if (!navigator.geolocation) return;
+
+                this.setLoadingState(true);
+                this.showStatus('Mencari lokasi Anda...', 'loading');
+
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 15000, // 15 seconds timeout
+                    maximumAge: 300000 // 5 minutes cache
+                };
+
+                try {
+                    const position = await this.getCurrentPosition(options);
+                    this.handleLocationSuccess(position);
+                } catch (error) {
+                    this.handleLocationError(error);
+                } finally {
+                    this.setLoadingState(false);
+                }
+            }
+
+            getCurrentPosition(options) {
+                return new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+                });
+            }
+
+            handleLocationSuccess(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const accuracy = position.coords.accuracy;
+
+                // Update form values
+                this.latInput.value = lat.toFixed(6);
+                this.lngInput.value = lng.toFixed(6);
+                this.display.value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+                // Show success message with accuracy info
+                const accuracyText = accuracy < 100 ?
+                    `Akurasi: ${Math.round(accuracy)}m` :
+                    'Akurasi rendah';
+
+                this.showStatus(`Lokasi berhasil diperoleh! ${accuracyText}`, 'success');
+
+                console.log('Location obtained:', {
+                    latitude: lat,
+                    longitude: lng,
+                    accuracy: accuracy
+                });
+            }
+
+            handleLocationError(error) {
+                let message = 'Gagal mendapatkan lokasi. ';
+
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        message += 'Izin akses lokasi ditolak. Silakan aktifkan di pengaturan browser.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        message += 'Informasi lokasi tidak tersedia.';
+                        break;
+                    case error.TIMEOUT:
+                        message += 'Waktu habis saat mencari lokasi. Silakan coba lagi.';
+                        break;
+                    default:
+                        message += error.message || 'Terjadi kesalahan tidak diketahui.';
+                        break;
+                }
+
+                this.showStatus(message, 'error');
+                console.error('Geolocation error:', error);
+            }
+
+            setLoadingState(loading) {
+                this.btn.disabled = loading;
+
+                if (loading) {
+                    this.locationIcon.classList.add('hidden');
+                    this.loadingIcon.classList.remove('hidden');
+                    this.btnText.textContent = 'Mencari...';
+                    this.btn.classList.add('opacity-75');
+                } else {
+                    this.locationIcon.classList.remove('hidden');
+                    this.loadingIcon.classList.add('hidden');
+                    this.btnText.textContent = 'Dapatkan Lokasi';
+                    this.btn.classList.remove('opacity-75');
+                }
+            }
+
+            showStatus(message, type) {
+                this.status.classList.remove('hidden', 'bg-green-50', 'bg-red-50', 'bg-blue-50',
+                                           'text-green-700', 'text-red-700', 'text-blue-700',
+                                           'border-green-200', 'border-red-200', 'border-blue-200');
+
+                switch(type) {
+                    case 'success':
+                        this.status.classList.add('bg-green-50', 'text-green-700', 'border', 'border-green-200');
+                        break;
+                    case 'error':
+                        this.status.classList.add('bg-red-50', 'text-red-700', 'border', 'border-red-200');
+                        break;
+                    case 'loading':
+                        this.status.classList.add('bg-blue-50', 'text-blue-700', 'border', 'border-blue-200');
+                        break;
+                }
+
+                this.status.textContent = message;
+
+                // Auto hide success messages after 5 seconds
+                if (type === 'success') {
+                    setTimeout(() => {
+                        this.status.classList.add('hidden');
+                    }, 5000);
+                }
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new LocationManager();
         });
 
         // Auto-hide status message after 5 seconds

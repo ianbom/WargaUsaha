@@ -148,8 +148,8 @@ class CartService
 
 
 
-
-        $totalPrice = $subTotal + $defaultShippingCost;
+        $adminFee = 2000;
+        $totalPrice = $subTotal + $defaultShippingCost + $adminFee;
         $grandTotal += $totalPrice;
 
         $allGroupOrders[] = [
@@ -173,9 +173,11 @@ class CartService
     private function calculateMartSubTotal(Collection $martCarts, array $cartItems): float
     {
         $subTotal = 0;
+
         foreach ($martCarts as $cart) {
             $cartItem = collect($cartItems)->firstWhere('cart_id', $cart->id);
             $subTotal += $cartItem['total_price'];
+
         }
         return $subTotal;
     }
