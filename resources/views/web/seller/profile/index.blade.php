@@ -178,7 +178,7 @@
                 </div>
 
                 <!-- Wallet Information Card -->
-                @if (auth()->user()->role === 'Seller' && auth()->user()->sellerWallet)
+
                     <div class="panel">
                         <div class="flex items-center justify-between mb-5">
                             <h5 class="text-lg font-semibold dark:text-white-light">Wallet Information</h5>
@@ -316,40 +316,7 @@
                             </div>
                         </div>
                     </div>
-                @elseif(auth()->user()->role === 'Seller' && !auth()->user()->sellerWallet)
-                    <!-- No Wallet Setup Card -->
-                    <div class="panel">
-                        <div class="flex items-center justify-between mb-5">
-                            <h5 class="text-lg font-semibold dark:text-white-light">Wallet Setup</h5>
-                        </div>
-                        <div class="py-8 text-center">
-                            <div class="mb-4">
-                                <svg width="64" height="64" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" class="mx-auto text-gray-400">
-                                    <path
-                                        d="M20.998 6.00002L20.998 18C20.998 20.2091 19.2072 22 16.998 22L6.998 22C4.78886 22 2.998 20.2091 2.998 18L2.998 6.00002C2.998 3.79088 4.78886 2.00002 6.998 2.00002L16.998 2.00002C19.2072 2.00002 20.998 3.79088 20.998 6.00002Z"
-                                        stroke="currentColor" stroke-width="1.5" />
-                                    <path
-                                        d="M17.998 9.00002L17.998 8.00002C17.998 6.89545 17.1026 6.00002 15.998 6.00002L7.998 6.00002C6.89343 6.00002 5.998 6.89545 5.998 8.00002L5.998 9.00002"
-                                        stroke="currentColor" stroke-width="1.5" />
-                                    <path d="M13.998 12L13.998 13" stroke="currentColor" stroke-width="1.5"
-                                        stroke-linecap="round" />
-                                </svg>
-                            </div>
-                            <h6 class="mb-2 font-semibold text-gray-900 dark:text-gray-100">No Wallet Setup</h6>
-                            <p class="mb-4 text-gray-500 dark:text-gray-400">You need to setup your wallet to start
-                                receiving payments</p>
-                            <a href="" class="btn btn-primary">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg" class="ltr:mr-2 rtl:ml-2">
-                                    <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                Setup Wallet
-                            </a>
-                        </div>
-                    </div>
-                @endif
+
 
                 <!-- Additional Information Card -->
                 <div class="panel">

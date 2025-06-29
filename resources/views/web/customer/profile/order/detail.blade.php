@@ -453,16 +453,16 @@
                                 </span>
                             </div>
                             <div class="flex justify-between text-sm">
-                                <span class="text-gray-600">Ongkos Kirim:</span>
+                                <span class="text-gray-600">Biaya Pengiriman:</span>
                                 <span class="font-medium text-gray-900">
                                     Rp {{ number_format($groupOrder->shipping_cost, 0, ',', '.') }}
                                 </span>
                             </div>
-                            @if ($groupOrder->discount_amount > 0)
+                            @if ($groupOrder->admin_fee > 0)
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Diskon:</span>
-                                    <span class="font-medium text-red-600">
-                                        -Rp {{ number_format($groupOrder->discount_amount, 0, ',', '.') }}
+                                    <span class="text-gray-600">Biaya Admin:</span>
+                                    <span class="font-mediu">
+                                        Rp {{ number_format($groupOrder->admin_fee, 0, ',', '.') }}
                                     </span>
                                 </div>
                             @endif
